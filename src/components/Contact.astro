@@ -32,11 +32,11 @@
 const school = {
   name: "Sri Advaita Educational Trust",
   addressLines: [
-    "Plot No: 13, Manickavasagar Street,",
-    "Mookandapalli, MGR Nagar,",
-    "Hosur – 635126, Tamil Nadu",
+    "Plot No. 13, Manickavasagar Street",
+    "Mookandapalli, MGR Nagar",
+    "Hosur, Tamil Nadu 635126",
   ],
-  addressNote: "Near Bangalore border",
+  addressNote: "Near the Bangalore border",
   email: "advaita@advaitaapp.com",
   phones: [
     { href: "tel:+917259526202", label: "+91 72595 26202" },
@@ -51,35 +51,21 @@ const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${enc
 
 const formEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? "";
 
-const purposes = [
-  "Admission enquiry",
-  "Campus visit / Tour",
-  "Bus route enquiry",
-  "General question",
-];
+const purposes = ["Admission", "Campus visit", "Bus routes", "Something else"];
 
 const timeSlots = [
-  "Morning (10:00 AM – 12:00 PM)",
-  "Afternoon (02:00 PM – 04:00 PM)",
-  "Saturday Open House (10:00 AM – 01:00 PM)",
-  "Callback Only",
-];
-
-const busRouteHubs = [
-  "Mookandapalli / MGR Nagar",
-  "Hosur Town / Bus Stand",
-  "SIPCOT Phase 1 & 2",
-  "Bagalur Road / Mathigiri",
-  "Attibele / Bangalore Border",
-  "Self Commute (No Bus Required)",
+  "Weekday morning, 10 AM to 12 PM",
+  "Weekday afternoon, 2 PM to 4 PM",
+  "Saturday open house, 10 AM to 1 PM",
+  "No visit, just call me back",
 ];
 
 const classOptions = [
-  "Little Elly Nursery (Pre-KG)",
-  "Little Elly Junior KG (LKG)",
-  "Little Elly Senior KG (UKG)",
-  "Primary School (Grades 1–5)",
-  "Middle School (Grades 6–8)",
+  "Nursery",
+  "LKG",
+  "UKG",
+  "Grades 1 to 5",
+  "Grades 6 to 8",
   "Not sure yet",
 ];
 
@@ -127,13 +113,13 @@ const iconBadge =
           <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-gold"
           ></span>
         </span>
-        Admissions open for 2027–28
+        Admissions open for 2027-28
       </p>
       <h2
         id="contact-heading"
         class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
       >
-        Get in touch with Sri Advaita
+        Talk to us, or come and see the school
       </h2>
       <div
         class="mx-auto mt-5 h-0.5 w-14 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-dark"
@@ -143,8 +129,9 @@ const iconBadge =
       <p
         class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-brand-navy/70 sm:text-lg"
       >
-        Ask about admissions for Little Elly Early Years (Nursery to UKG) and State Board Grades 1 to 8, book a campus visit, or
-        send us a question. The admissions desk is happy to help.
+        Questions about admission or the bus route? Want to walk around before
+        you decide? Call, write, or drop in. Someone from the admissions desk
+        will get back to you.
       </p>
     </header>
 
@@ -160,11 +147,11 @@ const iconBadge =
       >
         <div>
           <h3 class="font-serif text-2xl font-bold leading-snug text-white">
-            Visit the campus
+            Find us
           </h3>
           <p class="mt-2 max-w-sm text-sm leading-relaxed text-brand-cream/70">
-            Come and see our classrooms, labs and green campus in Mookandapalli,
-            near the Bangalore border.
+            We are in Mookandapalli, close to the Bangalore border. The map
+            below shows the way.
           </p>
         </div>
 
@@ -272,16 +259,30 @@ const iconBadge =
           </ul>
         </address>
 
-        <!-- Visiting Hours & Guidelines -->
-        <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-brand-cream/80 space-y-1 backdrop-blur-sm">
-          <p class="font-bold text-brand-gold-light flex items-center gap-1.5">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <!-- Visiting hours -->
+        <div
+          class="space-y-1 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-brand-cream/80 backdrop-blur-sm"
+        >
+          <p class="flex items-center gap-1.5 font-bold text-brand-gold-light">
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            Campus Visiting Hours
+            Visiting hours
           </p>
-          <p>Monday to Saturday: 09:00 AM – 04:30 PM</p>
-          <p class="text-brand-cream/60">Sunday: By appointment for outstation & working parents</p>
+          <p>Monday to Saturday, 9:00 AM to 4:30 PM</p>
+          <p class="text-brand-cream/60">
+            Sunday by appointment, for outstation and working parents
+          </p>
         </div>
 
         <div class="flex flex-wrap gap-3">
@@ -333,12 +334,13 @@ const iconBadge =
       <!-- Enquiry form (first on phones, second on desktop) -->
       <div class="order-1 p-6 sm:p-8 lg:order-2 lg:col-span-7 lg:p-10">
         <h3 class="font-serif text-2xl font-bold leading-snug text-brand-navy">
-          Send an enquiry
+          Write to us
         </h3>
         <p class="mt-2 max-w-lg text-sm leading-relaxed text-brand-navy/70">
-          Tell us a little about your child and what you would like to know.
-          Fields marked <span class="font-semibold text-brand-gold-dark">*</span
-          > are required.
+          A few lines is enough. We need your name, a phone number and your
+          message (marked <span class="font-semibold text-brand-gold-dark"
+            >*</span
+          >). The rest is optional.
         </p>
 
         <form
@@ -346,6 +348,7 @@ const iconBadge =
           data-contact-form
           data-endpoint={formEndpoint}
           data-email={school.email}
+          data-phone={school.phones[0].label}
         >
           <!-- Honeypot: real visitors never see or fill this -->
           <div
@@ -364,7 +367,7 @@ const iconBadge =
           </div>
 
           <fieldset>
-            <legend class={label}>What can we help with?</legend>
+            <legend class={label}>What is this about?</legend>
             <div class="flex flex-wrap gap-2.5">
               {
                 purposes.map((purpose, i) => (
@@ -388,9 +391,8 @@ const iconBadge =
           <div class="grid gap-x-5 gap-y-6 sm:grid-cols-2">
             <div>
               <label for="c-name" class={label}
-                >Parent or guardian name <span
-                  class="text-brand-gold-dark"
-                  aria-hidden="true">*</span
+                >Your name <span class="text-brand-gold-dark" aria-hidden="true"
+                  >*</span
                 ></label
               >
               <input
@@ -399,7 +401,7 @@ const iconBadge =
                 type="text"
                 required
                 autocomplete="name"
-                placeholder="Your full name"
+                placeholder="Parent or guardian"
                 data-field
                 class={field}
               />
@@ -446,8 +448,8 @@ const iconBadge =
 
             <div>
               <label for="c-class" class={label}
-                >Class of interest <span class="font-normal text-brand-navy/50"
-                  >(optional)</span
+                >Class you are asking about <span
+                  class="font-normal text-brand-navy/50">(optional)</span
                 ></label
               >
               <div class="relative">
@@ -457,7 +459,7 @@ const iconBadge =
                   data-field
                   class={`${field} appearance-none pr-11`}
                 >
-                  <option value="">Select a class</option>
+                  <option value="">Choose a class</option>
                   {
                     classOptions.map((option) => (
                       <option value={option}>{option}</option>
@@ -480,9 +482,9 @@ const iconBadge =
               </div>
             </div>
 
-            <div>
+            <div class="sm:col-span-2">
               <label for="c-slot" class={label}
-                >Preferred visit slot <span class="font-normal text-brand-navy/50"
+                >Best time to visit <span class="font-normal text-brand-navy/50"
                   >(optional)</span
                 ></label
               >
@@ -493,46 +495,10 @@ const iconBadge =
                   data-field
                   class={`${field} appearance-none pr-11`}
                 >
-                  <option value="">Select visit time slot</option>
+                  <option value="">Choose a time</option>
                   {
                     timeSlots.map((slot) => (
                       <option value={slot}>{slot}</option>
-                    ))
-                  }
-                </select>
-                <svg
-                  class="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-navy/50"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </div>
-            </div>
-
-            <div>
-              <label for="c-route" class={label}
-                >Bus route / pickup hub <span class="font-normal text-brand-navy/50"
-                  >(optional)</span
-                ></label
-              >
-              <div class="relative">
-                <select
-                  id="c-route"
-                  name="bus_route"
-                  data-field
-                  class={`${field} appearance-none pr-11`}
-                >
-                  <option value="">Select bus route area</option>
-                  {
-                    busRouteHubs.map((hub) => (
-                      <option value={hub}>{hub}</option>
                     ))
                   }
                 </select>
@@ -555,7 +521,7 @@ const iconBadge =
 
           <div>
             <label for="c-message" class={label}
-              >Your message <span
+              >What would you like to know? <span
                 class="text-brand-gold-dark"
                 aria-hidden="true">*</span
               ></label
@@ -566,7 +532,7 @@ const iconBadge =
               rows="4"
               required
               minlength="10"
-              placeholder="For example: we would like to visit the campus this Saturday and learn about Nursery admissions."
+              placeholder="For example: we would like to visit this Saturday and ask about Nursery admission."
               data-field
               class={`${field} min-h-[7.5rem] resize-y`}></textarea>
           </div>
@@ -575,8 +541,8 @@ const iconBadge =
             class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
           >
             <p class="max-w-xs text-xs leading-relaxed text-brand-navy/60">
-              We will reply using the details you share. You can also call the
-              admissions desk any time.
+              We will reply on the number or email you give us. If it is urgent,
+              call the admissions desk.
             </p>
             <button
               type="submit"
@@ -584,7 +550,7 @@ const iconBadge =
               class={`submit group relative inline-flex w-full flex-none items-center justify-center gap-2 overflow-hidden rounded-full bg-brand-navy px-8 py-3.5 text-sm font-bold text-brand-gold-light shadow-lg shadow-brand-navy/25 transition-colors duration-300 hover:bg-brand-navy-light disabled:cursor-wait disabled:opacity-80 sm:w-auto ${focusRing} focus-visible:ring-offset-white`}
             >
               <span class="label-idle inline-flex items-center gap-2">
-                Send enquiry
+                Send message
                 <svg
                   class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                   fill="none"
@@ -834,32 +800,36 @@ const iconBadge =
 
         // Honeypot filled: act as if it worked, send nothing
         if (values.website) {
-          say("success", "Thank you. We have received your enquiry.");
+          say("success", "Thank you. We have your message.");
           form.reset();
           return;
         }
 
         const endpoint = form.dataset.endpoint ?? "";
         const email = form.dataset.email ?? "";
-        const first = (values.name ?? "").trim().split(" ")[0] || "there";
+        const phone = form.dataset.phone ?? "";
+        const first = (values.name ?? "").trim().split(/\s+/)[0] || "there";
+        const subject = `${values.purpose ?? "Enquiry"} from ${values.name || "a website visitor"}`;
 
         const lines = [
-          `Enquiry type: ${values.purpose ?? ""}`,
+          `About: ${values.purpose ?? ""}`,
           `Name: ${values.name ?? ""}`,
           `Phone: ${values.phone ?? ""}`,
           values.email ? `Email: ${values.email}` : "",
-          values.class ? `Class of interest: ${values.class}` : "",
+          values.class ? `Class: ${values.class}` : "",
+          values.preferred_slot
+            ? `Best time to visit: ${values.preferred_slot}`
+            : "",
           "",
           values.message ?? "",
         ].filter((line, i, all) => line !== "" || (i > 0 && all[i - 1] !== ""));
 
         // No endpoint configured: open a pre-filled email instead
         if (!endpoint) {
-          const subject = `${values.purpose ?? "Enquiry"} from ${values.name ?? "website visitor"}`;
           window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
           say(
             "info",
-            "Your email app should open with your enquiry filled in. Send it from there to reach the admissions desk.",
+            "Your email app should open with your message filled in. Press send there and it reaches the admissions desk.",
           );
           return;
         }
@@ -878,8 +848,9 @@ const iconBadge =
               phone: values.phone,
               email: values.email,
               class: values.class,
+              preferred_slot: values.preferred_slot,
               message: values.message,
-              _subject: `${values.purpose ?? "Enquiry"} from ${values.name ?? "website visitor"}`,
+              _subject: subject,
             }),
           });
           if (!response.ok)
@@ -887,13 +858,13 @@ const iconBadge =
 
           say(
             "success",
-            `Thank you, ${first}. We have received your enquiry and will be in touch soon.`,
+            `Thank you, ${first}. We have your message and will call or write back soon.`,
           );
           form.reset();
         } catch {
           say(
             "error",
-            `We could not send your enquiry. Please call +91 72595 26202 or email ${email}.`,
+            `That did not go through. Please call ${phone} or email ${email}.`,
           );
         } finally {
           setBusy(false);

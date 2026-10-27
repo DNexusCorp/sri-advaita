@@ -22,7 +22,7 @@ const priorityConfig: Record<
     dot: 'bg-rose-500',
     ping: 'bg-rose-400/70',
     bar: 'bg-rose-500',
-    label: 'Urgent Circular',
+    label: 'Urgent',
   },
   important: {
     badgeBg: 'bg-amber-50',
@@ -31,7 +31,7 @@ const priorityConfig: Record<
     dot: 'bg-amber-500',
     ping: '',
     bar: 'bg-amber-500',
-    label: 'Important Update',
+    label: 'Important',
   },
   normal: {
     badgeBg: 'bg-blue-50',
@@ -40,43 +40,43 @@ const priorityConfig: Record<
     dot: 'bg-blue-500',
     ping: '',
     bar: 'bg-blue-500',
-    label: 'Official Announcement',
+    label: 'Notice',
   },
 };
 
 const fallbackNotices: Notice[] = [
   {
     _id: 'notice-little-elly',
-    alertTitle: 'Academic Collaboration: Little Elly Early Years (Nursery, LKG & UKG)',
+    alertTitle: 'Little Elly is our new early years partner',
     content:
-      'Sri Advaita Educational Trust has officially partnered with Little Elly — India’s premier preschool network with 172+ centres. Commencing AY 2027–28, our Nursery, LKG, and UKG foundational wing will be powered by Little Elly’s H.A.P.P.Y. Curriculum, integrating Montessori sensory kits and play-way methods. Special early registration kits and parent walk-ins are now open.',
+      'From the 2027-28 school year, our Nursery, LKG and UKG classes will follow the H.A.P.P.Y. Curriculum from Little Elly, a Bengaluru-based preschool network. It uses Montessori sensory kits and play-based learning. Parents can already walk in to ask questions and pick up an early registration kit.',
     publishDate: '2026-10-24T09:00:00Z',
     isActive: true,
     priority: 'urgent',
   },
   {
     _id: 'notice-1',
-    alertTitle: 'Admissions Open for Academic Year 2027–28',
+    alertTitle: 'Admissions are open for 2027-28',
     content:
-      'Sri Advaita Educational Trust is now accepting admissions for Little Elly Early Years (Nursery, LKG & UKG), and State Board Primary & Middle School (Grades 1 through 8). Parents can collect application forms at the Mookandapalli school office or schedule a campus visit online.',
+      'We are taking admissions for Nursery, LKG and UKG, and for Grades 1 to 8 under the State Board. You can collect an application form from the school office in Mookandapalli or book a campus visit online.',
     publishDate: '2026-10-15T09:00:00Z',
     isActive: true,
     priority: 'important',
   },
   {
     _id: 'notice-2',
-    alertTitle: 'Annual Cultural & Heritage Fest 2026–27',
+    alertTitle: 'Annual cultural and heritage fest, 2026-27',
     content:
-      'The Annual Day Celebrations showcasing classical dances, theatrical plays, and Sanskrit-Kannada heritage exhibits will be held this winter. Student auditions and rehearsals are now underway in the auditorium.',
+      'Annual Day this winter will have classical dances, plays and a Sanskrit-Kannada heritage exhibition. Students are already auditioning and rehearsing in the auditorium.',
     publishDate: '2026-10-10T10:30:00Z',
     isActive: true,
     priority: 'important',
   },
   {
     _id: 'notice-3',
-    alertTitle: 'Term 1 Parent-Teacher Consultations & Academic Review',
+    alertTitle: 'Term 1 parent-teacher meetings',
     content:
-      'Scheduled for the upcoming Saturday at the MGR Nagar Campus. Class teachers and subject mentors will discuss each student’s holistic progress, activity portfolios, and developmental milestones.',
+      'The meetings are this coming Saturday at the MGR Nagar campus. Class teachers and subject mentors will go through how your child is getting on, using their activity portfolio.',
     publishDate: '2026-10-05T08:00:00Z',
     isActive: true,
     priority: 'normal',
@@ -85,44 +85,44 @@ const fallbackNotices: Notice[] = [
 
 const upcomingEvents = [
   {
-    title: 'Little Elly Early Years Discovery Day & Curriculum Walkthrough',
+    title: 'Discovery Day for Little Elly early years',
     date: { day: '07', month: 'Nov', year: '2026' },
-    category: 'Preschool & KG Open House',
-    badge: 'Special Feature',
-    description: 'Experience Little Elly H.A.P.P.Y. learning corners, sensory discovery zones, meet certified early childhood educators, and preview the Little Elly foundation kit for Nursery, LKG & UKG.',
-    venue: 'Little Elly Early Learning Wing, Sri Advaita Campus',
+    category: 'Nursery to UKG',
+    badge: 'Open house',
+    description: 'See the learning corners and sensory areas in the early years wing, and look through the Little Elly kit your child would use. You can meet the teachers too.',
+    venue: 'Little Elly early learning wing, Sri Advaita campus',
   },
   {
-    title: 'Open House & Personalized Campus Tours',
-    date: { day: 'Every', month: 'Saturday', year: '10 AM - 1 PM' },
-    category: 'Admissions & Campus Tour',
-    badge: 'Weekly Feature',
-    description: 'Walk through smart classrooms, robotics labs, meet lead faculty, and discuss 2027–28 admissions.',
-    venue: 'Main Administrative Block, Mookandapalli',
+    title: 'Saturday open house and campus tours',
+    date: { day: 'Every', month: 'Saturday', year: '10 AM to 1 PM' },
+    category: 'Admissions',
+    badge: 'Every week',
+    description: 'Walk around the classrooms and labs, meet the senior teachers and ask anything about admissions for 2027-28.',
+    venue: 'Main office block, Mookandapalli',
   },
   {
-    title: 'Inter-School STEAM Robotics & Science Expo',
+    title: 'Inter-school robotics and science expo',
     date: { day: '14', month: 'Nov', year: '2026' },
-    category: 'Academic Exhibition',
-    badge: 'Science Fair',
-    description: 'Students demonstrate autonomous robots, water conservation models, and hands-on physics apparatus.',
-    venue: 'Campus Innovation Makerspace',
+    category: 'Student exhibition',
+    badge: 'Science fair',
+    description: 'Students show off robots that move on their own and models for saving water, along with physics experiments.',
+    venue: 'Campus makerspace',
   },
   {
-    title: 'Kannada-Tamil Heritage & Sanskrit Chanting Utsav',
+    title: 'Kannada and Tamil heritage utsav, with Sanskrit chanting',
     date: { day: '28', month: 'Nov', year: '2026' },
-    category: 'Cultural Festival',
+    category: 'Cultural',
     badge: 'Heritage',
-    description: 'Celebration of linguistic harmony, Bharatanatyam recital, and student classical drama performances.',
-    venue: 'Sri Advaita Open-Air Amphitheatre',
+    description: 'Students celebrate the languages of the region with a Bharatanatyam recital and classical drama.',
+    venue: 'Open-air amphitheatre, Sri Advaita campus',
   },
   {
-    title: 'Annual Track & Field Sports Meet',
+    title: 'Annual sports meet',
     date: { day: '18', month: 'Dec', year: '2026' },
-    category: 'Athletics & Fitness',
-    badge: 'Sports Day',
-    description: 'Track sprints, relay races, karate demonstrations, and team tug-of-war on the campus turf grounds.',
-    venue: 'Sports Arena & Athletic Track',
+    category: 'Track and field',
+    badge: 'Sports day',
+    description: 'Sprints, relay races and tug-of-war on the campus turf, plus a karate demonstration.',
+    venue: 'Sports grounds and running track',
   },
 ];
 
@@ -173,18 +173,18 @@ const focusRing =
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
           </svg>
-          Circulars &amp; Calendar
+          Notices and dates
         </div>
 
         <h2
           id="notices-heading"
           class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
         >
-          Official Announcements &amp; Upcoming Events
+          What's happening at school
         </h2>
         <div class="mt-5 h-0.5 w-14 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-dark" aria-hidden="true"></div>
         <p class="mt-5 max-w-md text-base leading-relaxed text-brand-navy/70 sm:text-lg">
-          Stay informed about circulars, school open houses, admissions deadlines, and campus cultural events.
+          Circulars, admission dates and open days are posted here. Anything urgent is marked clearly.
         </p>
 
         <!-- Tab Switcher -->
@@ -194,14 +194,14 @@ const focusRing =
             class="tab-btn active flex-1 rounded-xl py-2.5 text-xs font-bold transition-all bg-brand-navy text-white shadow-sm"
             data-target="circulars-view"
           >
-            Official Circulars ({items.length})
+            Circulars ({items.length})
           </button>
           <button
             type="button"
             class="tab-btn flex-1 rounded-xl py-2.5 text-xs font-bold transition-all text-brand-navy/70 hover:text-brand-navy"
             data-target="events-view"
           >
-            Upcoming Events ({upcomingEvents.length})
+            Events ({upcomingEvents.length})
           </button>
         </div>
       </header>
@@ -253,12 +253,12 @@ const focusRing =
                   </p>
 
                   <div class="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm">
-                    <span class="font-semibold text-brand-gold-dark">Sri Advaita Trust Office</span>
+                    <span class="font-semibold text-brand-gold-dark">From the school office</span>
                     <a
                       href="#contact"
                       class={`inline-flex items-center gap-1.5 rounded-sm font-bold text-brand-navy transition-colors duration-300 hover:text-brand-gold-dark ${focusRing}`}
                     >
-                      Enquire with Office
+                      Ask the office
                       <svg class="arrow h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                       </svg>
@@ -317,7 +317,7 @@ const focusRing =
                       href="#contact"
                       class="inline-flex items-center gap-1.5 font-bold text-brand-gold-dark hover:underline"
                     >
-                      Register / Attend Event &rarr;
+                      Register your interest &rarr;
                     </a>
                   </div>
                 </div>

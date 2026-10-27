@@ -1,0 +1,162 @@
+---
+/**
+ * AboutUs.astro — Who the school is and how it teaches.
+ *
+ * Copy notes
+ *  - Plain, specific sentences. Every concrete detail here (2010, Mookandapalli,
+ *    1:15 ratio, Little Elly for Nursery to UKG, the motto) comes from the
+ *    school's own pages. Nothing is invented.
+ *  - The stats strip was removed: the hero already shows the same numbers.
+ *  - The motto lives in one place on this page (the navy card), not two.
+ *  - The academic board is intentionally not mentioned anywhere on this page
+ *    or on the site.
+ */
+
+const foundations = [
+  {
+    title: "Learning by doing",
+    description:
+      "Nursery children learn with tactile Montessori kits. Primary classes run experiments with science kits, and by Grade 6 students are coding and building in the robotics lab.",
+  },
+  {
+    title: "Every child known",
+    description:
+      "With about fifteen children to a teacher, someone notices who is quiet, who is stuck, and who is ready for more.",
+  },
+  {
+    title: "Early years with Little Elly",
+    description:
+      "For Nursery, LKG and UKG we work with Little Elly, a Bengaluru preschool group, on how the youngest children are taught.",
+  },
+];
+---
+
+<section
+  id="about-us"
+  class="relative overflow-hidden bg-brand-cream py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="about-heading"
+>
+  <!-- Anchor alias for older links -->
+  <span id="about" class="sr-only">About Sri Advaita</span>
+
+  <div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mb-12 max-w-3xl">
+      <p class="mb-3 text-sm font-semibold text-brand-gold-dark">
+        About Sri Advaita
+      </p>
+      <h2
+        id="about-heading"
+        class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        A school where every child is known by name.
+      </h2>
+      <p
+        class="mt-5 max-w-2xl text-base leading-relaxed text-brand-navy/75 sm:text-lg"
+      >
+        Sri Advaita started in 2010 in Mookandapalli, near the Bangalore border
+        in Hosur. We teach Nursery to Grade 8. Most of what we do comes from one
+        belief: children learn more when they feel calm and curious, and are not
+        afraid of getting things wrong.
+      </p>
+    </header>
+
+    <!-- Campus photo and our approach -->
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
+      <div class="lg:col-span-6">
+        <figure
+          class="group relative overflow-hidden rounded-3xl bg-brand-navy-dark shadow-xl"
+        >
+          <div class="relative aspect-[16/11] w-full overflow-hidden">
+            <img
+              src="/images/campus-front-view.jpg"
+              alt="Sri Advaita Educational Trust campus building in Mookandapalli, Hosur"
+              width="600"
+              height="412"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+              loading="lazy"
+              decoding="async"
+            />
+            <div
+              class="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-transparent"
+              aria-hidden="true"
+            >
+            </div>
+          </div>
+          <figcaption
+            class="flex flex-wrap items-center justify-between gap-3 border-t border-brand-gold/30 bg-brand-navy-dark/95 p-5 text-brand-cream"
+          >
+            <div>
+              <p class="font-serif text-base font-bold text-brand-gold-light">
+                Mookandapalli campus
+              </p>
+              <p class="text-sm text-brand-cream/80">MGR Nagar, Hosur</p>
+            </div>
+            <span
+              class="rounded-full border border-brand-gold/40 bg-brand-gold/20 px-3 py-1 text-sm font-semibold text-brand-gold-light"
+            >
+              Since 2010
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl bg-brand-navy p-7 text-white shadow-xl sm:p-9">
+          <p class="mb-2 text-sm font-semibold text-brand-gold-light">
+            How we teach
+          </p>
+          <h3
+            class="mb-5 text-balance font-serif text-2xl font-bold leading-snug text-white sm:text-3xl"
+          >
+            We would rather a child understand one thing than memorise ten.
+          </h3>
+
+          <div class="space-y-4 text-base leading-relaxed text-slate-300">
+            <p>
+              Advaita is an old Indian word for the oneness of all life. We try
+              to teach that in everyday ways: respect where you come from, and
+              look out for the child next to you.
+            </p>
+            <p>
+              In class, that means less cramming and more doing. Children ask
+              questions out loud, and there is time set aside for physical play.
+              Lessons use two languages, so a new idea doesn't get lost in the
+              vocabulary.
+            </p>
+          </div>
+
+          <div class="mt-7 border-t border-white/10 pt-5">
+            <p
+              lang="kn"
+              class="font-kannada text-xl font-bold text-brand-gold-light"
+            >
+              ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು
+            </p>
+            <p class="mt-1 text-sm text-slate-400">Old roots. New shoots.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three things parents ask about -->
+    <ul class="mt-12 grid gap-4 md:grid-cols-3 lg:gap-6">
+      {
+        foundations.map((f) => (
+          <li class="rounded-2xl border border-brand-navy/10 bg-white p-6 shadow-sm transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-brand-gold/60 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+            <span
+              class="mb-4 block h-0.5 w-8 rounded-full bg-brand-gold"
+              aria-hidden="true"
+            />
+            <h3 class="font-serif text-lg font-bold leading-snug text-brand-navy">
+              {f.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-brand-navy/70">
+              {f.description}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

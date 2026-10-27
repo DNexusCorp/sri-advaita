@@ -1,0 +1,132 @@
+---
+/**
+ * LearningSpaces.astro — Specialized campus environments.
+ * Minimal, authentic, human-centred content with real photography.
+ */
+
+const spaces = [
+  {
+    id: "little-elly-wing",
+    title: "Little Elly early learning wing",
+    category: "Nursery to UKG",
+    image: "/images/little-elly-hero2.jpg",
+    description:
+      "Everything here is sized for small children: Montessori shelves low enough to reach alone, soft flooring to play on, and story corners for quiet moments.",
+    highlights: ["Child-safe furniture", "POCSO, CCTV supervised"],
+  },
+  {
+    id: "science-lab",
+    title: "Science and STEM lab",
+    category: "Experiments",
+    image: "/images/space-stem-lab.jpg",
+    description:
+      "Children look at real specimen slides under a microscope and test how things behave in physics and chemistry experiments, with a teacher beside them.",
+    highlights: ["Real microscopes", "Eyewash and safety rules"],
+  },
+  {
+    id: "computer-lab",
+    title: "Computer and coding lab",
+    category: "Computers",
+    image: "/images/space-computer-lab.jpg",
+    description:
+      "A bright room where each child gets a computer of their own. They practise typing and take their first steps in coding, and the internet is filtered so browsing stays safe.",
+    highlights: ["One computer each", "Filtered internet"],
+  },
+  {
+    id: "library",
+    title: "Library and reading studio",
+    category: "Reading",
+    image: "/images/space-library.jpg",
+    description:
+      "Picture books and folk tales sit beside encyclopaedias and regional classics in English, Kannada and Tamil. Children can borrow a book every week.",
+    highlights: ["Quiet reading nooks", "Weekly borrowing"],
+  },
+  {
+    id: "sports-yoga",
+    title: "Yoga studio and sports grounds",
+    category: "Movement",
+    image: "/images/space-yoga.jpg",
+    description:
+      "Yoga and pranayama happen every morning in a calm studio, and karate is taught there too. Outside are a running track, cricket nets and a play turf that works in any weather.",
+    highlights: ["Daily morning yoga", "Karate coaching"],
+  },
+];
+---
+
+<section
+  id="learning-spaces"
+  class="relative isolate overflow-hidden bg-brand-cream py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="spaces-heading"
+>
+  <span id="facilities" class="sr-only">Facilities</span>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark mb-3"
+      >
+        Around the campus
+      </span>
+      <h2
+        id="spaces-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Come and see <span class="font-normal italic text-brand-gold-dark"
+          >where children learn.</span
+        >
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base text-brand-navy/75 sm:text-lg">
+        Children learn in different ways, so the campus has both quiet spaces
+        and noisy ones. All of them are set up for children to use, from the
+        lowest shelf to the far end of the grounds.
+      </p>
+    </header>
+
+    <!-- Spaces Cards Grid -->
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        spaces.map((s) => (
+          <article class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/50 hover:shadow-xl">
+            <div class="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+              <img
+                src={s.image}
+                alt={s.title}
+                width="450"
+                height="280"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="absolute top-3 left-3 rounded-full bg-brand-navy/90 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-brand-gold-light border border-brand-gold/30">
+                {s.category}
+              </span>
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="font-serif text-lg font-bold text-brand-navy mb-2">
+                  {s.title}
+                </h3>
+                <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                  {s.description}
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100">
+                <ul class="grid grid-cols-2 gap-2 text-[11px] text-slate-700">
+                  {s.highlights.map((h) => (
+                    <li class="flex items-center gap-1.5">
+                      <span class="h-1.5 w-1.5 rounded-full bg-brand-gold flex-none" />
+                      <span class="truncate">{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

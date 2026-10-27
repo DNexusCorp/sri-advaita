@@ -1,0 +1,127 @@
+---
+/**
+ * SafeCampus.astro — Child safety, security, and emotional well-being.
+ * Minimal, authentic, reassuring content without data dumping.
+ */
+
+const safetyPillars = [
+  {
+    title: "Gated campus and 24/7 CCTV",
+    description:
+      "There is one entrance, and it is monitored. Verified security staff are on duty at all times, every visitor signs the register, and cameras cover the corridors and play areas.",
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    badge: "Security",
+  },
+  {
+    title: "Supervised school transport",
+    description:
+      "Our speed-governed buses run through Hosur, SIPCOT and the Karnataka border areas near Attibele. Each one has a verified driver, a female conductor and a first-aid kit on board.",
+    icon: "M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4",
+    badge: "Commute",
+  },
+  {
+    title: "Health, first aid and clean water",
+    description:
+      "The campus infirmary deals with scrapes and sudden illness, and children have their temperature checked regularly. Drinking water is certified multi-stage RO, and the washrooms are sanitised and made for small children.",
+    icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z",
+    badge: "Health",
+  },
+  {
+    title: "Emotional safety and POCSO care",
+    description:
+      "We follow child protection rules and POCSO requirements strictly. Teachers and support staff go through background checks and positive behaviour training, and bullying is not tolerated here.",
+    icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z",
+    badge: "Child Protection",
+  },
+];
+---
+
+<section
+  id="safe-campus"
+  class="relative isolate overflow-hidden bg-brand-cream-dark/40 py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="safety-heading"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark mb-3"
+      >
+        Child Safety
+      </span>
+      <h2
+        id="safety-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Your child's safety comes <span
+          class="font-normal italic text-brand-gold-dark"
+          >before anything else</span
+        >
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base text-brand-navy/75 sm:text-lg">
+        Children learn better when they feel safe. We put the basics first: who
+        comes through the gate, and how your child gets to school and back home.
+      </p>
+    </header>
+
+    <!-- 4 Safety Pillars Grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        safetyPillars.map((p) => (
+          <article class="flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/50 hover:shadow-lg">
+            <div>
+              <div class="mb-4 flex items-center justify-between">
+                <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-gold/15 text-brand-gold-dark">
+                  <svg
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.8"
+                      d={p.icon}
+                    />
+                  </svg>
+                </span>
+                <span class="rounded-full bg-slate-100 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">
+                  {p.badge}
+                </span>
+              </div>
+
+              <h3 class="font-serif text-lg font-bold text-brand-navy mb-2">
+                {p.title}
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                {p.description}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Reassurance Banner -->
+    <div
+      class="mt-12 rounded-3xl border border-brand-gold/30 bg-brand-navy p-7 sm:p-9 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
+    >
+      <div class="space-y-1 text-center md:text-left">
+        <h3 class="font-serif text-xl sm:text-2xl font-bold">
+          Want to know how safety and transport work day to day?
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300">
+          Our office will walk you through the bus routes, the safety records
+          and what the nurse does when a child falls ill.
+        </p>
+      </div>
+      <a
+        href="#contact"
+        class="inline-flex flex-none items-center justify-center rounded-xl bg-brand-gold px-6 py-3 text-xs font-bold text-brand-navy transition hover:bg-brand-gold-light shadow-md"
+      >
+        Book a Campus Visit
+      </a>
+    </div>
+  </div>
+</section>

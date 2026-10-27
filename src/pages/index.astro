@@ -5,17 +5,15 @@
  */
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
-import About from "../components/About.astro";
+import AboutUs from "../components/AboutUs.astro";
+import OurCampus from "../components/OurCampus.astro";
 import FutureReady from "../components/FutureReady.astro";
-import Leadership from "../components/Leadership.astro";
+import OurMission from "../components/OurMission.astro";
 import Programs from "../components/Programs.astro";
-import CampusLife from "../components/CampusLife.astro";
-import Facilities from "../components/Facilities.astro";
-import AdmissionsRoadmap from "../components/AdmissionsRoadmap.astro";
+import LearningSpaces from "../components/LearningSpaces.astro";
+import SafeCampus from "../components/SafeCampus.astro";
 import Gallery from "../components/Gallery.astro";
-import Testimonials from "../components/Testimonials.astro";
 import Notices from "../components/Notices.astro";
-import FAQ from "../components/FAQ.astro";
 import Contact from "../components/Contact.astro";
 import StickyWidgets from "../components/StickyWidgets.astro";
 import { getCourses, getNotices, getGalleries } from "../lib/queries";
@@ -144,17 +142,15 @@ if (flags.probe) {
     const container = await Container.create();
     const sections: Record<string, [any, Record<string, unknown>]> = {
       hero: [Hero, {}],
-      about: [About, {}],
+      aboutus: [AboutUs, {}],
+      ourcampus: [OurCampus, {}],
       futureready: [FutureReady, {}],
-      leadership: [Leadership, {}],
+      ourmission: [OurMission, {}],
       programs: [Programs, { courses }],
-      campuslife: [CampusLife, {}],
-      facilities: [Facilities, {}],
-      admissions: [AdmissionsRoadmap, {}],
+      learningspaces: [LearningSpaces, {}],
+      safecampus: [SafeCampus, {}],
       gallery: [Gallery, { galleries }],
-      testimonials: [Testimonials, {}],
       notices: [Notices, { notices }],
-      faq: [FAQ, {}],
       contact: [Contact, {}],
     };
     for (const [name, [component, props]] of Object.entries(sections)) {
@@ -191,17 +187,15 @@ const { show } = flags;
   <div class="scroll-progress" aria-hidden="true"></div>
 
   {show("hero") && <Hero />}
-  {show("about") && <About />}
-  {show("futureready") && <FutureReady />}
-  {show("leadership") && <Leadership />}
+  {(show("about-us") || show("about")) && <AboutUs />}
+  {(show("our-campus") || show("campus")) && <OurCampus />}
+  {show("future-ready") && <FutureReady />}
+  {(show("our-mission") || show("mission")) && <OurMission />}
   {show("programs") && <Programs courses={courses} />}
-  {show("campuslife") && <CampusLife />}
-  {show("facilities") && <Facilities />}
-  {show("admissions") && <AdmissionsRoadmap />}
+  {(show("learning-spaces") || show("facilities")) && <LearningSpaces />}
+  {(show("safe-campus") || show("safety")) && <SafeCampus />}
   {show("gallery") && <Gallery galleries={galleries} />}
-  {show("testimonials") && <Testimonials />}
   {show("notices") && <Notices notices={notices} />}
-  {show("faq") && <FAQ />}
   {show("contact") && <Contact />}
 
   <!-- Sticky Conversion Widgets -->

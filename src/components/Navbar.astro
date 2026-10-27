@@ -15,19 +15,18 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-  { label: "About", href: "#about" },
-  { label: "Future-Ready", href: "#future-ready" },
+  { label: "About Us", href: "#about-us" },
+  { label: "Our Campus", href: "#our-campus" },
+  { label: "Future Ready", href: "#future-ready" },
+  { label: "Our Mission", href: "#our-mission" },
   { label: "Programs", href: "#programs" },
-  { label: "Campus Life", href: "#campus-life" },
-  { label: "Facilities", href: "#facilities" },
-  { label: "Admissions", href: "#admissions" },
+  { label: "Learning Spaces", href: "#learning-spaces" },
+  { label: "Safe Campus", href: "#safe-campus" },
   { label: "Gallery", href: "#gallery" },
   { label: "Notices", href: "#notices" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
 ];
 
-const cta: NavLink = { label: "Admissions 2027–28", href: "#admissions" };
+const cta: NavLink = { label: "Admission Now", href: "#contact" };
 ---
 
 <header id="main-nav" class="nav">
@@ -40,8 +39,8 @@ const cta: NavLink = { label: "Admissions 2027–28", href: "#admissions" };
         <span class="nav__banner-badge">Admissions 2027–28</span>
         <span class="nav__banner-text">Little Elly Early Years (Nursery–UKG) &amp; State Board enrolment open in Hosur</span>
       </div>
-      <a href="#admissions" class="nav__banner-link">
-        <span>Check Age Criteria & Enrol</span>
+      <a href="#contact" class="nav__banner-link">
+        <span>Admission Enquiry</span>
         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
@@ -420,9 +419,9 @@ const cta: NavLink = { label: "Admissions 2027–28", href: "#admissions" };
     display: inline-flex;
     align-items: center;
     min-height: 2.5rem;
-    padding: 0.4rem 0.65rem;
+    padding: 0.35rem 0.5rem;
     border-radius: 0.5rem;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 500;
     color: rgb(252 250 242 / 0.85);
     text-decoration: none;

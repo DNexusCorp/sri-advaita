@@ -25,38 +25,38 @@ const slideMs = 6500;
 const slides = [
   {
     label: "Welcome",
-    headline: "Nurturing Young Minds, Building Future Leaders",
-    body: "At Sri Advaita Educational Trust, we believe every child is unique and deserves an environment that encourages curiosity, creativity, confidence, and character. Inspired by the philosophy of Advaita (Oneness), our school blends traditional values with modern education to create lifelong learners.",
+    headline: "Every child is different. Our classrooms are built for that.",
+    body: "Sri Advaita Educational Trust takes its idea from Advaita, the philosophy of oneness: each child is unique and needs room to be curious, to create and to build character. We mix traditional values with modern teaching, so that children keep learning long after they leave us.",
     image: "/images/campus-building.jpg",
     alt: "Sri Advaita Educational Trust campus building in Mookandapalli, Hosur",
   },
   {
     label: "Little Elly Early Years",
-    headline: "Nursery to UKG in Collaboration with Little Elly",
-    body: "Enrolment is open for Nursery, LKG, UKG (powered by Little Elly's joyful H.A.P.P.Y. preschool curriculum) and State Board Grades 1 through 8. Early registration is recommended, and our admissions desk is happy to walk you through every step.",
+    headline: "Nursery to UKG, together with Little Elly",
+    body: "Admissions are open for Nursery, LKG and UKG, which follow Little Elly's H.A.P.P.Y. preschool curriculum, and for State Board Grades 1 to 8. Registering early is a good idea, and the admissions desk will take you through each step.",
     image: "/images/little-elly-hero.jpg",
-    alt: "Joyful early childhood learning and sensory play in the Little Elly wing at Sri Advaita",
+    alt: "Children playing with sensory materials in the Little Elly wing at Sri Advaita",
   },
   {
     label: "STEM and innovation",
-    headline: "Where curiosity gets its hands on real science",
-    body: "From the Robotics and Composite Science Lab to guided experiments in every grade, students learn by building, testing, and asking better questions.",
+    headline: "Science you do with your hands",
+    body: "The Robotics and Composite Science Lab is where it gets hands-on, and every grade has guided experiments. Students build something, test it, and ask why it didn't work.",
     image: "/images/gallery-science.jpg",
     alt: "Students running a guided experiment in the robotics and composite science lab",
   },
   {
     label: "Arts and culture",
-    headline: "Heritage, music, and movement in every school year",
-    body: "Bharatanatyam, classical music, and festival celebrations keep Indian traditions alive alongside a modern, experiential curriculum.",
+    headline: "Music and dance are part of every year",
+    body: "Students learn Bharatanatyam and classical music, and festivals are celebrated together on campus, right alongside the regular curriculum.",
     image: "/images/gallery-cultural.jpg",
     alt: "Students performing a classical Indian dance on the school stage",
   },
 ];
 
 const highlights = [
-  "Little Elly Early Years (Nursery–UKG)",
-  "State Board Academic Stream",
-  "Safe, CCTV-Protected Green Campus",
+  "Little Elly early years, Nursery to UKG",
+  "State Board classes",
+  "Green campus with CCTV",
 ];
 
 // `count` marks values that count up on scroll; the ratio stays static.
@@ -65,16 +65,16 @@ const stats = [
     value: "15+",
     count: 15,
     suffix: "+",
-    label: "Years of Trust & Excellence",
+    label: "Years of teaching",
   },
-  { value: "1:15", label: "Teacher-to-Student Ratio" },
+  { value: "1:15", label: "Teacher to student ratio" },
   {
     value: "100%",
     count: 100,
     suffix: "%",
-    label: "Academic Excellence",
+    label: "Academic excellence",
   },
-  { value: "5+", count: 5, suffix: "+", label: "Acres Green Campus" },
+  { value: "5+", count: 5, suffix: "+", label: "Acres of green campus" },
 ];
 
 const focusRing =
@@ -202,11 +202,11 @@ const ctrlBtn = `flex h-10 w-10 flex-none items-center justify-center rounded-fu
           style="--i:3"
         >
           <a
-            href="#admissions"
+            href="#contact"
             class={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-brand-gold via-brand-gold-light to-brand-gold px-7 py-3.5 text-base font-bold text-brand-navy shadow-lg shadow-brand-gold/30 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-gold/40 active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${focusRing}`}
           >
             <span class="relative z-10 inline-flex items-center gap-2">
-              Admissions 2027–28
+              Admissions 2027-28
               <svg
                 class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                 fill="none"
@@ -243,14 +243,14 @@ const ctrlBtn = `flex h-10 w-10 flex-none items-center justify-center rounded-fu
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               ></path>
             </svg>
-            Book Campus Tour
+            Book a Campus Tour
           </a>
 
           <a
             href="#programs"
             class={`group inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-3 text-sm font-medium text-brand-cream/80 hover:text-brand-gold-light transition-colors ${focusRing}`}
           >
-            Explore programs
+            See our classes
             <svg
               class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
               fill="none"
@@ -333,10 +333,10 @@ const ctrlBtn = `flex h-10 w-10 flex-none items-center justify-center rounded-fu
               </div>
               <div>
                 <p class="text-xs font-bold text-brand-gold-light">
-                  Top-Ranked
+                  In Mookandapalli
                 </p>
                 <p class="text-xs font-medium text-brand-cream/70">
-                  State Board School in Hosur
+                  State Board school, Hosur
                 </p>
               </div>
             </div>
@@ -353,9 +353,9 @@ const ctrlBtn = `flex h-10 w-10 flex-none items-center justify-center rounded-fu
                 ></span>
               </span>
               <div>
-                <p class="text-xs font-bold text-white">Admissions 2027–28</p>
+                <p class="text-xs font-bold text-white">Admissions are open</p>
                 <p class="text-xs font-medium text-emerald-300">
-                  Open for Pre-KG to Grade 8
+                  Pre-KG to Grade 8 for 2027-28
                 </p>
               </div>
             </div>

@@ -1,0 +1,176 @@
+---
+/**
+ * OurCampus.astro — Physical environment, campus life, and daily atmosphere.
+ * Minimal, authentic, human-centred content with real photography.
+ */
+
+const campusFeatures = [
+  {
+    title: "A quiet, tree-lined campus",
+    description:
+      "On Manickavasagar Street, away from highway noise. Trees line the grounds, and the boundary is fenced.",
+    image: "/images/campus-building.jpg",
+    badge: "2 acres",
+  },
+  {
+    title: "The Little Elly wing",
+    description:
+      "A wing of its own for Nursery to UKG, with soft flooring and shelves low enough for small hands.",
+    image: "/images/little-elly-hero.jpg",
+    badge: "Early years",
+  },
+  {
+    title: "Light, airy classrooms",
+    description:
+      "Classrooms have high ceilings and cross-ventilation, so they stay light and airy through the day.",
+    image: "/images/hero-students.jpg",
+    badge: "Daylight",
+  },
+  {
+    title: "Sports grounds and amphitheatre",
+    description:
+      "Turf grounds for running, cricket and football, plus an open-air amphitheatre used for morning mindfulness and cultural events.",
+    image: "/images/space-sports-arena.jpg",
+    badge: "Sport and culture",
+  },
+];
+
+const dailyRhythm = [
+  {
+    time: "8:30 AM",
+    title: "Morning assembly",
+    detail:
+      "Children chant Sanskrit shlokas, take a few slow breaths and settle before the day begins.",
+  },
+  {
+    time: "9:15 AM",
+    title: "Maths, languages and science",
+    detail:
+      "Interactive lessons and hands-on science, taught in small class groups.",
+  },
+  {
+    time: "11:15 AM",
+    title: "Fruit break and play",
+    detail:
+      "A fruit snack, then outside: sand play for the little ones and time together under the trees.",
+  },
+  {
+    time: "1:15 PM",
+    title: "Lunch together",
+    detail:
+      "Children eat with their teachers, and practise saying thanks and keeping things clean.",
+  },
+  {
+    time: "2:00 PM",
+    title: "Arts and sport",
+    detail: "Bharatanatyam and vocal music, plus karate and track sports.",
+  },
+];
+---
+
+<section
+  id="our-campus"
+  class="relative isolate overflow-hidden bg-brand-cream py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="campus-heading"
+>
+  <span id="campus" class="sr-only">Our Campus</span>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark mb-3"
+      >
+        Life on campus
+      </span>
+      <h2
+        id="campus-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        A green campus, <span class="font-normal italic text-brand-gold-dark"
+          >away from the noise.</span
+        >
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base text-brand-navy/75 sm:text-lg">
+        The campus is in MGR Nagar, Mookandapalli, away from the highway.
+        Children have room to run about, and it is quiet enough for them to
+        concentrate.
+      </p>
+    </header>
+
+    <!-- 4 Visual Campus Feature Cards -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16">
+      {
+        campusFeatures.map((f) => (
+          <article class="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/50 hover:shadow-lg flex flex-col">
+            <div class="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+              <img
+                src={f.image}
+                alt={f.title}
+                width="400"
+                height="250"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="absolute top-3 left-3 rounded-full bg-brand-navy/90 backdrop-blur-md px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-gold-light border border-brand-gold/30">
+                {f.badge}
+              </span>
+            </div>
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 class="font-serif text-lg font-bold text-brand-navy mb-1.5">
+                  {f.title}
+                </h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  {f.description}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Daily Rhythm Strip -->
+    <div
+      class="overflow-hidden rounded-3xl border border-brand-navy/10 bg-brand-navy p-7 text-white shadow-xl sm:p-10"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-white/10"
+      >
+        <div>
+          <span
+            class="text-xs font-semibold uppercase tracking-wider text-brand-gold-light"
+            >Daily rhythm</span
+          >
+          <h3 class="font-serif text-2xl font-bold text-white sm:text-3xl mt-1">
+            What a school day looks like
+          </h3>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-300 max-w-md">
+          This is the main school's day. Little Elly's youngest children have a
+          shorter one, from 8:30 AM to 12:30 PM.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {
+          dailyRhythm.map((item, idx) => (
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <span class="inline-block rounded-md bg-brand-gold/20 px-2.5 py-0.5 text-xs font-bold text-brand-gold-light mb-2">
+                {item.time}
+              </span>
+              <h4 class="font-serif text-sm font-bold text-white mb-1">
+                {item.title}
+              </h4>
+              <p class="text-[11px] text-slate-300 leading-relaxed">
+                {item.detail}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

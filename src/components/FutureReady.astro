@@ -1,40 +1,44 @@
 ---
 /**
  * FutureReady.astro — Future-Ready Education Section
- * Blends AI-enabled learning, digital fluency, STEM innovation, and foundational human values.
+ * Blends practical digital thinking, hands-on STEM experimentation, and essential life skills.
  */
 
 const pillars = [
   {
-    title: "AI-Enabled Learning",
-    description: "Age-appropriate exposure to AI concepts, smart learning tools, and responsible technology use to prepare students for tomorrow's digital landscape.",
+    title: "Using technology wisely",
+    description:
+      "Children get a gentle, age-appropriate look at smart tools and AI. We talk about what these tools are good for, and when to switch them off.",
     image: "/images/future-ai.png",
-    alt: "Students exploring AI concepts and interactive learning tools",
-    badge: "Emerging Tech",
+    alt: "Students using digital learning tools in class",
+    badge: "Technology",
     icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
   },
   {
-    title: "Digital Fluency",
-    description: "Building confidence with digital tools, computational thinking, programming fundamentals, and safe, ethical online practices.",
+    title: "Computers and coding basics",
+    description:
+      "Children learn to type properly and get their first taste of the step-by-step thinking behind code. Staying safe online is part of it.",
     image: "/images/future-digital.png",
-    alt: "Student developing digital skills and computational fluency",
-    badge: "Core Literacy",
+    alt: "A student working at a computer",
+    badge: "Computers",
     icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
   },
   {
-    title: "Innovation & Problem Solving",
-    description: "Hands-on STEM experiences and makerspaces that encourage questioning, collaborative experimentation, and creative real-world solutions.",
+    title: "Science by doing",
+    description:
+      "Real kits for physics, chemistry and biology let children test an idea and see what happens, even when it goes wrong.",
     image: "/images/future-stem.png",
-    alt: "Student engaged in hands-on STEM experiment and innovation",
-    badge: "Hands-On",
+    alt: "A student doing a hands-on science experiment",
+    badge: "Science",
     icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
   },
   {
-    title: "Skills for Tomorrow",
-    description: "Nurturing communication, emotional adaptability, teamwork, leadership, and critical analysis essential for navigating a rapidly changing world.",
+    title: "Confidence and life skills",
+    description:
+      "Children practise speaking up and working as a team, and they learn to be kind when it isn't easy. Karate classes teach self-defence.",
     image: "/images/future-skills.png",
-    alt: "Student building global skills and leadership with technology",
-    badge: "Life Skills",
+    alt: "Students practising teamwork and communication",
+    badge: "Life skills",
     icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
   },
 ];
@@ -42,49 +46,41 @@ const pillars = [
 
 <section
   id="future-ready"
-  class="relative isolate overflow-hidden bg-slate-50/70 py-16 text-brand-navy tab:py-24 lg:py-32 border-y border-slate-200/60"
+  class="relative isolate overflow-hidden bg-slate-50/70 py-16 text-brand-navy tab:py-20 lg:py-28 border-y border-slate-200/60"
   aria-labelledby="future-ready-heading"
 >
-  <!-- Ambient background glow -->
-  <div
-    class="pointer-events-none absolute -right-20 top-1/4 -z-10 h-96 w-96 rounded-full bg-brand-gold/10 blur-[130px]"
-    aria-hidden="true"
-  >
-  </div>
-  <div
-    class="pointer-events-none absolute -left-20 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-brand-navy/5 blur-[130px]"
-    aria-hidden="true"
-  >
-  </div>
-
-  <div class="mx-auto max-w-7xl px-4 tab-sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section Heading -->
-    <header class="mx-auto mb-14 max-w-3xl text-center lg:mb-20">
-      <div class="reveal mb-4 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark">
-        <svg class="h-3.5 w-3.5 text-brand-gold-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-        Future-Ready Education
-      </div>
-
+    <header class="mx-auto mb-12 max-w-3xl text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark mb-3"
+      >
+        Future-ready skills
+      </span>
       <h2
         id="future-ready-heading"
-        class="reveal font-serif text-3xl font-bold tracking-tight text-balance text-brand-navy tab-sm:text-4xl lg:text-5xl"
+        class="font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
       >
-        Learning Today. <span class="font-normal italic text-brand-gold-dark">Leading Tomorrow.</span>
+        Useful skills, <span class="font-normal italic text-brand-gold-dark"
+          >taught at a child's pace.</span
+        >
       </h2>
-
-      <p class="reveal mx-auto mt-4 max-w-2xl text-base leading-relaxed text-brand-navy/80 tab-sm:text-lg">
-        The world is evolving at lightning speed. At Sri Advaita, we prepare children with the knowledge, technological fluency, and moral integrity required to thrive in a digital future—while staying deeply grounded in ethical human values.
+      <p
+        class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-brand-navy/75 sm:text-lg"
+      >
+        Nobody can say what work today's five-year-olds will end up doing. So we
+        don't chase every new gadget. We teach what lasts, like asking good
+        questions and working well with others, and bring in technology where it
+        helps. We also pay as much attention to how a child treats people as to
+        how quickly they learn.
       </p>
     </header>
 
     <!-- 4 Cards Grid -->
-    <div class="reveal-stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
         pillars.map((item) => (
           <article class="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/50 hover:shadow-xl">
-            <!-- Image container -->
             <div class="relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-2xl bg-slate-100">
               <img
                 src={item.image}
@@ -100,10 +96,9 @@ const pillars = [
               </span>
             </div>
 
-            <!-- Content -->
             <div class="flex flex-1 flex-col justify-between">
               <div>
-                <div class="mb-2.5 flex items-center gap-2">
+                <div class="mb-2 flex items-center gap-2">
                   <svg
                     class="h-5 w-5 text-brand-gold-dark"
                     fill="none"
@@ -111,14 +106,19 @@ const pillars = [
                     viewBox="0 0 24 24"
                     aria-hidden="true"
                   >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d={item.icon}
+                    />
                   </svg>
-                  <h3 class="font-serif text-lg font-bold text-brand-navy">
+                  <h3 class="font-serif text-base font-bold text-brand-navy">
                     {item.title}
                   </h3>
                 </div>
 
-                <p class="text-sm leading-relaxed text-slate-600">
+                <p class="text-xs text-slate-600 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -128,28 +128,47 @@ const pillars = [
       }
     </div>
 
-    <!-- Technology with Purpose Banner -->
-    <div class="reveal mt-12 overflow-hidden rounded-3xl bg-brand-navy p-8 text-white shadow-xl tab-sm:p-10 lg:mt-16 lg:p-12">
-      <div class="grid items-center gap-8 lg:grid-cols-12">
+    <!-- Balanced Technology Banner -->
+    <div
+      class="mt-12 overflow-hidden rounded-3xl bg-brand-navy p-8 text-white shadow-xl sm:p-10"
+    >
+      <div class="grid items-center gap-6 lg:grid-cols-12">
         <div class="lg:col-span-8">
-          <span class="mb-2 inline-block text-xs font-bold uppercase tracking-[0.2em] text-brand-gold-light">
-            Our Guiding Principle
+          <span
+            class="mb-2 inline-block text-xs font-bold uppercase tracking-[0.2em] text-brand-gold-light"
+          >
+            Our rule of thumb
           </span>
-          <h3 class="font-serif text-2xl font-bold tracking-tight text-white tab-sm:text-3xl">
-            Technology with Purpose
+          <h3
+            class="font-serif text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
+            Teachers do the teaching. Technology helps.
           </h3>
-          <p class="mt-3 text-sm leading-relaxed text-slate-300 tab-sm:text-base">
-            We believe technology should enhance learning—not replace curiosity, creativity, dedicated educators, or compassionate human relationships. Our pedagogy focuses on responsible, balanced, and meaningful use of emerging digital tools.
+          <p class="mt-2 text-sm leading-relaxed text-slate-300">
+            We bring in digital tools when they make an idea clearer. They don't
+            stand in for the teacher or for playtime. And when a lesson works
+            better without a screen, we simply leave it off.
           </p>
         </div>
-        <div class="flex flex-col gap-3 sm:flex-row lg:col-span-4 lg:justify-end">
+        <div
+          class="flex flex-col gap-3 sm:flex-row lg:col-span-4 lg:justify-end"
+        >
           <a
-            href="#facilities"
-            class="inline-flex items-center justify-center rounded-xl bg-brand-gold px-6 py-3.5 text-sm font-bold text-brand-navy shadow-md transition-all duration-200 hover:bg-brand-gold-light hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
+            href="#learning-spaces"
+            class="inline-flex items-center justify-center rounded-xl bg-brand-gold px-6 py-3.5 text-sm font-bold text-brand-navy shadow-md transition-all duration-200 hover:bg-brand-gold-light hover:shadow-lg"
           >
-            Explore Learning Spaces
-            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            See our learning spaces
+            <svg
+              class="ml-2 h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
           </a>
         </div>
