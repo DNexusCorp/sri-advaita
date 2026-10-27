@@ -1,0 +1,639 @@
+---
+/**
+ * Navbar.astro — Fixed site navigation with Top Admissions Announcement Bar.
+ *
+ * - Top Announcement bar: Highlights 2027–28 Admissions with direct link
+ * - Transparent over the hero, solid navy once the page scrolls
+ *   (Layout.astro sets html[data-scrolled]).
+ * - Desktop (1024px+): brand left, comprehensive links and admissions CTA right.
+ * - Mobile: menu button opens a full-width panel; closes on link tap, Escape, or outside tap.
+ * - Highlights the section currently on screen.
+ */
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const links: NavLink[] = [
+  { label: "About", href: "#about" },
+  { label: "Future-Ready", href: "#future-ready" },
+  { label: "Programs", href: "#programs" },
+  { label: "Campus Life", href: "#campus-life" },
+  { label: "Facilities", href: "#facilities" },
+  { label: "Admissions", href: "#admissions" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Notices", href: "#notices" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" },
+];
+
+const cta: NavLink = { label: "Admissions 2027–28", href: "#admissions" };
+---
+
+<header id="main-nav" class="nav">
+  <div class="nav__scrim" aria-hidden="true"></div>
+
+  <!-- Top Admissions Announcement Bar -->
+  <div class="nav__banner">
+    <div class="nav__banner-inner">
+      <div class="nav__banner-content">
+        <span class="nav__banner-badge">Admissions 2027–28</span>
+        <span class="nav__banner-text">Little Elly Early Years (Nursery–UKG) &amp; State Board enrolment open in Hosur</span>
+      </div>
+      <a href="#admissions" class="nav__banner-link">
+        <span>Check Age Criteria & Enrol</span>
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="nav__bar">
+    <a
+      class="nav__brand"
+      href="/"
+      aria-label="Sri Advaita Educational Trust, home"
+    >
+      <img
+        src="/images/logo-crest.png"
+        alt="Sri Advaita Educational Trust Logo"
+        class="nav__logo-img"
+        width="46"
+        height="46"
+        loading="eager"
+      />
+      <span class="nav__brandtext">
+        <span class="nav__name">Sri Advaita</span>
+        <span class="nav__sub">Educational Trust</span>
+      </span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} data-nav-link>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="nav__cta" href={cta.href}>{cta.label}</a>
+
+    <button
+      class="nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+    >
+      <svg
+        class="icon icon--menu"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+      <svg
+        class="icon icon--close"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="nav__panel" inert>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href} data-nav-link>
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="nav__cta nav__cta--panel" href={cta.href}>{cta.label}</a>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById("main-nav");
+  const toggle = header?.querySelector<HTMLButtonElement>(".nav__toggle");
+  const panel = document.getElementById("mobile-menu");
+  const scrim = header?.querySelector<HTMLElement>(".nav__scrim");
+  const desktop = window.matchMedia("(min-width: 64rem)");
+
+  /* ── Mobile menu ── */
+  function setOpen(open: boolean, returnFocus = false) {
+    if (!header || !toggle || !panel) return;
+    header.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    panel.toggleAttribute("inert", !open);
+    document.documentElement.classList.toggle("menu-open", open);
+    // Keep keyboard focus inside the menu while it is open
+    document
+      .querySelectorAll("main, footer")
+      .forEach((el) => el.toggleAttribute("inert", open));
+    if (!open && returnFocus) toggle.focus();
+  }
+
+  toggle?.addEventListener("click", () =>
+    setOpen(!header?.classList.contains("is-open")),
+  );
+  scrim?.addEventListener("click", () => setOpen(false));
+  panel?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && header?.classList.contains("is-open")) {
+      setOpen(false, true);
+    }
+  });
+  desktop.addEventListener("change", () => {
+    if (desktop.matches) setOpen(false);
+  });
+  setOpen(false);
+
+  /* ── Highlight the section on screen ── */
+  const navLinks = Array.from(
+    header?.querySelectorAll<HTMLAnchorElement>("[data-nav-link]") ?? [],
+  );
+  const targets = [
+    ...new Set(navLinks.map((a) => a.hash.slice(1)).filter(Boolean)),
+  ]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  function setActive(id: string | null) {
+    navLinks.forEach((a) => {
+      if (id && a.hash === `#${id}`) a.setAttribute("aria-current", "location");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  if ("IntersectionObserver" in window && targets.length > 0) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    targets.forEach((t) => io.observe(t));
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (window.scrollY < 80) setActive(null);
+      },
+      { passive: true },
+    );
+  }
+</script>
+
+<style>
+  :global(:root) {
+    --nav-banner-h: 2.25rem;
+    --nav-bar-h: 4.5rem;
+    --nav-h: calc(var(--nav-banner-h) + var(--nav-bar-h));
+  }
+
+  @media (min-width: 64rem) {
+    :global(:root) {
+      --nav-bar-h: 5rem;
+      --nav-h: calc(var(--nav-banner-h) + var(--nav-bar-h));
+    }
+  }
+
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    isolation: isolate;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) 0
+      env(safe-area-inset-left);
+    color: var(--color-brand-cream, #fcfaf2);
+  }
+
+  /* Two background layers cross-fade */
+  .nav::before,
+  .nav::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .nav::before {
+    background: linear-gradient(
+      to bottom,
+      rgb(7 24 48 / 0.85),
+      rgb(7 24 48 / 0)
+    );
+  }
+
+  .nav::after {
+    background: rgb(7 24 48 / 0.96);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: 1px solid rgb(179 143 67 / 0.22);
+    box-shadow: 0 8px 30px rgb(7 24 48 / 0.25);
+    opacity: 0;
+  }
+
+  :global(html[data-scrolled]) .nav::before,
+  .nav.is-open::before {
+    opacity: 0;
+  }
+
+  :global(html[data-scrolled]) .nav::after,
+  .nav.is-open::after {
+    opacity: 1;
+  }
+
+  /* ── Announcement Banner ── */
+  .nav__banner {
+    background: linear-gradient(90deg, #8a6e33, #b38f43, #d4b36a, #b38f43);
+    color: #071830;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+  }
+
+  .nav__banner-inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding: 0.35rem clamp(1rem, 4vw, 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .nav__banner-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav__banner-badge {
+    background: #071830;
+    color: #d4b36a;
+    padding: 0.1rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .nav__banner-text {
+    color: #071830;
+    display: inline-block;
+  }
+
+  .nav__banner-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #071830;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .nav__banner-link:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 36rem) {
+    .nav__banner-text {
+      display: none;
+    }
+  }
+
+  /* ── Navigation Bar ── */
+  .nav__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 80rem;
+    height: var(--nav-bar-h);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    transition: height 0.3s ease;
+  }
+
+  :global(html[data-scrolled]) .nav__bar {
+    height: calc(var(--nav-bar-h) - 0.5rem);
+  }
+
+  /* ── Brand ── */
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-right: auto;
+    min-height: 2.75rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .nav__logo-img {
+    flex: none;
+    width: 2.85rem;
+    height: 2.85rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    background: #ffffff;
+    padding: 2px;
+    border: 1.5px solid var(--color-brand-gold-light, #d4b36a);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s ease;
+  }
+
+  .nav__brand:hover .nav__logo-img {
+    transform: scale(1.05);
+  }
+
+  .nav__brandtext {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .nav__name {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-brand-gold-light, #d4b36a);
+  }
+
+  .nav__sub {
+    font-size: 0.75rem;
+    color: rgb(252 250 242 / 0.7);
+  }
+
+  /* ── Desktop links ── */
+  .nav__links {
+    display: none;
+  }
+
+  .nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__links a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 0.5rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgb(252 250 242 / 0.85);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .nav__links a::after {
+    content: "";
+    position: absolute;
+    inset: auto 0.65rem 0.35rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-brand-gold, #b38f43);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .nav__links a:hover,
+  .nav__links a[aria-current] {
+    color: #fff;
+  }
+
+  .nav__links a:hover::after,
+  .nav__links a[aria-current]::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Admissions button ── */
+  .nav__cta {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0 1.15rem;
+    border-radius: 9999px;
+    background: var(--color-brand-gold, #b38f43);
+    color: var(--color-brand-navy-dark, #071830);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .nav__cta:hover {
+    background: var(--color-brand-gold-light, #d4b36a);
+  }
+
+  .nav__cta:active {
+    transform: scale(0.97);
+  }
+
+  /* ── Menu button ── */
+  .nav__toggle {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .nav__toggle:hover {
+    background: rgb(252 250 242 / 0.1);
+  }
+
+  .icon {
+    grid-area: 1 / 1;
+    width: 1.5rem;
+    height: 1.5rem;
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s ease;
+  }
+
+  .icon--close {
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
+
+  .nav.is-open .icon--menu {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+
+  .nav.is-open .icon--close {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Mobile panel ── */
+  .nav__panel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100dvh - var(--nav-h) - env(safe-area-inset-top));
+    overflow-y: auto;
+    padding: 0.5rem max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-right))
+      max(1.5rem, env(safe-area-inset-bottom))
+      max(clamp(1rem, 4vw, 2rem), env(safe-area-inset-left));
+    background: var(--color-brand-navy-dark, #071830);
+    border-top: 1px solid rgb(179 143 67 / 0.25);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -8px;
+    transition:
+      opacity 0.25s ease,
+      translate 0.25s ease,
+      visibility 0.25s;
+  }
+
+  .nav.is-open .nav__panel {
+    opacity: 1;
+    visibility: visible;
+    translate: none;
+  }
+
+  .nav__panel ul {
+    flex-direction: column;
+  }
+
+  .nav__panel li + li {
+    border-top: 1px solid rgb(252 250 242 / 0.1);
+  }
+
+  .nav__panel li a {
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0.65rem 0.25rem;
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: 1.15rem;
+    color: rgb(252 250 242 / 0.9);
+    text-decoration: none;
+  }
+
+  .nav__panel li a[aria-current] {
+    color: var(--color-brand-gold-light, #d4b36a);
+  }
+
+  .nav__cta--panel {
+    display: flex;
+    width: 100%;
+    margin-top: 1.25rem;
+  }
+
+  .nav__scrim {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgb(7 24 48 / 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s;
+  }
+
+  .nav.is-open .nav__scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (max-width: 22.5rem) {
+    .nav__sub {
+      display: none;
+    }
+  }
+
+  /* ── Desktop Breakpoint ── */
+  @media (min-width: 64rem) {
+    .nav__links {
+      display: block;
+    }
+
+    .nav__cta {
+      display: inline-flex;
+      margin-left: 0.5rem;
+    }
+
+    .nav__cta--panel,
+    .nav__toggle,
+    .nav__panel,
+    .nav__scrim {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav::before,
+    .nav::after,
+    .nav__bar,
+    .nav__links a,
+    .nav__links a::after,
+    .nav__cta,
+    .nav__toggle,
+    .icon,
+    .nav__panel,
+    .nav__scrim {
+      transition: none;
+    }
+  }
+</style>

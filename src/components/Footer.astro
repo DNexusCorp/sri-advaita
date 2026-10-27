@@ -1,0 +1,581 @@
+---
+/**
+ * Footer.astro — School footer with campus location, admissions contact,
+ * academic navigation and official educational resources.
+ *
+ * Layout (lg, 12-col):  Brand 4 | Quick links 2 | Academics 3 | Admissions 3
+ * Layout (md, 2-col):   Brand (full) / Quick links + Academics / Admissions (full)
+ * Layout (mobile):      single column
+ *
+ * Motion: one orchestrated entrance when the footer scrolls into view
+ * (gold rule draws across, then columns settle in). Everything else is
+ * hover/focus feedback. All motion is disabled for reduced-motion users,
+ * and the footer is fully visible if JavaScript is unavailable.
+ */
+
+const quickLinks = [
+  { href: "#home", label: "Home" },
+  { href: "#about", label: "About Philosophy" },
+  { href: "#programs", label: "Academic Pathways" },
+  { href: "#campus-life", label: "A Day at Advaita" },
+  { href: "#facilities", label: "Campus Infrastructure" },
+  { href: "#admissions", label: "Admissions 2027–28" },
+  { href: "#gallery", label: "Life at Advaita" },
+  { href: "#notices", label: "Notices & Events" },
+  { href: "#faq", label: "Parent FAQ" },
+  { href: "#contact", label: "Contact Campus" },
+];
+
+const academicStreams = [
+  { href: "#programs", label: "Little Elly Nursery (Pre-KG)" },
+  { href: "#programs", label: "Little Elly Kindergarten (LKG & UKG)" },
+  { href: "#programs", label: "Primary School (Grades 1–5)" },
+  { href: "#programs", label: "Middle School (Grades 6–8)" },
+  { href: "#programs", label: "Arts & Cultural Academy" },
+  { href: "#programs", label: "Composite Science & STEAM Lab" },
+];
+
+const externalResources = [
+  {
+    href: "https://littleelly.com/",
+    label: "Little Elly Early Years (Official Partner)",
+  },
+  {
+    href: "https://www.tnschools.gov.in/",
+    label: "TN State Board of School Education",
+  },
+  {
+    href: "https://dsel.education.gov.in/",
+    label: "Department of School Education & Literacy",
+  },
+  {
+    href: "https://ncert.nic.in/",
+    label: "National Council of Educational Research (NCERT)",
+  },
+  {
+    href: "https://samagra.education.gov.in/",
+    label: "Samagra Shiksha Abhiyan",
+  },
+];
+
+const phones = [
+  { href: "tel:+917259526202", label: "+91 72595 26202" },
+  { href: "tel:+917899920795", label: "+91 78999 20795" },
+];
+
+const currentYear = new Date().getFullYear();
+
+// Shared utility strings keep the markup readable and consistent.
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy-dark";
+const iconBadge =
+  "flex h-9 w-9 flex-none items-center justify-center rounded-full bg-brand-gold/10 text-brand-gold ring-1 ring-brand-gold/25 transition-colors duration-300 group-hover:bg-brand-gold/20";
+---
+
+<footer
+  id="site-footer"
+  data-footer
+  class="relative isolate overflow-hidden bg-brand-navy-dark text-brand-cream"
+  role="contentinfo"
+>
+  <!-- Gold rule: draws across once on entrance -->
+  <div
+    class="footer-rule absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-gold to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+
+  <!-- Ambient glows (static, decorative) -->
+  <div
+    class="pointer-events-none absolute -top-24 right-[15%] -z-10 h-80 w-80 rounded-full bg-brand-gold/[0.06] blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -bottom-32 -left-24 -z-10 h-72 w-72 rounded-full bg-brand-gold/[0.04] blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+    <div
+      class="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12"
+    >
+      <!-- Brand & campus contact -->
+      <section
+        class="reveal space-y-7 md:col-span-2 lg:col-span-4"
+        style="--i:0"
+        aria-labelledby="footer-brand"
+      >
+        <div class="flex items-center gap-4">
+          <div
+            class="h-16 w-16 flex-none rounded-full bg-gradient-to-br from-brand-gold via-brand-gold-light to-brand-gold-dark p-[2px] shadow-lg shadow-black/30 overflow-hidden"
+          >
+            <img
+              src="/images/logo-crest.png"
+              alt="Sri Advaita Educational Trust Crest"
+              class="h-full w-full rounded-full object-contain p-1 bg-white"
+              width="64"
+              height="64"
+              loading="lazy"
+            />
+          </div>
+          <div class="min-w-0">
+            <h2
+              id="footer-brand"
+              class="font-serif text-xl font-bold leading-tight tracking-tight text-white sm:text-2xl"
+            >
+              Sri Advaita Educational Trust
+            </h2>
+            <p class="mt-1 text-sm font-medium text-brand-gold">
+              Hosur, Tamil Nadu. Established 2010
+            </p>
+          </div>
+        </div>
+
+        <p class="max-w-md text-sm leading-relaxed text-brand-cream/70">
+          Fostering holistic excellence through State Board academic standards,
+          values-driven character building, and world-class foundational
+          education.
+        </p>
+
+        <!-- Contact details: every row shares one icon size and one gap, so text edges align -->
+        <address class="not-italic">
+          <ul class="space-y-4 text-sm text-brand-cream/80">
+            <li class="group flex items-start gap-3.5">
+              <span class={iconBadge}>
+                <svg
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </span>
+              <span class="min-w-0 pt-1.5 leading-relaxed">
+                Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar,
+                Hosur – 635126, Tamil Nadu (Near Bangalore border)
+              </span>
+            </li>
+
+            <li class="group flex items-start gap-3.5">
+              <span class={iconBadge}>
+                <svg
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+              </span>
+              <div class="min-w-0 pt-1.5 leading-relaxed">
+                <span class="block text-brand-cream/60">Admissions desk</span>
+                <span class="mt-0.5 flex flex-wrap gap-x-4 gap-y-1">
+                  {
+                    phones.map(({ href, label }) => (
+                      <a
+                        href={href}
+                        class={`fl rounded-sm hover:text-brand-gold ${focusRing}`}
+                      >
+                        {label}
+                      </a>
+                    ))
+                  }
+                </span>
+              </div>
+            </li>
+
+            <li class="group flex items-start gap-3.5">
+              <span class={iconBadge}>
+                <svg
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </span>
+              <a
+                href="mailto:advaita@advaitaapp.com"
+                class={`fl min-w-0 break-all rounded-sm pt-1.5 hover:text-brand-gold ${focusRing}`}
+              >
+                advaita@advaitaapp.com
+              </a>
+            </li>
+
+            <li class="group flex items-start gap-3.5">
+              <span class={iconBadge}>
+                <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </span>
+              <div class="min-w-0 pt-1.5 leading-relaxed text-xs text-brand-cream/70">
+                <span class="block font-semibold text-brand-cream">Office Hours</span>
+                Mon – Sat: 09:00 AM – 04:30 PM
+              </div>
+            </li>
+          </ul>
+        </address>
+      </section>
+
+      <!-- Quick links -->
+      <nav
+        class="reveal lg:col-span-2"
+        style="--i:1"
+        aria-labelledby="footer-quick"
+      >
+        <h3
+          id="footer-quick"
+          class="footer-heading font-serif text-lg font-semibold text-brand-gold-light"
+        >
+          Quick Links
+        </h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          {
+            quickLinks.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class={`nav-link group inline-flex items-baseline gap-2.5 rounded-sm text-brand-cream/70 hover:text-brand-gold ${focusRing}`}
+                >
+                  <span class="tick" aria-hidden="true" />
+                  <span class="fl">{label}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Academics -->
+      <nav
+        class="reveal lg:col-span-3"
+        style="--i:2"
+        aria-labelledby="footer-academics"
+      >
+        <h3
+          id="footer-academics"
+          class="footer-heading font-serif text-lg font-semibold text-brand-gold-light"
+        >
+          Academics
+        </h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          {
+            academicStreams.map(({ href, label }) => (
+              <li>
+                <a
+                  href={href}
+                  class={`nav-link group inline-flex items-baseline gap-2.5 rounded-sm text-brand-cream/70 hover:text-brand-gold ${focusRing}`}
+                >
+                  <span class="tick" aria-hidden="true" />
+                  <span class="fl">{label}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Admissions card -->
+      <section
+        class="reveal md:col-span-2 lg:col-span-3"
+        style="--i:3"
+        aria-labelledby="footer-admissions"
+      >
+        <div
+          class="relative h-full rounded-2xl border border-brand-gold/30 bg-white/[0.04] p-6 shadow-xl shadow-black/20 backdrop-blur-sm transition-colors duration-300 hover:border-brand-gold/50 lg:h-auto"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="relative flex h-2.5 w-2.5" aria-hidden="true">
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70"
+              ></span>
+              <span
+                class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"
+              ></span>
+            </span>
+            <h3
+              id="footer-admissions"
+              class="font-serif text-base font-semibold text-brand-gold-light"
+            >
+              Admissions open 2027–28
+            </h3>
+          </div>
+
+          <p class="mt-4 text-sm leading-relaxed text-brand-cream/80">
+            Enrolment is now open for Little Elly Early Years (Nursery, LKG, UKG) and State Board Grades 1 through 8.
+            Early registration is recommended.
+          </p>
+
+          <a
+            href="mailto:advaita@advaitaapp.com?subject=Campus%20consultation%20request"
+            class={`cta mt-6 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-light px-4 py-3 text-center text-sm font-bold text-brand-navy shadow-md shadow-black/30 ${focusRing}`}
+          >
+            Schedule Campus Consultation
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Official portals: own row so full names fit without truncation -->
+    <section
+      class="reveal mt-14 border-t border-white/10 pt-8 lg:mt-16"
+      style="--i:4"
+      aria-labelledby="footer-portals"
+    >
+      <h3
+        id="footer-portals"
+        class="font-serif text-base font-semibold text-brand-cream/80"
+      >
+        Educational portals
+      </h3>
+      <ul
+        class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {
+          externalResources.map((res) => (
+            <li>
+              <a
+                href={res.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`group flex items-start justify-between gap-3 rounded-sm text-brand-cream/60 hover:text-brand-gold ${focusRing}`}
+              >
+                <span class="min-w-0 leading-snug">
+                  {res.label}
+                  <span class="sr-only"> (opens in a new tab)</span>
+                </span>
+                <svg
+                  class="ext-icon mt-0.5 h-3.5 w-3.5 flex-none text-brand-gold/60"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <!-- Copyright band -->
+    <div
+      class="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-8 text-center text-xs text-brand-cream/60 sm:flex-row sm:justify-between sm:text-left"
+    >
+      <p class="max-w-md leading-relaxed">
+        &copy; {currentYear} Sri Advaita Educational Trust. All rights reserved. Mookandapalli,
+        Hosur.
+      </p>
+
+      <p class="font-semibold text-brand-gold-light sm:text-right">
+        <span lang="kn" class="font-kannada">ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು</span>
+        <span class="mx-1.5 text-brand-gold/50" aria-hidden="true">/</span>
+        <span lang="en">Old Roots. New Shoots.</span>
+      </p>
+
+      <a
+        href="#home"
+        class={`to-top group inline-flex items-center gap-2 rounded-full border border-brand-gold/30 px-3.5 py-1.5 font-medium text-brand-cream/80 transition-colors duration-300 hover:border-brand-gold hover:text-brand-gold ${focusRing}`}
+      >
+        Back to top
+        <svg
+          class="to-top-icon h-3.5 w-3.5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 15l7-7 7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ---------- Hover and focus feedback ---------- */
+
+  /* Underline that grows from the left; works across wrapped lines */
+  .fl {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    padding-bottom: 2px;
+    transition:
+      background-size 0.3s ease,
+      color 0.2s ease;
+  }
+  .fl:hover,
+  a:hover > .fl,
+  a:focus-visible > .fl,
+  .fl:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Short gold tick that lengthens on hover */
+  .tick {
+    display: inline-block;
+    width: 0.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+    transform: translateY(-0.28em);
+    transition:
+      width 0.3s ease,
+      opacity 0.3s ease;
+  }
+  .nav-link:hover .tick,
+  .nav-link:focus-visible .tick {
+    width: 1rem;
+    opacity: 1;
+  }
+
+  /* Short rule beneath column headings */
+  .footer-heading {
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  .footer-heading::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, currentColor, transparent);
+  }
+
+  .cta {
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease,
+      filter 0.25s ease;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 10px 24px -8px rgb(0 0 0 / 0.55);
+  }
+  .cta:active {
+    transform: translateY(0);
+  }
+
+  .ext-icon,
+  .to-top-icon {
+    transition: transform 0.25s ease;
+  }
+  a:hover > .ext-icon,
+  a:focus-visible > .ext-icon {
+    transform: translate(2px, -2px);
+  }
+  .to-top:hover .to-top-icon,
+  .to-top:focus-visible .to-top-icon {
+    transform: translateY(-2px);
+  }
+
+  /* ---------- Entrance sequence (JS adds data-motion, then data-visible) ---------- */
+  .footer-rule {
+    transform-origin: center;
+  }
+
+  [data-motion] .footer-rule {
+    transform: scaleX(0);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-motion][data-visible] .footer-rule {
+    transform: scaleX(1);
+  }
+
+  [data-motion] .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(300ms + var(--i, 0) * 90ms);
+  }
+  [data-motion][data-visible] .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fl,
+    .tick,
+    .cta,
+    .ext-icon,
+    .to-top-icon {
+      transition: none;
+    }
+    .cta:hover {
+      transform: none;
+    }
+    .animate-ping {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Reveal the footer once, when it first scrolls into view.
+  // Skipped entirely for reduced-motion users or browsers without IntersectionObserver,
+  // in which case the footer is simply visible.
+  const footer = document.querySelector<HTMLElement>("[data-footer]");
+  const prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (footer && !prefersReduced && "IntersectionObserver" in window) {
+    footer.setAttribute("data-motion", "");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          footer.setAttribute("data-visible", "");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(footer);
+  }
+</script>

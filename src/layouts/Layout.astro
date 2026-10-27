@@ -1,0 +1,424 @@
+---
+/**
+ * Layout.astro — Base layout with Google Fonts, dynamic SEO meta tags,
+ * Open Graph, Twitter Cards, JSON-LD schema, Loader, Navbar and global scripts.
+ */
+import "../styles/global.css";
+import Loader from "../components/Loader.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  themeColor?: string;
+  jsonLd?: Record<string, any>;
+}
+
+const BRAND = "Sri Advaita Educational Trust";
+
+const {
+  title = BRAND,
+  description = "Sri Advaita Educational Trust — leading State Board school in Hosur with Little Elly collaboration for Nursery to UKG. Admissions open 2027–28 for Nursery to Grade 8 in Mookandapalli, MGR Nagar. Holistic child development, State Board academic excellence, and values-driven education near the Bangalore border.",
+  ogImage = "/images/hero-students.jpg",
+  ogImageAlt = "Students learning together at Sri Advaita Educational Trust, Hosur",
+  themeColor = "#0b2240", // --color-brand-navy
+  jsonLd,
+} = Astro.props;
+
+// Don't append the brand twice when the page title already contains it
+const fullTitle = title.includes(BRAND) ? title : `${title} | ${BRAND}`;
+
+const base = Astro.site || Astro.url.origin;
+const canonicalUrl = new URL(Astro.url.pathname, base).toString();
+const ogImageUrl = new URL(ogImage, base).toString();
+
+// Default JSON-LD EducationalOrganization schema
+const defaultJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: BRAND,
+  alternateName: "Sri Advaita School",
+  url: Astro.site?.toString() || "https://advaitaapp.com",
+  telephone: "+91 72595 26202",
+  email: "advaita@advaitaapp.com",
+  logo: new URL("/logo.jpeg", base).toString(),
+  image: ogImageUrl,
+  description,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar",
+    addressLocality: "Hosur",
+    addressRegion: "Tamil Nadu",
+    postalCode: "635126",
+    addressCountry: "IN",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 12.7409,
+    longitude: 77.8253,
+  },
+  areaServed: [
+    { "@type": "City", name: "Hosur" },
+    { "@type": "City", name: "Bangalore" },
+  ],
+  foundingDate: "2010",
+  slogan: "ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು — Old Roots. New Shoots.",
+};
+
+const schemaData = jsonLd ? { ...defaultJsonLd, ...jsonLd } : defaultJsonLd;
+
+// Escape "<" so CMS text can never close the script tag early
+const schemaJson = JSON.stringify(schemaData).replace(/</g, "\\u003c");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content={themeColor} />
+    <!-- Stops browsers (e.g. Samsung Internet) auto-darkening the brand palette -->
+    <meta name="color-scheme" content="light" />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={BRAND} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:site_name" content={BRAND} />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- Geo Meta -->
+    <meta name="geo.region" content="IN-TN" />
+    <meta name="geo.placename" content="Hosur" />
+    <meta name="geo.position" content="12.7409;77.8253" />
+    <meta name="ICBM" content="12.7409, 77.8253" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/logo-crest.png" />
+    <link rel="shortcut icon" type="image/png" href="/images/logo-crest.png" />
+    <link rel="apple-touch-icon" href="/images/logo-crest.png" />
+
+    <!-- Google Fonts: Inter, Playfair Display, Noto Serif Kannada -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+Kannada:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Without JS, never leave scroll-reveal content invisible -->
+    <noscript>
+      <style>
+        .reveal,
+        .reveal-left,
+        .reveal-right,
+        .reveal-scale,
+        .reveal-stagger,
+        .reveal-stagger > * {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={schemaJson} />
+  </head>
+  <body class="site">
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <!-- One-time Loader -->
+    <Loader />
+
+    <!-- Navigation (fixed; owns --nav-h and its own scrolled/open states) -->
+    <Navbar />
+
+    <!-- Main Content -->
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <Footer />
+
+    <!-- Global Animations Script: scroll state + reveal + parallax + counters -->
+    <script is:inline>
+      (function () {
+        "use strict";
+
+        var reduceMotionQuery = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        );
+        var reduceMotion = reduceMotionQuery.matches;
+        var hasIO = "IntersectionObserver" in window;
+
+        /* ── Reveal on scroll ── */
+        var revealElements = document.querySelectorAll(
+          ".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger",
+        );
+        if (revealElements.length > 0) {
+          if (hasIO && !reduceMotion) {
+            var revealObserver = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                  }
+                });
+              },
+              { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+            );
+            revealElements.forEach(function (el) {
+              revealObserver.observe(el);
+            });
+          } else {
+            revealElements.forEach(function (el) {
+              el.classList.add("visible");
+            });
+          }
+        }
+
+        /* ── Animated counters ── */
+        var counters = document.querySelectorAll(".counter-value[data-count]");
+        function finishCounter(el) {
+          var target = parseInt(el.getAttribute("data-count"), 10);
+          if (!isNaN(target))
+            el.textContent = target + (el.getAttribute("data-suffix") || "");
+        }
+        if (counters.length > 0) {
+          if (hasIO && !reduceMotion) {
+            var counterObserver = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting) return;
+                  var el = entry.target;
+                  counterObserver.unobserve(el);
+
+                  var target = parseInt(el.getAttribute("data-count"), 10);
+                  if (isNaN(target)) return;
+                  var suffix = el.getAttribute("data-suffix") || "";
+                  var duration = 1600;
+                  var startTime = null;
+
+                  function step(timestamp) {
+                    if (startTime === null) startTime = timestamp;
+                    var progress = Math.min(
+                      (timestamp - startTime) / duration,
+                      1,
+                    );
+                    var eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.floor(eased * target) + suffix;
+                    if (progress < 1) requestAnimationFrame(step);
+                    else el.textContent = target + suffix;
+                  }
+                  requestAnimationFrame(step);
+                });
+              },
+              { threshold: 0.3 },
+            );
+            counters.forEach(function (el) {
+              counterObserver.observe(el);
+            });
+          } else {
+            counters.forEach(finishCounter);
+          }
+        }
+
+        /* ── One shared, rAF-throttled scroll handler ── */
+        var parallaxElements = document.querySelectorAll("[data-parallax]");
+        var desktopQuery = window.matchMedia("(min-width: 768px)");
+        var ticking = false;
+
+        function parallaxEnabled() {
+          return desktopQuery.matches && !reduceMotionQuery.matches;
+        }
+
+        // The navbar styles itself from this attribute (see Navbar.astro)
+        function updateScrollState() {
+          document.documentElement.toggleAttribute(
+            "data-scrolled",
+            window.scrollY > 24,
+          );
+        }
+
+        function updateParallax() {
+          var winH = window.innerHeight;
+          parallaxElements.forEach(function (el) {
+            var speed = parseFloat(el.getAttribute("data-parallax")) || 0.08;
+            var rect = el.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > winH) return;
+            var progress = (rect.top + rect.height / 2 - winH / 2) / (winH / 2);
+            // Bounded to ±20px. The standalone `translate` property is used so
+            // it never fights a reveal animation that sets `transform`.
+            var y = Math.max(-20, Math.min(20, -progress * speed * 60));
+            el.style.translate = "0 " + y.toFixed(1) + "px";
+          });
+        }
+
+        function resetParallax() {
+          parallaxElements.forEach(function (el) {
+            el.style.translate = "";
+          });
+        }
+
+        function frame() {
+          updateScrollState();
+          if (parallaxElements.length > 0 && parallaxEnabled())
+            updateParallax();
+          ticking = false;
+        }
+
+        function onScroll() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(frame);
+          }
+        }
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+
+        // Re-evaluate when the viewport crosses 768px or motion preference changes
+        function onQueryChange() {
+          if (!parallaxEnabled()) resetParallax();
+          onScroll();
+        }
+        if (desktopQuery.addEventListener) {
+          desktopQuery.addEventListener("change", onQueryChange);
+          reduceMotionQuery.addEventListener("change", onQueryChange);
+        }
+
+        frame(); // set the correct state on load (e.g. refresh mid-page)
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* ── Base layout ── */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Anchor links clear the fixed navbar (--nav-h is defined in Navbar.astro) */
+    scroll-padding-top: calc(
+      var(--nav-h, 5rem) + env(safe-area-inset-top, 0px)
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body.site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh; /* accounts for mobile browser toolbars */
+    max-width: 100%;
+    overflow-x: clip; /* no sideways scroll; doesn't break sticky */
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* min-width: 0 lets wide children shrink instead of stretching the page */
+  body.site > main {
+    flex: 1 0 auto;
+    width: 100%;
+    min-width: 0;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  /* Media defaults live in the base layer so Tailwind utilities (h-full,
+     max-w-none, w-24 ...) always win. Unlayered rules beat every Tailwind v4
+     utility, which made `img { height: auto }` override `h-full` and left
+     photos shorter than their frames. */
+  @layer base {
+    img,
+    video,
+    svg {
+      max-width: 100%;
+    }
+
+    img,
+    video {
+      height: auto;
+    }
+  }
+
+  /* ── Accessibility ── */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background: #fff;
+    color: var(--color-brand-navy, #0b2240);
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+    transform: translateY(-200%);
+    transition: transform 0.2s ease;
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  /* Faster tap response on touch devices */
+  a,
+  button,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* ── Reduced motion: show everything, move nothing ── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale,
+    .reveal-stagger,
+    .reveal-stagger > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    [data-parallax] {
+      translate: none !important;
+    }
+  }
+</style>

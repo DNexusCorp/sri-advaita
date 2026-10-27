@@ -1,0 +1,31 @@
+# robots.txt – Sri Advaita Educational Trust
+# https://advaitaapp.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://advaitaapp.com/sitemap.xml
+Sitemap: https://advaitaapp.com/sitemap-index.xml
+
+# Crawl-delay (polite request)
+Crawl-delay: 1
+
+# Allow all major AI crawlers for AEO
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Baiduspider
+Allow: /

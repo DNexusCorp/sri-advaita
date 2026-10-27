@@ -1,0 +1,161 @@
+---
+/**
+ * Testimonials.astro — Authentic parent reviews and community voices.
+ * Demonstrates trust, warmth, and educational outcomes across Hosur
+ * and Bangalore border communities.
+ */
+interface Testimonial {
+  name: string;
+  relation: string;
+  location: string;
+  quote: string;
+  rating: number;
+  gradeBadge: string;
+  initials: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    name: "Dr. Karthik & Meenakshi S.",
+    relation: "Parents of Ananya",
+    location: "Mookandapalli, Hosur",
+    quote:
+      "What stood out to us about Sri Advaita was how effortlessly they balance classical Bharatanatyam and Vedic shlokas with a top-notch robotics lab. Our daughter doesn't just memorize theorems — she builds models and explains them with tremendous confidence.",
+    rating: 5,
+    gradeBadge: "Grade 4 Student",
+    initials: "KM",
+  },
+  {
+    name: "Rajesh & Priya Venkatesh",
+    relation: "Parents of Dhruv",
+    location: "MGR Nagar, Hosur",
+    quote:
+      "When we moved to Hosur near the Bangalore border, finding a top State Board school with a true 1:15 ratio was our top priority. The kindergarten teachers here are extraordinarily patient and loving. Dhruv looks forward to school every single morning!",
+    rating: 5,
+    gradeBadge: "Senior KG Student",
+    initials: "RP",
+  },
+  {
+    name: "Suresh Gowda",
+    relation: "Father of Tanvi & Tejas",
+    location: "Attibele - Hosur Road",
+    quote:
+      "The safe GPS transport with female attendants gives working parents immense peace of mind. Both my children have developed a natural fluency in English while remaining deeply proud of our Kannada and Tamil cultural roots. Excellent institution!",
+    rating: 5,
+    gradeBadge: "Grades 2 & 6 Students",
+    initials: "SG",
+  },
+  {
+    name: "Vani & Anand Natarajan",
+    relation: "Parents of Siddharth",
+    location: "Bagalur Road, Hosur",
+    quote:
+      "No unnecessary academic stress, no endless rote homework sheets. Sri Advaita teaches concepts through tactile kits, sports, and collaborative team experiments. We have seen tremendous intellectual and emotional growth.",
+    rating: 5,
+    gradeBadge: "Grade 3 Student",
+    initials: "VA",
+  },
+];
+---
+
+<section
+  id="testimonials"
+  class="relative isolate overflow-hidden bg-brand-cream-dark/40 py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="testimonials-heading"
+>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center lg:mb-20">
+      <div class="reveal mb-4 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+        </svg>
+        Community Feedback
+      </div>
+
+      <h2
+        id="testimonials-heading"
+        class="reveal font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Trusted by Over 1,200+ Hosur Families
+      </h2>
+
+      <p class="reveal mx-auto mt-4 max-w-2xl text-base text-brand-navy/75 sm:text-lg">
+        Hear directly from parents who have witnessed their children blossom intellectually, emotionally, and culturally at Sri Advaita.
+      </p>
+    </header>
+
+    <!-- Testimonials Grid -->
+    <div class="reveal-stagger grid grid-cols-1 gap-8 md:grid-cols-2">
+      {
+        testimonials.map((item) => (
+          <div class="group relative flex flex-col justify-between rounded-3xl border border-brand-navy/10 bg-white p-7 sm:p-9 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:shadow-card-hover">
+            <div>
+              <!-- Star Rating & Grade Tag -->
+              <div class="mb-5 flex items-center justify-between">
+                <div class="flex items-center gap-1 text-amber-500">
+                  {Array.from({ length: item.rating }).map(() => (
+                    <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+
+                <span class="rounded-full bg-brand-gold/15 px-3 py-0.5 text-xs font-bold text-brand-gold-dark">
+                  {item.gradeBadge}
+                </span>
+              </div>
+
+              <!-- Quote Text -->
+              <blockquote class="font-serif text-base sm:text-lg italic leading-relaxed text-brand-navy/85">
+                “{item.quote}”
+              </blockquote>
+            </div>
+
+            <!-- Parent Author Info -->
+            <div class="mt-8 pt-6 border-t border-brand-navy/10 flex items-center gap-4">
+              <div class="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-brand-navy text-brand-gold font-bold text-sm shadow-sm ring-1 ring-brand-gold/30">
+                {item.initials}
+              </div>
+              <div>
+                <h4 class="font-serif text-base font-bold text-brand-navy">
+                  {item.name}
+                </h4>
+                <p class="text-xs text-brand-gold-dark font-medium">
+                  {item.relation}
+                </p>
+                <p class="text-[11px] text-brand-navy/60">
+                  {item.location}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Trust Numbers Strip -->
+    <div class="reveal mt-14 rounded-2xl border border-brand-navy/10 bg-white p-6 sm:p-8 shadow-card flex flex-wrap items-center justify-around gap-6 text-center">
+      <div>
+        <div class="font-serif text-3xl font-bold text-brand-navy">99%</div>
+        <p class="text-xs text-brand-navy/70 mt-1 font-medium">Parent Retention Rate</p>
+      </div>
+      <div class="hidden sm:block h-10 w-px bg-brand-navy/10"></div>
+      <div>
+        <div class="font-serif text-3xl font-bold text-brand-navy">1:15</div>
+        <p class="text-xs text-brand-navy/70 mt-1 font-medium">Teacher-Student Ratio</p>
+      </div>
+      <div class="hidden sm:block h-10 w-px bg-brand-navy/10"></div>
+      <div>
+        <div class="font-serif text-3xl font-bold text-brand-navy">100%</div>
+        <p class="text-xs text-brand-navy/70 mt-1 font-medium">Activity & Hands-on Discovery</p>
+      </div>
+      <div class="hidden sm:block h-10 w-px bg-brand-navy/10"></div>
+      <div>
+        <div class="font-serif text-3xl font-bold text-brand-navy">15+</div>
+        <p class="text-xs text-brand-navy/70 mt-1 font-medium">Years Educating Hosur</p>
+      </div>
+    </div>
+
+  </div>
+</section>

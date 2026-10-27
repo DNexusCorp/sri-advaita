@@ -1,0 +1,331 @@
+---
+/**
+ * Loader.astro — One-time brand loading screen (first visit per session).
+ *
+ * Concept: the school's motto is "Old Roots. New Shoots." The mark draws
+ * itself in that order: a faint ring, then roots, then the stem, then the
+ * leaves, which fill in. When the page is ready the screen lifts away like a
+ * curtain. Everything is self-contained here; the old `.loader-overlay`
+ * rules in global.css are no longer used and can be deleted.
+ *
+ * Behaviour
+ *  - Shown once per session; skipped for reduced-motion users.
+ *  - Minimum display time lets the mark finish drawing; a hard cap means it
+ *    never blocks the site for long, and a CSS fail-safe covers no-JS.
+ *  - Page scroll is locked only while the screen is covering the page.
+ */
+---
+
+<div id="site-loader" class="site-loader" role="status">
+  <span class="sr-only">Loading Sri Advaita Educational Trust</span>
+
+  <div class="site-loader__inner" aria-hidden="true">
+    <div class="site-loader__logo-wrap">
+      <img
+        src="/logo-animated.svg"
+        alt="Sri Advaita Educational Trust Crest"
+        class="site-loader__animated-logo"
+        width="160"
+        height="160"
+        loading="eager"
+      />
+    </div>
+
+    <div class="site-loader__text">
+      <p class="site-loader__name">Sri Advaita</p>
+      <p class="site-loader__sub" lang="en">Educational Trust</p>
+      <p class="site-loader__motto" lang="kn">ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು</p>
+    </div>
+
+    <div class="site-loader__progress"><span></span></div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var loader = document.getElementById("site-loader");
+    if (!loader) return;
+
+    function remove() {
+      if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+      root.classList.remove("is-loading");
+    }
+
+    // sessionStorage can throw (private mode, blocked cookies): never let that
+    // leave the loader stuck on screen.
+    var seen = false;
+    try {
+      seen = sessionStorage.getItem("siteLoaded") === "1";
+    } catch (e) {}
+
+    var reduceMotion =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (seen || reduceMotion) {
+      remove();
+      return;
+    }
+
+    root.classList.add("is-loading"); // locks page scroll behind the loader
+
+    var MIN_MS = 2000; // long enough for the mark to finish drawing
+    var MAX_MS = 3800; // hard cap: never block the site longer than this
+    var EXIT_MS = 1000; // matches the curtain transition in the styles
+    var start = Date.now();
+    var finished = false;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      try {
+        sessionStorage.setItem("siteLoaded", "1");
+      } catch (e) {}
+      root.classList.remove("is-loading"); // page can scroll as the curtain lifts
+      loader.classList.add("is-hidden");
+      setTimeout(remove, EXIT_MS);
+    }
+
+    function whenReady() {
+      setTimeout(finish, Math.max(0, MIN_MS - (Date.now() - start)));
+    }
+
+    if (document.readyState === "complete") whenReady();
+    else window.addEventListener("load", whenReady, { once: true });
+
+    setTimeout(finish, MAX_MS);
+  })();
+</script>
+
+<style>
+  .site-loader {
+    /* Brand tokens, with fallbacks if the theme variables are unavailable */
+    --navy: var(--color-brand-navy, #0b2240);
+    --navy-dark: var(--color-brand-navy-dark, #07172e);
+    --gold: var(--color-brand-gold, #b38f43);
+    --gold-light: var(--color-brand-gold-light, #d4b36a);
+    --gold-dark: var(--color-brand-gold-dark, #8a6e33);
+    --cream: var(--color-brand-cream, #fcfaf2);
+
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    padding: max(1.5rem, env(safe-area-inset-top))
+      max(1.5rem, env(safe-area-inset-right))
+      max(1.5rem, env(safe-area-inset-bottom))
+      max(1.5rem, env(safe-area-inset-left));
+    color: var(--gold);
+    background:
+      radial-gradient(
+        50% 45% at 50% 42%,
+        color-mix(in srgb, var(--gold) 16%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-dark) 100%);
+    /* Gold hairline along the curtain's lower edge */
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--gold) 55%, transparent);
+    transform: none;
+    visibility: visible;
+    transition:
+      transform 0.9s cubic-bezier(0.76, 0, 0.24, 1),
+      visibility 0s linear 0.9s;
+    /* Fail-safe: if JavaScript never runs, the loader still gets out of the way */
+    animation: loader-failsafe 0.6s ease 5s forwards;
+  }
+
+  /* Exit: the screen lifts away like a curtain */
+  .site-loader.is-hidden {
+    transform: translateY(-100%);
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .site-loader__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 1.5rem);
+    width: 100%;
+    max-width: 20rem;
+    text-align: center;
+    transition:
+      opacity 0.35s ease,
+      transform 0.5s ease;
+  }
+
+  .site-loader.is-hidden .site-loader__inner {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  .site-loader__logo-wrap {
+    position: relative;
+    width: clamp(7.5rem, 28vw, 10rem);
+    height: clamp(7.5rem, 28vw, 10rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: #ffffff;
+    padding: 6px;
+    box-shadow: 0 0 35px rgba(212, 179, 106, 0.45), 0 8px 25px rgba(0, 0, 0, 0.35);
+    border: 2px solid var(--gold-light, #d4b36a);
+    animation: loader-logo-pulse 2.4s ease-in-out infinite;
+  }
+
+  .site-loader__animated-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 9999px;
+  }
+
+  @keyframes loader-logo-pulse {
+    0%, 100% {
+      box-shadow: 0 0 25px rgba(212, 179, 106, 0.35), 0 8px 25px rgba(0, 0, 0, 0.35);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 45px rgba(212, 179, 106, 0.65), 0 12px 35px rgba(0, 0, 0, 0.45);
+      transform: scale(1.03);
+    }
+  }
+
+  .site-loader__text {
+    display: grid;
+    gap: 0.15rem;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: loader-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) 1.1s forwards;
+  }
+
+  .site-loader__name {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: var(--gold-light);
+    text-wrap: balance;
+  }
+
+  .site-loader__sub {
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--cream) 65%, transparent);
+  }
+
+  .site-loader__motto {
+    margin-top: 0.6rem;
+    font-family: var(--font-kannada, "Noto Serif Kannada", serif);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: color-mix(in srgb, var(--cream) 80%, transparent);
+  }
+
+  /* Hairline: eases toward ~90% over the minimum display time, then
+     completes the moment the page is ready, so it never looks stalled. */
+  .site-loader__progress {
+    width: clamp(6rem, 30vw, 8rem);
+    height: 2px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--cream) 15%, transparent);
+    overflow: hidden;
+  }
+
+  .site-loader__progress span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: loader-progress 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .site-loader.is-hidden .site-loader__progress span {
+    animation: loader-progress-finish 0.25s ease forwards;
+  }
+
+  /* Page scroll is locked while the loader is up (class set by the script) */
+  :global(html.is-loading) {
+    overflow: hidden;
+  }
+
+  @keyframes loader-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes loader-fill {
+    to {
+      fill-opacity: 0.9;
+    }
+  }
+
+  @keyframes loader-rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes loader-progress {
+    to {
+      transform: scaleX(0.9);
+    }
+  }
+
+  @keyframes loader-progress-finish {
+    from {
+      transform: scaleX(0.9);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes loader-failsafe {
+    to {
+      transform: translateY(-100%);
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  /* Short, landscape phones: tighten so nothing is clipped */
+  @media (max-height: 460px) {
+    .site-loader__inner {
+      gap: 0.6rem;
+    }
+    .site-loader__mark {
+      width: 4.5rem;
+    }
+    .site-loader__motto {
+      margin-top: 0.25rem;
+    }
+  }
+
+  /* Reduced motion: the script skips the loader; this covers the no-JS case */
+  @media (prefers-reduced-motion: reduce) {
+    .site-loader__logo-wrap,
+    .site-loader__text,
+    .site-loader__progress span {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .site-loader__progress span {
+      transform: scaleX(1);
+    }
+    .site-loader,
+    .site-loader__inner {
+      transition: none;
+    }
+  }
+</style>

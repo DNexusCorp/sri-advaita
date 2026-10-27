@@ -1,0 +1,843 @@
+---
+/**
+ * Programs.astro — Courses from Sanity CMS, or the curated academic pathways
+ * (with vector icons and curriculum highlights) when the CMS has none.
+ *
+ * Layout
+ *  - Cards sit in a centred flex-wrap grid: 1 column on phones, 2 from md,
+ *    3 from lg. A short last row is centred instead of leaving a gap, and
+ *    cards in the same row always share one height.
+ *  - Every card has the same anatomy (header, title, text, highlights, footer
+ *    link) and the footer link is pinned to the bottom, so links line up.
+ *
+ * Motion: cards fade up once as they scroll into view; on hover a soft gold
+ * glow follows the pointer, the card lifts slightly and the arrow nudges.
+ * All of it is skipped for reduced-motion users, and nothing is hidden
+ * without JavaScript.
+ */
+import { PortableText } from 'astro-portabletext';
+import type { Course } from '../lib/queries';
+import { urlForImage } from '../lib/sanity';
+
+interface Props {
+  courses: Course[];
+}
+
+const { courses = [] } = Astro.props;
+
+// Polished academic offerings with authentic imagery and Little Elly collaboration
+const academicPrograms = [
+  {
+    title: 'Nursery (Pre-KG)',
+    stage: 'Foundational Stage (Ages 2.5 – 3.5)',
+    categoryKey: 'foundational',
+    age: 'Ages 2.5 – 3.5 Years',
+    duration: '1 Academic Year',
+    ratio: '2 : 18 Nurturing Ratio',
+    partnerBadge: 'Little Elly Collaboration',
+    image: '/images/little-elly-nursery.jpg',
+    highlights: [
+      'Little Elly H.A.P.P.Y. Curriculum',
+      'Sensory-Based & Tactile Montessori Play',
+      'Phonemic Awareness & Pre-Writing',
+      'Social Interaction & Emotional Security',
+    ],
+    iconPath: 'M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+    description:
+      'In collaboration with Little Elly, our nursery transforms curiosity into a daily habit. A tender, home-like environment balancing free-choice sensory exploration, rhythm, mark-making, and emotional comfort.',
+  },
+  {
+    title: 'Junior KG (LKG)',
+    stage: 'Foundational Stage (Ages 3.5 – 4.5)',
+    categoryKey: 'foundational',
+    age: 'Ages 3.5 – 4.5 Years',
+    duration: '1 Academic Year',
+    ratio: '2 : 20 Educator Ratio',
+    partnerBadge: 'Little Elly Collaboration',
+    image: '/images/little-elly-lkg.jpg',
+    highlights: [
+      'Little Elly H.A.P.P.Y. Method',
+      'Spoken Language, Phonics & Story Time',
+      'Pre-Math: Counting, Sorting & Patterns',
+      'Guided Social Skills & Creative Arts',
+    ],
+    iconPath: 'M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-5.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222',
+    description:
+      'Now children find a voice of their own. Hands-on concept learning with a strong push on vocabulary, phonics, spatial logic, and creative expression inside a clear, reassuring daily routine.',
+  },
+  {
+    title: 'Senior KG (UKG)',
+    stage: 'Foundational Stage (Ages 4.5 – 5.5)',
+    categoryKey: 'foundational',
+    age: 'Ages 4.5 – 5.5 Years',
+    duration: '1 Academic Year',
+    ratio: '2 : 20 Educator Ratio',
+    partnerBadge: 'Little Elly Collaboration',
+    image: '/images/little-elly-ukg.jpg',
+    highlights: [
+      'Independent Reading & Writing Readiness',
+      'Advanced Phonics & Environmental Logic',
+      'Mathematical Concepts & Problem Solving',
+      'Seamless Bridge to State Board Grade 1',
+    ],
+    iconPath: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+    description:
+      'Packed and ready for big school! Senior KG solidifies early reading, foundational numeracy, and self-confidence, ensuring every child steps into Grade 1 resilient, eager to learn, and completely confident.',
+  },
+  {
+    title: 'Primary School (Grades 1–5)',
+    stage: 'Preparatory Stage',
+    categoryKey: 'preparatory',
+    age: 'Ages 5.5 – 10 Years',
+    duration: '5 Academic Years',
+    ratio: '1 : 15 Mentorship',
+    partnerBadge: 'State Board Stream',
+    image: '/images/campus-front-view.jpg',
+    highlights: [
+      'State Board Academic Curriculum',
+      'Experiential Science Kits & Inquiry',
+      'Trilingual: English, Kannada, Tamil',
+      'Daily Meditation, Yoga & Athletics',
+    ],
+    iconPath: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+    description:
+      'A harmonious integration of conceptual rigor and practical application, helping children master mathematics, language arts, sciences, and social inquiry under the State Board framework.',
+  },
+  {
+    title: 'Middle School (Grades 6–8)',
+    stage: 'Middle School Stage',
+    categoryKey: 'middle',
+    age: 'Ages 10 – 13 Years',
+    duration: '3 Academic Years',
+    ratio: '1 : 18 Mentorship',
+    partnerBadge: 'State Board Stream',
+    image: '/images/gallery-science.jpg',
+    highlights: [
+      'STEAM Robotics & Coding Makerspace',
+      'Analytical Thinking & Olympiad Foundation',
+      'Composite Science Lab Experiments',
+      'Public Speaking, Oratory & Debate',
+    ],
+    iconPath: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z',
+    description:
+      'Prepares students for higher academic challenges with in-depth scientific experimentation, competitive exam readiness, and ethical leadership development.',
+  },
+  {
+    title: 'Co-Curricular Arts & Athletics',
+    stage: 'Holistic Enrichment',
+    categoryKey: 'enrichment',
+    age: 'All Student Batches',
+    duration: 'Integrated Weekly',
+    ratio: 'Specialist Instructors',
+    partnerBadge: 'Arts & Athletics',
+    image: '/images/gallery-cultural.jpg',
+    highlights: [
+      'Bharatanatyam Classical Dance Studio',
+      'Karate Martial Arts & Self-Defense',
+      'Vocal & Classical Carnatic Music',
+      'Track Athletics, Cricket & Football',
+    ],
+    iconPath: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3',
+    description:
+      'We believe the arts and athletic discipline are equal to academics. Students discover their passions through dedicated studios and active training grounds.',
+  },
+  {
+    title: 'Smart Classrooms & Innovation Lab',
+    stage: 'Modern Campus Infrastructure',
+    categoryKey: 'enrichment',
+    age: 'All Student Batches',
+    duration: 'Continuous Access',
+    ratio: 'Lab Tech Mentors',
+    partnerBadge: 'Smart Campus',
+    image: '/images/space-stem-lab.jpg',
+    highlights: [
+      'Interactive 75" Digital Touch Panels',
+      'Hands-on Composite Science Lab',
+      'Robotics & Electronics Workbench',
+      'Curated Library & Reading Studio',
+    ],
+    iconPath: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    description:
+      'Equipped with modern multimedia digital panels, high-precision laboratory apparatus, and extensive reading collections for immersive learning.',
+  },
+];
+
+const littleEllyPillars = [
+  {
+    letter: 'H',
+    title: 'Healthy Body',
+    tag: 'Physical Vitality & Motor Skills',
+    description: 'Gross and fine motor skills, wholesome nutrition habits, sensory-motor agility, and joyful active play.',
+    icon: '🏃',
+  },
+  {
+    letter: 'A',
+    title: 'Awakened Mind',
+    tag: 'Curiosity & Sensory Discovery',
+    description: 'Cultivating wonder, sensory exploration, early scientific logic, and leaves the classroom full of questions.',
+    icon: '🌟',
+  },
+  {
+    letter: 'P',
+    title: 'Playful Heart',
+    tag: 'Empathy, Joy & Friendships',
+    description: 'Emotional resilience, caring for peers, spontaneous laughter, and creative dramatic storytelling.',
+    icon: '💖',
+  },
+  {
+    letter: 'P',
+    title: 'Purposeful Self',
+    tag: 'Independence & Confidence',
+    description: 'Dressing, eating, and tidying independently, making thoughtful choices, and expressing their voice.',
+    icon: '🌱',
+  },
+  {
+    letter: 'Y',
+    title: 'Yearning to Learn',
+    tag: 'Lifelong Curiosity & Readiness',
+    description: 'A deep, enduring love for discovery, phonics fluency, and walking into Grade 1 completely school-ready.',
+    icon: '🚀',
+  },
+];
+
+const hasCMSData = courses.length > 0;
+
+const focusRing =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2 focus-visible:ring-offset-brand-navy-dark';
+const arrowPath = 'M14 5l7 7m0 0l-7 7m7-7H3';
+---
+
+<section
+  id="programs"
+  data-programs
+  class="relative isolate overflow-hidden bg-brand-navy-dark py-16 text-brand-cream sm:py-20 lg:py-28"
+  aria-labelledby="programs-heading"
+>
+  <!-- Atmospheric background lights -->
+  <div class="pointer-events-none absolute -right-32 top-1/4 -z-10 h-96 w-96 rounded-full bg-brand-gold/10 blur-[120px]" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -left-32 bottom-1/4 -z-10 h-96 w-96 rounded-full bg-brand-navy-light/40 blur-[140px]" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <header class="mx-auto mb-12 max-w-3xl text-center lg:mb-16" data-reveal style="--d:0">
+      <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-brand-gold/20 px-4 py-1.5 text-sm font-semibold text-brand-gold-light">
+        <span class="relative flex h-2 w-2" aria-hidden="true">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-gold/70 motion-reduce:animate-none"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-gold"></span>
+        </span>
+        Academic Excellence &amp; Early Years Collaboration
+      </p>
+      <h2
+        id="programs-heading"
+        class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+      >
+        Structured pathways for lifelong learning
+      </h2>
+      <div class="mx-auto mt-5 h-0.5 w-14 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-light" aria-hidden="true"></div>
+      <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-brand-cream/75 sm:text-lg">
+        From Little Elly’s joyful early childhood foundation (Nursery, LKG, UKG) to our rigorous State Board Primary and Middle School STEAM curriculum, we equip every child with lasting conceptual mastery.
+      </p>
+    </header>
+
+    <!-- Stage Filter Tabs -->
+    <div class="mb-10 flex flex-wrap items-center justify-center gap-2.5" data-program-filters>
+      <button
+        type="button"
+        class="filter-pill active rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-gold bg-brand-gold text-brand-navy-dark shadow-sm"
+        data-filter="all"
+      >
+        All Stages
+      </button>
+      <button
+        type="button"
+        class="filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-white/15 bg-white/5 text-brand-cream/80 hover:border-brand-gold/60 hover:text-white"
+        data-filter="foundational"
+      >
+        Foundational (Little Elly Nursery – UKG)
+      </button>
+      <button
+        type="button"
+        class="filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-white/15 bg-white/5 text-brand-cream/80 hover:border-brand-gold/60 hover:text-white"
+        data-filter="preparatory"
+      >
+        Preparatory (Grades 1–5)
+      </button>
+      <button
+        type="button"
+        class="filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-white/15 bg-white/5 text-brand-cream/80 hover:border-brand-gold/60 hover:text-white"
+        data-filter="middle"
+      >
+        Middle School (Grades 6–8)
+      </button>
+      <button
+        type="button"
+        class="filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-white/15 bg-white/5 text-brand-cream/80 hover:border-brand-gold/60 hover:text-white"
+        data-filter="enrichment"
+      >
+        Co-Curricular &amp; Labs
+      </button>
+    </div>
+
+    <!-- Programs -->
+    <ul class="card-list flex flex-wrap justify-center" data-cards>
+      {hasCMSData ? (
+        courses.map((course, index) => (
+          <li class="card-item flex" data-reveal style={`--d:${index % 3}`}>
+            <article class="card flex w-full flex-col p-6 sm:p-8">
+              {course.featureImage && (
+                <div class="mb-6 aspect-video overflow-hidden rounded-2xl bg-white/5">
+                  <img
+                    src={urlForImage(course.featureImage, 640)}
+                    alt={course.featureImage.alt || course.title}
+                    width="640"
+                    height="360"
+                    loading="lazy"
+                    decoding="async"
+                    class="card-img h-full w-full object-cover"
+                  />
+                </div>
+              )}
+
+              <div class="mb-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+                <span class="rounded-full border border-brand-gold/30 bg-brand-gold/20 px-3 py-1 text-xs font-semibold text-brand-gold-light">
+                  {course.duration || 'Academic Year'}
+                </span>
+                <span class="text-xs font-medium text-brand-cream/65">{course.fees || 'Admissions Open'}</span>
+              </div>
+
+              <h3 class="card-title text-balance font-serif text-xl font-bold leading-snug text-white sm:text-2xl">
+                {course.title}
+              </h3>
+
+              <div class="mb-6 mt-3 flex-1 text-sm leading-relaxed text-brand-cream/75 [&_p:last-child]:mb-0 [&_p]:mb-3">
+                {course.description && <PortableText value={course.description} />}
+              </div>
+
+              <a
+                href="#contact"
+                class={`card-link flex items-center justify-between gap-3 rounded-sm border-t border-white/10 pt-5 text-sm font-semibold text-brand-gold-light transition-colors duration-300 hover:text-white ${focusRing}`}
+              >
+                <span>
+                  Enquire about admission
+                  <span class="sr-only"> for {course.title}</span>
+                </span>
+                <svg class="arrow h-4 w-4 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={arrowPath} />
+                </svg>
+              </a>
+            </article>
+          </li>
+        ))
+      ) : (
+        academicPrograms.map((prog, index) => (
+          <li class="card-item flex" data-stage={prog.categoryKey} data-reveal style={`--d:${index % 3}`}>
+            <article class="card group flex w-full flex-col p-6 sm:p-8">
+              <!-- Feature Photo Thumbnail with Partner Badge -->
+              {prog.image && (
+                <div class="relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                  <img
+                    src={prog.image}
+                    alt={prog.title}
+                    width="480"
+                    height="300"
+                    loading="lazy"
+                    decoding="async"
+                    class="card-img h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {prog.partnerBadge && (
+                    <span class="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full border border-brand-gold/40 bg-brand-navy-dark/90 px-3 py-1 text-[11px] font-bold text-brand-gold-light shadow-md backdrop-blur-md">
+                      <span class="h-1.5 w-1.5 rounded-full bg-brand-gold animate-pulse"></span>
+                      {prog.partnerBadge}
+                    </span>
+                  )}
+                  {prog.ratio && (
+                    <span class="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur-md px-2.5 py-0.5 text-[10px] font-medium text-white/90">
+                      {prog.ratio}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              <!-- Header: icon, duration and age -->
+              <div class="mb-5 flex items-start justify-between gap-4">
+                <div class="icon flex h-11 w-11 flex-none items-center justify-center rounded-2xl border border-brand-gold/30 bg-gradient-to-br from-brand-gold/25 to-brand-gold/5 text-brand-gold-light">
+                  <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d={prog.iconPath} />
+                  </svg>
+                </div>
+                <div class="min-w-0 text-right">
+                  <span class="inline-block rounded-full border border-brand-gold/30 bg-brand-gold/20 px-3 py-1 text-xs font-semibold text-brand-gold-light">
+                    {prog.duration}
+                  </span>
+                  <p class="mt-1 text-xs text-brand-cream/65">{prog.age}</p>
+                </div>
+              </div>
+
+              <p class="mb-1 text-xs font-semibold uppercase tracking-wider text-brand-gold">{prog.stage}</p>
+              <h3 class="card-title text-balance font-serif text-xl font-bold leading-snug text-white sm:text-2xl">
+                {prog.title}
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-brand-cream/75">
+                {prog.description}
+              </p>
+
+              <ul class="mt-6 flex-1 space-y-2.5">
+                {prog.highlights.map((h) => (
+                  <li class="flex items-start gap-2.5 text-sm text-brand-cream/85">
+                    <svg class="mt-0.5 h-4 w-4 flex-none text-brand-gold" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#contact"
+                class={`card-link mt-6 flex items-center justify-between gap-3 rounded-sm border-t border-white/10 pt-5 text-sm font-semibold text-brand-gold-light transition-colors duration-300 hover:text-white ${focusRing}`}
+              >
+                <span>
+                  Enquire for 2027–28 session
+                  <span class="sr-only"> for {prog.title}</span>
+                </span>
+                <svg class="arrow h-4 w-4 flex-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={arrowPath} />
+                </svg>
+              </a>
+            </article>
+          </li>
+        ))
+      )}
+    </ul>
+
+    <!-- Little Elly Early Learning Collaboration Showcase -->
+    <div
+      class="mt-16 overflow-hidden rounded-3xl border border-brand-gold/40 bg-gradient-to-br from-brand-navy via-brand-navy-light/95 to-brand-navy p-7 text-white shadow-2xl shadow-black/50 sm:p-10 lg:p-12 relative"
+      data-reveal
+      style="--d:0"
+    >
+      <!-- Subtle watermark background glow -->
+      <div class="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-brand-gold/15 blur-3xl" aria-hidden="true"></div>
+      
+      <!-- Top Bar: Co-Branded Badging + Mascot -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10">
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <div class="flex items-center gap-3 rounded-2xl bg-white/10 p-2.5 backdrop-blur-md border border-white/15">
+            <img
+              src="/images/logo-crest.png"
+              alt="Sri Advaita Educational Trust Crest"
+              width="44"
+              height="44"
+              class="h-11 w-11 object-contain"
+            />
+            <div class="text-left">
+              <span class="block text-xs font-bold uppercase tracking-wider text-brand-gold-light">Sri Advaita</span>
+              <span class="text-[10px] text-white/70">Educational Trust</span>
+            </div>
+          </div>
+
+          <span class="font-serif text-2xl font-light text-brand-gold">×</span>
+
+          <div class="flex items-center gap-3 rounded-2xl bg-white p-2.5 shadow-md">
+            <img
+              src="/images/little-elly-logo.png"
+              alt="Little Elly — India's H.A.P.P.Y. Preschool Logo"
+              width="130"
+              height="40"
+              class="h-9 w-auto object-contain"
+            />
+          </div>
+
+          <div class="hidden sm:inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-brand-gold/15 px-3.5 py-1 text-xs font-semibold text-brand-gold-light">
+            <span class="h-2 w-2 rounded-full bg-brand-gold"></span>
+            Official Foundational Collaboration
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <img
+            src="/images/little-elly-peek.png"
+            alt="Little Elly Mascot"
+            width="55"
+            height="55"
+            class="h-12 w-auto object-contain"
+          />
+          <div class="text-left">
+            <span class="block text-xs font-bold text-white">20 Years of Joy</span>
+            <span class="text-[11px] text-brand-cream/70">172+ Centres in 19 Cities</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Headline & Philosophy -->
+      <div class="mt-8 grid gap-8 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-7">
+          <span class="inline-block text-xs font-bold uppercase tracking-widest text-brand-gold-light mb-2">
+            The Early Years Are Not A Warm-Up. They Are The Main Event.
+          </span>
+          <h3 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white text-balance">
+            Nursery to UKG Powered by the Signature <span class="text-brand-gold-light">H.A.P.P.Y.</span> Curriculum
+          </h3>
+          <p class="mt-4 text-sm sm:text-base leading-relaxed text-brand-cream/80">
+            90% of a child’s brain architecture is built before age six. Through our academic collaboration with <strong>Little Elly</strong>, Sri Advaita brings India’s premier early-years methodology right to Hosur. We blend Montessori hands-on independence, Steiner imagination and music, and play-based inquiry inside secure, loving classrooms.
+          </p>
+          <blockquote class="mt-4 border-l-2 border-brand-gold pl-4 text-xs sm:text-sm italic text-brand-gold-light font-medium">
+            “A happy child isn’t a lucky accident. It’s the method.”
+          </blockquote>
+        </div>
+
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+            <span class="text-xl">🧩</span>
+            <h4 class="mt-2 text-sm font-bold text-white">Montessori</h4>
+            <p class="mt-1 text-xs text-brand-cream/70 leading-relaxed">Self-direction, tactile sensorial sets, and prepared environments.</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+            <span class="text-xl">🎨</span>
+            <h4 class="mt-2 text-sm font-bold text-white">Steiner</h4>
+            <p class="mt-1 text-xs text-brand-cream/70 leading-relaxed">Imagination, rhythm, nature, storytelling, music, and daily warmth.</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+            <span class="text-xl">🏃</span>
+            <h4 class="mt-2 text-sm font-bold text-white">Play-Based</h4>
+            <p class="mt-1 text-xs text-brand-cream/70 leading-relaxed">Child-led inquiry, social discovery, sand play, and motor joy.</p>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+            <span class="text-xl">🔬</span>
+            <h4 class="mt-2 text-sm font-bold text-white">Brain Science</h4>
+            <p class="mt-1 text-xs text-brand-cream/70 leading-relaxed">Developmental milestones, emotional security, and POCSO care.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Commitments of H.A.P.P.Y. Curriculum -->
+      <div class="mt-10">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-brand-gold-light mb-4">
+          The 5 Commitments of the H.A.P.P.Y. Method
+        </h4>
+        <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-5">
+          {littleEllyPillars.map((p) => (
+            <div class="group relative rounded-2xl border border-white/10 bg-white/5 p-4 transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/60 hover:bg-white/10">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-serif text-2xl font-black text-brand-gold">{p.letter}</span>
+                <span class="text-lg">{p.icon}</span>
+              </div>
+              <h5 class="font-bold text-white text-sm">{p.title}</h5>
+              <p class="text-[11px] font-semibold text-brand-gold-light mt-0.5">{p.tag}</p>
+              <p class="text-xs text-brand-cream/75 mt-2 leading-relaxed">{p.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Action Row -->
+      <div class="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-4 text-xs text-brand-cream/75">
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Nursery Ratio: 2:18
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            KG Ratio: 2:20
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="h-4 w-4 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Little Elly Welcome &amp; Learning Kit
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="https://littleelly.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-cream/80 hover:text-white transition"
+          >
+            Visit littleelly.com
+            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-light px-5 py-2.5 text-xs font-bold text-brand-navy shadow-md transition hover:brightness-110"
+          >
+            Enquire for Little Elly Wing
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Continuous & Comprehensive Evaluation Rubric Card -->
+    <div
+      class="mt-14 rounded-3xl border border-white/10 bg-brand-navy/60 backdrop-blur-md p-6 sm:p-8 lg:p-10 shadow-premium"
+      data-reveal
+      style="--d:0"
+    >
+      <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-gold-light">Assessment Philosophy</span>
+          <h3 class="font-serif text-2xl font-bold text-white sm:text-3xl mt-1">
+            Continuous & Comprehensive Evaluation
+          </h3>
+        </div>
+        <p class="text-sm text-brand-cream/70 max-w-md">
+          We eliminate unhelpful examination pressure through daily continuous tracking parameters designed for holistic growth:
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition hover:border-brand-gold/40">
+          <span class="text-2xl mb-2 block">🔬</span>
+          <h4 class="font-serif font-bold text-brand-gold-light text-base mb-1">Practical Execution</h4>
+          <p class="text-xs text-brand-cream/75 leading-relaxed">Daily assignments, guided science experiments, and collaborative group project work.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition hover:border-brand-gold/40">
+          <span class="text-2xl mb-2 block">🗣️</span>
+          <h4 class="font-serif font-bold text-brand-gold-light text-base mb-1">Soft Skills</h4>
+          <p class="text-xs text-brand-cream/75 leading-relaxed">Active class participation, articulation, public speaking, and team leadership.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition hover:border-brand-gold/40">
+          <span class="text-2xl mb-2 block">🧠</span>
+          <h4 class="font-serif font-bold text-brand-gold-light text-base mb-1">Cognition</h4>
+          <p class="text-xs text-brand-cream/75 leading-relaxed">Continuous creative thinking exercises, logical reasoning, and structured problem solving.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition hover:border-brand-gold/40">
+          <span class="text-2xl mb-2 block">🥋</span>
+          <h4 class="font-serif font-bold text-brand-gold-light text-base mb-1">Personality</h4>
+          <p class="text-xs text-brand-cream/75 leading-relaxed">Everyday self-defense poise, moral ethics, emotional hygiene, and mindful discipline.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admissions callout -->
+    <div
+      class="mt-14 flex flex-col items-center justify-between gap-6 rounded-3xl border border-brand-gold/30 bg-gradient-to-r from-brand-navy via-brand-navy-light to-brand-navy p-7 text-center shadow-2xl shadow-black/30 sm:p-10 md:flex-row md:text-left lg:mt-16"
+      data-reveal
+      style="--d:0"
+    >
+      <div class="min-w-0 max-w-xl space-y-2">
+        <h3 class="text-balance font-serif text-2xl font-bold leading-snug text-white">
+          Ready to experience the Sri Advaita difference?
+        </h3>
+        <p class="text-sm leading-relaxed text-brand-cream/80 sm:text-base">
+          Limited seats are available for Nursery, Kindergarten (LKG &amp; UKG), and Grades 1–8 for the 2027–28 academic session.
+        </p>
+      </div>
+      <a
+        href="#contact"
+        class={`cta group inline-flex w-full flex-none items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-light px-8 py-3.5 text-sm font-bold text-brand-navy shadow-lg shadow-black/30 sm:w-auto ${focusRing}`}
+      >
+        Schedule campus tour
+        <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- Grid: centred flex-wrap with exact column widths ---------- */
+  .card-list {
+    --gap: 1.5rem;
+    gap: var(--gap);
+  }
+  .card-item {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .card-item {
+      width: calc((100% - var(--gap)) / 2);
+    }
+  }
+  @media (min-width: 1024px) {
+    .card-list {
+      --gap: 2rem;
+    }
+    .card-item {
+      width: calc((100% - 2 * var(--gap)) / 3);
+    }
+  }
+
+  /* ---------- Card ---------- */
+  .card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1.5rem;
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.02));
+    transition:
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s ease,
+      box-shadow 0.35s ease;
+  }
+
+  /* Soft glow that follows the pointer (position set by the script) */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in srgb, var(--color-brand-gold-light, #d4b36a) 16%, transparent),
+      transparent 70%
+    );
+    transition: opacity 0.3s ease;
+  }
+
+  .icon,
+  .card-img,
+  .arrow {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+  }
+
+  .card-title {
+    transition: color 0.3s ease;
+  }
+
+  @media (hover: hover) {
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--color-brand-gold-light, #d4b36a) 45%, transparent);
+      box-shadow: 0 24px 40px -24px rgb(0 0 0 / 0.7);
+    }
+    .card:hover::before {
+      opacity: 1;
+    }
+    .card:hover .icon {
+      transform: scale(1.08);
+      border-color: var(--color-brand-gold, #b38f43);
+    }
+    .card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .card:hover .card-title {
+      color: var(--color-brand-gold-light, #d4b36a);
+    }
+  }
+
+  .card:hover .arrow,
+  .card-link:focus-visible .arrow {
+    transform: translateX(4px);
+  }
+
+  /* ---------- Callout button ---------- */
+  .cta {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  }
+  .cta:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 12px 28px -10px rgb(0 0 0 / 0.6);
+  }
+  .cta:active {
+    transform: translateY(0);
+  }
+
+  /* ---------- Entrance: JS adds data-motion, then data-in per item ---------- */
+  [data-motion] [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--d, 0) * 90ms);
+  }
+  [data-motion] [data-reveal][data-in] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .card::before,
+    .icon,
+    .card-img,
+    .arrow,
+    .cta {
+      transition: none;
+    }
+    .card:hover,
+    .card:hover .icon,
+    .card:hover .card-img,
+    .card:hover .arrow,
+    .card-link:focus-visible .arrow,
+    .cta:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const section = document.querySelector<HTMLElement>('[data-programs]');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stage Filter Tabs Interactivity
+  const filterContainer = section?.querySelector<HTMLElement>('[data-program-filters]');
+  const cards = section?.querySelectorAll<HTMLElement>('.card-item');
+
+  if (filterContainer && cards) {
+    const buttons = filterContainer.querySelectorAll<HTMLButtonElement>('.filter-pill');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'all';
+
+        // Update active button styling
+        buttons.forEach((b) => {
+          b.classList.remove('active', 'border-brand-gold', 'bg-brand-gold', 'text-brand-navy-dark');
+          b.classList.add('border-white/15', 'bg-white/5', 'text-brand-cream/80');
+        });
+        btn.classList.add('active', 'border-brand-gold', 'bg-brand-gold', 'text-brand-navy-dark');
+        btn.classList.remove('border-white/15', 'bg-white/5', 'text-brand-cream/80');
+
+        // Filter cards
+        cards.forEach((card) => {
+          const cardStage = card.getAttribute('data-stage');
+          if (filter === 'all' || cardStage === filter) {
+            card.style.display = 'flex';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  if (section && !prefersReduced) {
+    // Scroll reveal
+    if ('IntersectionObserver' in window) {
+      const items = section.querySelectorAll<HTMLElement>('[data-reveal]');
+      section.setAttribute('data-motion', '');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              (entry.target as HTMLElement).setAttribute('data-in', '');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+      );
+
+      items.forEach((item) => observer.observe(item));
+    }
+
+    // Pointer glow: one delegated listener for every card (mouse only)
+    const list = section.querySelector<HTMLElement>('[data-cards]');
+    list?.addEventListener('pointermove', (event) => {
+      if (event.pointerType !== 'mouse') return;
+      const card = (event.target as HTMLElement).closest<HTMLElement>('.card');
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+      card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+    });
+  }
+</script>

@@ -1,0 +1,169 @@
+---
+/**
+ * FAQ.astro — Frequently Asked Questions accordion.
+ * Resolves key parental queries on curriculum pattern, admissions 2027–28,
+ * transport routes, teacher ratio, and school timings.
+ */
+interface FAQItem {
+  question: string;
+  answer: string;
+  category: string;
+}
+
+const faqs: FAQItem[] = [
+  {
+    category: "Early Years",
+    question: "How does the Little Elly collaboration work for Nursery, LKG, and UKG?",
+    answer:
+      "Sri Advaita Educational Trust collaborates with Little Elly — India’s acclaimed preschool network with 172+ centres across 19 cities. For our foundational wing (Nursery, Junior KG, Senior KG), we implement Little Elly's signature H.A.P.P.Y. Curriculum (Healthy Body, Awakened Mind, Playful Heart, Purposeful Self, Yearning to Learn) combining Montessori, Steiner, and play-way methods. Children enjoy child-friendly learning spaces, low adult-to-child ratios (2:18 for Nursery, 2:20 for KG), sensory discovery toys, and a seamless transition into Sri Advaita’s State Board Primary School.",
+  },
+  {
+    category: "Curriculum",
+    question: "What academic curriculum is followed at Sri Advaita?",
+    answer:
+      "We follow the State Board academic curriculum framework for Grades 1 through 8, while our early foundational wing (Nursery to UKG) is powered by the Little Elly H.A.P.P.Y. preschool method. The entire curriculum is enriched with hands-on experiential learning kits, Montessori sensory techniques in early years, and STEAM robotics inquiry in middle grades. Aligned with the National Education Policy (NEP 2020) and Tamil Nadu state educational standards.",
+  },
+  {
+    category: "Admissions",
+    question: "When do admissions open for the 2027–2028 academic year?",
+    answer:
+      "Admissions for Little Elly Early Years (Nursery, LKG, UKG) and State Board Grades 1 through 8 are currently open for the 2027–28 academic session. We operate on a rolling, limited-capacity basis to preserve our strict student-to-mentor ratios. Early campus registration is strongly advised.",
+  },
+  {
+    category: "Transport",
+    question: "Which areas in Hosur and near the Bangalore border are covered by school buses?",
+    answer:
+      "Our school bus fleet operates extensive routes across Mookandapalli, MGR Nagar, Hosur Bus Stand, Bagalur Road, SIPCOT Phase 1 & 2, Mathigiri, and extending up to the Karnataka border points around Attibele. Every vehicle has real-time GPS parent tracking, CCTV, and female conductors.",
+  },
+  {
+    category: "Routine",
+    question: "What are the school timings for Kindergarten and Primary grades?",
+    answer:
+      "For Little Elly Early Years (Nursery, LKG, UKG), timings are 08:30 AM to 12:30 PM. For Primary & Middle School (Grades 1 to 8), timings are 08:30 AM to 03:30 PM, which includes daily morning meditation, academics, cultural arts, and sports periods.",
+  },
+  {
+    category: "Curriculum",
+    question: "How are Indian cultural values and languages integrated into the curriculum?",
+    answer:
+      "Through the philosophy of Advaita (oneness and universal harmony), students begin their mornings with mindfulness meditation and uplifting Sanskrit shlokas. Located in bilingual Hosur, we teach English, Kannada, and Tamil with dedicated faculty, alongside classical Bharatanatyam and music instruction.",
+  },
+  {
+    category: "Admissions",
+    question: "Is there an entrance exam for Kindergarten and Grade 1 admissions?",
+    answer:
+      "No. We strictly reject high-pressure testing for young children. Admissions to Little Elly foundational grades (Nursery to UKG) and Grade 1 are based on an informal, joyful observation interaction with the child and a conversation with parents to align educational expectations.",
+  },
+  {
+    category: "Transport",
+    question: "What safety protocols and medical emergency provisions exist on campus?",
+    answer:
+      "The campus is protected with 24/7 CCTV surveillance, biometric security, fire safety protocols, and a full-time certified nurse in our on-campus health infirmary. All staff undergo background verifications and child-safety training.",
+  },
+  {
+    category: "Curriculum",
+    question: "What is the teacher-to-student ratio in each classroom?",
+    answer:
+      "For our Little Elly foundational wing, we maintain tight adult-to-child ratios: 2:18 for Nursery and 2:20 for LKG & UKG. For Primary and Middle school, we maintain a 1:15 ratio with class sizes capped at 25–30 students per section to ensure personalized attention for every learner.",
+  },
+];
+---
+
+<section
+  id="faq"
+  class="relative isolate overflow-hidden bg-brand-cream py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="faq-heading"
+>
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center lg:mb-18">
+      <div class="reveal mb-4 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Parent Knowledge Base
+      </div>
+
+      <h2
+        id="faq-heading"
+        class="reveal font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Frequently Asked Questions
+      </h2>
+
+      <p class="reveal mx-auto mt-4 max-w-2xl text-base text-brand-navy/75 sm:text-lg">
+        Clear answers to help you make an informed, confident decision for your child’s educational journey.
+      </p>
+    </header>
+
+    <!-- Accordion List -->
+    <div class="reveal-stagger space-y-4">
+      {
+        faqs.map((faq, idx) => (
+          <details
+            class="group rounded-2xl border border-brand-navy/10 bg-white p-6 shadow-sm transition-all duration-300 hover:border-brand-gold/40 open:border-brand-gold/50 open:shadow-card"
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between font-serif text-lg font-bold text-brand-navy group-hover:text-brand-gold-dark transition-colors focus:outline-none">
+              <span class="pr-6 flex items-center gap-3">
+                <span class="inline-block h-2 w-2 rounded-full bg-brand-gold"></span>
+                {faq.question}
+              </span>
+              <span class="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-brand-cream-dark text-brand-navy group-hover:bg-brand-gold group-hover:text-white transition-colors duration-200">
+                <svg
+                  class="h-4 w-4 transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+            </summary>
+
+            <div class="mt-4 pt-4 border-t border-brand-navy/5 text-sm leading-relaxed text-brand-navy/75 sm:text-base pl-5">
+              <p>{faq.answer}</p>
+              <div class="mt-3 flex items-center gap-2">
+                <span class="inline-block rounded-md bg-brand-cream-dark px-2.5 py-0.5 text-xs font-semibold text-brand-gold-dark">
+                  Category: {faq.category}
+                </span>
+              </div>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <!-- Need More Help Card -->
+    <div class="reveal mt-14 rounded-3xl border border-brand-navy/10 bg-gradient-to-r from-brand-navy via-brand-navy-light to-brand-navy p-8 text-brand-cream shadow-premium flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <h3 class="font-serif text-2xl font-bold text-white">
+          Have a question not listed here?
+        </h3>
+        <p class="text-sm text-brand-cream/70 mt-1">
+          Our friendly admissions coordinators are always here to assist you with curriculum, fee structures, or campus visits.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3 flex-none w-full md:w-auto">
+        <a
+          href="https://wa.me/917259526202?text=Hello%2C%20I%20have%20an%20admissions%20enquiry%20regarding%20Sri%20Advaita%20Educational%20Trust"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-500 w-full sm:w-auto"
+        >
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          Ask on WhatsApp
+        </a>
+
+        <a
+          href="#contact"
+          class="inline-flex items-center justify-center rounded-xl bg-brand-gold px-5 py-3 text-xs font-bold text-brand-navy-dark shadow-sm transition hover:bg-brand-gold-light w-full sm:w-auto"
+        >
+          Schedule Visit
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>

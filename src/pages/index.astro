@@ -1,0 +1,281 @@
+---
+/**
+ * index.astro — Home page (DEBUG build)
+ * Terminal logs prefixed [advaita]. Dev-only URL switches: ?skip= ?only= ?probe
+ */
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import FutureReady from "../components/FutureReady.astro";
+import Leadership from "../components/Leadership.astro";
+import Programs from "../components/Programs.astro";
+import CampusLife from "../components/CampusLife.astro";
+import Facilities from "../components/Facilities.astro";
+import AdmissionsRoadmap from "../components/AdmissionsRoadmap.astro";
+import Gallery from "../components/Gallery.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Notices from "../components/Notices.astro";
+import FAQ from "../components/FAQ.astro";
+import Contact from "../components/Contact.astro";
+import StickyWidgets from "../components/StickyWidgets.astro";
+import { getCourses, getNotices, getGalleries } from "../lib/queries";
+import {
+  DEBUG,
+  log,
+  warn,
+  err,
+  fmtBytes,
+  memory,
+  jsonSize,
+  describeData,
+  getFlags,
+} from "../lib/debug";
+
+const pageStart = performance.now();
+const flags = getFlags(Astro.url);
+log("──────── index.astro: frontmatter start ────────");
+log("url:", Astro.url.href, "| memory:", memory());
+if (flags.skip.size) log("skipping:", [...flags.skip]);
+if (flags.only.size) log("only rendering:", [...flags.only]);
+
+// Fetch with timing. A failure returns the fallback instead of breaking the page.
+async function timed<T>(
+  name: string,
+  fn: () => Promise<T>,
+  fallback: T,
+): Promise<T> {
+  const start = performance.now();
+  log(`fetch ${name}: start`);
+  try {
+    const value = await fn();
+    log(`fetch ${name}: ok in ${(performance.now() - start).toFixed(0)}ms`);
+    return value;
+  } catch (e) {
+    err(
+      `fetch ${name}: FAILED after ${(performance.now() - start).toFixed(0)}ms`,
+      e,
+    );
+    return fallback;
+  }
+}
+
+const [courses, notices, galleries] = await Promise.all([
+  timed("courses", getCourses, [] as Awaited<ReturnType<typeof getCourses>>),
+  timed("notices", getNotices, [] as Awaited<ReturnType<typeof getNotices>>),
+  timed(
+    "galleries",
+    getGalleries,
+    [] as Awaited<ReturnType<typeof getGalleries>>,
+  ),
+]);
+
+describeData("courses", courses);
+describeData("notices", notices);
+describeData("galleries", galleries);
+log("after fetch | memory:", memory());
+
+// Never call .map on something that isn't an array
+const courseList = Array.isArray(courses) ? courses : [];
+if (!Array.isArray(courses))
+  warn("courses is not an array; JSON-LD catalog skipped");
+
+const siteUrl = Astro.site?.toString() || Astro.url.origin;
+
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Sri Advaita Educational Trust",
+  alternateName: "Sri Advaita School Hosur",
+  url: siteUrl,
+  telephone: "+91 72595 26202",
+  email: "advaita@advaitaapp.com",
+  description:
+    "Sri Advaita Educational Trust blends traditional values with comprehensive State Board education — nurturing curious, confident, and compassionate learners in a safe, modern campus in Mookandapalli, MGR Nagar near the Bangalore border.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress:
+      "Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar",
+    addressLocality: "Hosur",
+    addressRegion: "Tamil Nadu",
+    postalCode: "635126",
+    addressCountry: "IN",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 12.7409,
+    longitude: 77.8253,
+  },
+  areaServed: [
+    { "@type": "City", name: "Hosur" },
+    { "@type": "City", name: "Bangalore" },
+    { "@type": "State", name: "Tamil Nadu" },
+    { "@type": "State", name: "Karnataka" },
+  ],
+  ...(courseList.length > 0 && {
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Courses and Programs",
+      itemListElement: courseList.map((c) => ({
+        "@type": "Course",
+        name: c.title,
+        ...(typeof c.duration === "string" && /^P/.test(c.duration)
+          ? { timeRequired: c.duration }
+          : {}),
+        provider: {
+          "@type": "EducationalOrganization",
+          name: "Sri Advaita Educational Trust",
+        },
+      })),
+    },
+  }),
+  foundingDate: "2010",
+  slogan: "ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು — Old Roots. New Shoots.",
+};
+
+log("JSON-LD size:", fmtBytes(jsonSize(orgSchema)));
+
+// ?probe — render each section on its own and report its HTML size.
+// If Node dies during this, the last "PROBE →" line names the culprit.
+if (flags.probe) {
+  log("PROBE: rendering each section in isolation");
+  try {
+    const mod: any = await import("astro/container");
+    const Container = mod.experimental_AstroContainer ?? mod.AstroContainer;
+    const container = await Container.create();
+    const sections: Record<string, [any, Record<string, unknown>]> = {
+      hero: [Hero, {}],
+      about: [About, {}],
+      futureready: [FutureReady, {}],
+      leadership: [Leadership, {}],
+      programs: [Programs, { courses }],
+      campuslife: [CampusLife, {}],
+      facilities: [Facilities, {}],
+      admissions: [AdmissionsRoadmap, {}],
+      gallery: [Gallery, { galleries }],
+      testimonials: [Testimonials, {}],
+      notices: [Notices, { notices }],
+      faq: [FAQ, {}],
+      contact: [Contact, {}],
+    };
+    for (const [name, [component, props]] of Object.entries(sections)) {
+      log(`PROBE → ${name}`);
+      const start = performance.now();
+      try {
+        const html: string = await container.renderToString(component, {
+          props,
+        });
+        log(
+          `PROBE ✓ ${name}: ${fmtBytes(html.length)} in ${(performance.now() - start).toFixed(0)}ms | ${memory()}`,
+        );
+        if (html.length > 2_000_000) warn(`PROBE ${name}: output is over 2 MB`);
+      } catch (e) {
+        err(`PROBE ✗ ${name} threw`, e);
+      }
+    }
+  } catch (e) {
+    err("PROBE unavailable (needs Astro's container API)", e);
+  }
+}
+
+log(
+  `frontmatter done in ${(performance.now() - pageStart).toFixed(0)}ms | memory: ${memory()} | now rendering template`,
+);
+const { show } = flags;
+---
+
+<Layout
+  title="Sri Advaita Educational Trust | Leading State Board School in Hosur"
+  description="Sri Advaita Educational Trust — leading State Board school in Hosur with Little Elly early learning collaboration (Nursery to UKG). Admissions open 2027–28 with holistic academics and values-driven education in Mookandapalli, MGR Nagar near the Bangalore border."
+  jsonLd={orgSchema}
+>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  {show("hero") && <Hero />}
+  {show("about") && <About />}
+  {show("futureready") && <FutureReady />}
+  {show("leadership") && <Leadership />}
+  {show("programs") && <Programs courses={courses} />}
+  {show("campuslife") && <CampusLife />}
+  {show("facilities") && <Facilities />}
+  {show("admissions") && <AdmissionsRoadmap />}
+  {show("gallery") && <Gallery galleries={galleries} />}
+  {show("testimonials") && <Testimonials />}
+  {show("notices") && <Notices notices={notices} />}
+  {show("faq") && <FAQ />}
+  {show("contact") && <Contact />}
+
+  <!-- Sticky Conversion Widgets -->
+  <StickyWidgets />
+</Layout>
+
+<script>
+  const debug = import.meta.env.DEV;
+  if (debug) {
+    window.addEventListener("error", (e) =>
+      console.error("[advaita] window error:", e.message),
+    );
+    window.addEventListener("load", () => {
+      console.log(
+        "[advaita] loaded | DOM nodes:",
+        document.getElementsByTagName("*").length,
+        "| HTML:",
+        (document.documentElement.outerHTML.length / 1024).toFixed(0) + " KB",
+      );
+      console.log(
+        "[advaita] .reveal elements:",
+        document.querySelectorAll(
+          ".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger",
+        ).length,
+      );
+    });
+  }
+
+  const bar = document.querySelector<HTMLElement>(".scroll-progress");
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (bar && !reduceMotion) {
+    let ticking = false;
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      bar.style.transform = `scaleX(${ratio})`;
+      ticking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>
+
+<style>
+  .scroll-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 3px;
+    z-index: 60;
+    background: linear-gradient(
+      90deg,
+      var(--color-brand-gold),
+      var(--color-brand-gold-light)
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-progress {
+      display: none;
+    }
+  }
+</style>

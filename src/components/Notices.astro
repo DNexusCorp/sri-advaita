@@ -1,0 +1,373 @@
+---
+/**
+ * Notices.astro — Official notice board for circulars, admissions alerts,
+ * and upcoming events calendar with interactive tab switcher.
+ */
+import type { Notice } from '../lib/queries';
+
+interface Props {
+  notices: Notice[];
+}
+
+const { notices = [] } = Astro.props;
+
+const priorityConfig: Record<
+  string,
+  { badgeBg: string; badgeText: string; border: string; dot: string; ping: string; bar: string; label: string }
+> = {
+  urgent: {
+    badgeBg: 'bg-rose-50',
+    badgeText: 'text-rose-700',
+    border: 'border-rose-200',
+    dot: 'bg-rose-500',
+    ping: 'bg-rose-400/70',
+    bar: 'bg-rose-500',
+    label: 'Urgent Circular',
+  },
+  important: {
+    badgeBg: 'bg-amber-50',
+    badgeText: 'text-amber-800',
+    border: 'border-amber-200',
+    dot: 'bg-amber-500',
+    ping: '',
+    bar: 'bg-amber-500',
+    label: 'Important Update',
+  },
+  normal: {
+    badgeBg: 'bg-blue-50',
+    badgeText: 'text-blue-800',
+    border: 'border-blue-200',
+    dot: 'bg-blue-500',
+    ping: '',
+    bar: 'bg-blue-500',
+    label: 'Official Announcement',
+  },
+};
+
+const fallbackNotices: Notice[] = [
+  {
+    _id: 'notice-little-elly',
+    alertTitle: 'Academic Collaboration: Little Elly Early Years (Nursery, LKG & UKG)',
+    content:
+      'Sri Advaita Educational Trust has officially partnered with Little Elly — India’s premier preschool network with 172+ centres. Commencing AY 2027–28, our Nursery, LKG, and UKG foundational wing will be powered by Little Elly’s H.A.P.P.Y. Curriculum, integrating Montessori sensory kits and play-way methods. Special early registration kits and parent walk-ins are now open.',
+    publishDate: '2026-10-24T09:00:00Z',
+    isActive: true,
+    priority: 'urgent',
+  },
+  {
+    _id: 'notice-1',
+    alertTitle: 'Admissions Open for Academic Year 2027–28',
+    content:
+      'Sri Advaita Educational Trust is now accepting admissions for Little Elly Early Years (Nursery, LKG & UKG), and State Board Primary & Middle School (Grades 1 through 8). Parents can collect application forms at the Mookandapalli school office or schedule a campus visit online.',
+    publishDate: '2026-10-15T09:00:00Z',
+    isActive: true,
+    priority: 'important',
+  },
+  {
+    _id: 'notice-2',
+    alertTitle: 'Annual Cultural & Heritage Fest 2026–27',
+    content:
+      'The Annual Day Celebrations showcasing classical dances, theatrical plays, and Sanskrit-Kannada heritage exhibits will be held this winter. Student auditions and rehearsals are now underway in the auditorium.',
+    publishDate: '2026-10-10T10:30:00Z',
+    isActive: true,
+    priority: 'important',
+  },
+  {
+    _id: 'notice-3',
+    alertTitle: 'Term 1 Parent-Teacher Consultations & Academic Review',
+    content:
+      'Scheduled for the upcoming Saturday at the MGR Nagar Campus. Class teachers and subject mentors will discuss each student’s holistic progress, activity portfolios, and developmental milestones.',
+    publishDate: '2026-10-05T08:00:00Z',
+    isActive: true,
+    priority: 'normal',
+  },
+];
+
+const upcomingEvents = [
+  {
+    title: 'Little Elly Early Years Discovery Day & Curriculum Walkthrough',
+    date: { day: '07', month: 'Nov', year: '2026' },
+    category: 'Preschool & KG Open House',
+    badge: 'Special Feature',
+    description: 'Experience Little Elly H.A.P.P.Y. learning corners, sensory discovery zones, meet certified early childhood educators, and preview the Little Elly foundation kit for Nursery, LKG & UKG.',
+    venue: 'Little Elly Early Learning Wing, Sri Advaita Campus',
+  },
+  {
+    title: 'Open House & Personalized Campus Tours',
+    date: { day: 'Every', month: 'Saturday', year: '10 AM - 1 PM' },
+    category: 'Admissions & Campus Tour',
+    badge: 'Weekly Feature',
+    description: 'Walk through smart classrooms, robotics labs, meet lead faculty, and discuss 2027–28 admissions.',
+    venue: 'Main Administrative Block, Mookandapalli',
+  },
+  {
+    title: 'Inter-School STEAM Robotics & Science Expo',
+    date: { day: '14', month: 'Nov', year: '2026' },
+    category: 'Academic Exhibition',
+    badge: 'Science Fair',
+    description: 'Students demonstrate autonomous robots, water conservation models, and hands-on physics apparatus.',
+    venue: 'Campus Innovation Makerspace',
+  },
+  {
+    title: 'Kannada-Tamil Heritage & Sanskrit Chanting Utsav',
+    date: { day: '28', month: 'Nov', year: '2026' },
+    category: 'Cultural Festival',
+    badge: 'Heritage',
+    description: 'Celebration of linguistic harmony, Bharatanatyam recital, and student classical drama performances.',
+    venue: 'Sri Advaita Open-Air Amphitheatre',
+  },
+  {
+    title: 'Annual Track & Field Sports Meet',
+    date: { day: '18', month: 'Dec', year: '2026' },
+    category: 'Athletics & Fitness',
+    badge: 'Sports Day',
+    description: 'Track sprints, relay races, karate demonstrations, and team tug-of-war on the campus turf grounds.',
+    venue: 'Sports Arena & Athletic Track',
+  },
+];
+
+const displayNotices = notices.length > 0 ? notices : fallbackNotices;
+
+const TZ = 'Asia/Kolkata';
+const fmt = (date: Date, options: Intl.DateTimeFormatOptions, locale = 'en-IN') =>
+  new Intl.DateTimeFormat(locale, { timeZone: TZ, ...options }).format(date);
+
+const items = displayNotices.map((notice) => {
+  const date = new Date(notice.publishDate);
+  const valid = !Number.isNaN(date.getTime());
+  const config = priorityConfig[notice.priority || 'normal'] ?? priorityConfig.normal;
+
+  return {
+    notice,
+    config,
+    stamp: valid
+      ? {
+          day: fmt(date, { day: '2-digit' }),
+          month: fmt(date, { month: 'short' }),
+          year: fmt(date, { year: 'numeric' }),
+          iso: fmt(date, { year: 'numeric', month: '2-digit', day: '2-digit' }, 'en-CA'),
+        }
+      : null,
+  };
+});
+
+const focusRing =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2 focus-visible:ring-offset-white';
+---
+
+<section
+  id="notices"
+  data-notices
+  class="relative isolate overflow-hidden bg-brand-cream-dark py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="notices-heading"
+>
+  <div class="pointer-events-none absolute -right-20 top-0 -z-10 h-80 w-80 rounded-full bg-brand-gold/10 blur-3xl" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 -z-10 h-72 w-72 rounded-full bg-brand-navy/5 blur-3xl" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+      
+      <!-- Intro: sticky beside the list on large screens -->
+      <header class="lg:sticky lg:top-28 lg:col-span-4 lg:self-start" data-reveal style="--d:0">
+        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          Circulars &amp; Calendar
+        </div>
+
+        <h2
+          id="notices-heading"
+          class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+        >
+          Official Announcements &amp; Upcoming Events
+        </h2>
+        <div class="mt-5 h-0.5 w-14 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-dark" aria-hidden="true"></div>
+        <p class="mt-5 max-w-md text-base leading-relaxed text-brand-navy/70 sm:text-lg">
+          Stay informed about circulars, school open houses, admissions deadlines, and campus cultural events.
+        </p>
+
+        <!-- Tab Switcher -->
+        <div class="mt-8 flex rounded-2xl border border-brand-navy/15 bg-white p-1.5 shadow-sm" data-notices-tabs>
+          <button
+            type="button"
+            class="tab-btn active flex-1 rounded-xl py-2.5 text-xs font-bold transition-all bg-brand-navy text-white shadow-sm"
+            data-target="circulars-view"
+          >
+            Official Circulars ({items.length})
+          </button>
+          <button
+            type="button"
+            class="tab-btn flex-1 rounded-xl py-2.5 text-xs font-bold transition-all text-brand-navy/70 hover:text-brand-navy"
+            data-target="events-view"
+          >
+            Upcoming Events ({upcomingEvents.length})
+          </button>
+        </div>
+      </header>
+
+      <!-- Right Panels Container -->
+      <div class="lg:col-span-8">
+        
+        <!-- Tab 1: Official Circulars List -->
+        <ul id="circulars-view" class="tab-panel overflow-hidden rounded-3xl border border-brand-gold/20 bg-white shadow-lg shadow-brand-navy/5">
+          {items.map(({ notice, config, stamp }, index) => (
+            <li
+              class="notice-row group relative border-b border-brand-gold/15 last:border-b-0"
+              data-reveal
+              style={`--d:${Math.min(index, 4)}`}
+            >
+              <span class={`absolute inset-y-0 left-0 w-1 transition-[width] duration-300 group-hover:w-1.5 motion-reduce:transition-none ${config.bar}`} aria-hidden="true"></span>
+
+              <article class="grid gap-4 px-5 py-6 transition-colors duration-300 group-hover:bg-brand-cream/50 sm:grid-cols-[4.5rem_minmax(0,1fr)] sm:gap-6 sm:px-8 sm:py-8">
+                {stamp ? (
+                  <time
+                    datetime={stamp.iso}
+                    class="flex items-baseline gap-1.5 sm:h-[5.25rem] sm:w-[4.5rem] sm:flex-col sm:items-center sm:justify-center sm:gap-0 sm:rounded-xl sm:bg-brand-navy sm:shadow-md sm:shadow-brand-navy/20"
+                  >
+                    <span class="font-serif text-2xl font-bold leading-none text-brand-navy sm:text-3xl sm:text-brand-gold">{stamp.day}</span>
+                    <span class="text-sm font-semibold text-brand-navy/70 sm:mt-1 sm:text-xs sm:text-brand-cream/85">{stamp.month}</span>
+                    <span class="text-sm text-brand-navy/50 sm:text-[11px] sm:text-brand-cream/60">{stamp.year}</span>
+                  </time>
+                ) : (
+                  <span class="text-sm font-medium text-brand-navy/50">Undated</span>
+                )}
+
+                <div class="min-w-0">
+                  <span class={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${config.badgeBg} ${config.badgeText} ${config.border}`}>
+                    <span class="relative flex h-2 w-2" aria-hidden="true">
+                      {config.ping && (
+                        <span class={`absolute inline-flex h-full w-full animate-ping rounded-full motion-reduce:animate-none ${config.ping}`}></span>
+                      )}
+                      <span class={`relative inline-flex h-2 w-2 rounded-full ${config.dot}`}></span>
+                    </span>
+                    {config.label}
+                  </span>
+
+                  <h3 class="mt-3 text-balance font-serif text-xl font-bold leading-snug text-brand-navy sm:text-2xl">
+                    {notice.alertTitle}
+                  </h3>
+
+                  <p class="mt-3 max-w-prose text-sm leading-relaxed text-brand-navy/75 sm:text-base">
+                    {notice.content}
+                  </p>
+
+                  <div class="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm">
+                    <span class="font-semibold text-brand-gold-dark">Sri Advaita Trust Office</span>
+                    <a
+                      href="#contact"
+                      class={`inline-flex items-center gap-1.5 rounded-sm font-bold text-brand-navy transition-colors duration-300 hover:text-brand-gold-dark ${focusRing}`}
+                    >
+                      Enquire with Office
+                      <svg class="arrow h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Tab 2: Upcoming Events List -->
+        <ul id="events-view" class="tab-panel hidden overflow-hidden rounded-3xl border border-brand-gold/20 bg-white shadow-lg shadow-brand-navy/5">
+          {upcomingEvents.map((evt, index) => (
+            <li
+              class="event-row group relative border-b border-brand-gold/15 last:border-b-0"
+              style={`--d:${index}`}
+            >
+              <span class="absolute inset-y-0 left-0 w-1 bg-brand-gold transition-[width] duration-300 group-hover:w-1.5" aria-hidden="true"></span>
+
+              <article class="grid gap-4 px-5 py-6 transition-colors duration-300 group-hover:bg-brand-cream/50 sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-6 sm:px-8 sm:py-8">
+                <!-- Event Date Stamp -->
+                <div class="flex items-baseline gap-1.5 sm:h-[5.5rem] sm:w-[5rem] sm:flex-col sm:items-center sm:justify-center sm:gap-0 sm:rounded-xl sm:bg-gradient-to-b sm:from-brand-navy sm:to-brand-navy-dark sm:shadow-md">
+                  <span class="font-serif text-xl sm:text-2xl font-bold leading-none text-brand-navy sm:text-brand-gold">{evt.date.day}</span>
+                  <span class="text-sm font-semibold text-brand-navy/70 sm:mt-1 sm:text-xs sm:text-brand-cream/85">{evt.date.month}</span>
+                  <span class="text-xs text-brand-navy/50 sm:text-[10px] sm:text-brand-cream/60">{evt.date.year}</span>
+                </div>
+
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-flex items-center rounded-full bg-brand-gold/15 px-3 py-1 text-xs font-semibold text-brand-gold-dark border border-brand-gold/30">
+                      {evt.badge}
+                    </span>
+                    <span class="text-xs text-brand-navy/60 font-medium">
+                      {evt.category}
+                    </span>
+                  </div>
+
+                  <h3 class="mt-2.5 text-balance font-serif text-xl font-bold leading-snug text-brand-navy sm:text-2xl">
+                    {evt.title}
+                  </h3>
+
+                  <p class="mt-2.5 max-w-prose text-sm leading-relaxed text-brand-navy/75 sm:text-base">
+                    {evt.description}
+                  </p>
+
+                  <div class="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-xs sm:text-sm">
+                    <span class="flex items-center gap-1.5 font-medium text-brand-navy/70">
+                      <svg class="h-4 w-4 text-brand-gold flex-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {evt.venue}
+                    </span>
+                    <a
+                      href="#contact"
+                      class="inline-flex items-center gap-1.5 font-bold text-brand-gold-dark hover:underline"
+                    >
+                      Register / Attend Event &rarr;
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Tab Switcher Interactivity
+  const tabsContainer = document.querySelector<HTMLElement>('[data-notices-tabs]');
+  const buttons = tabsContainer?.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const circularsView = document.getElementById('circulars-view');
+  const eventsView = document.getElementById('events-view');
+
+  buttons?.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+
+      // Update button styles
+      buttons.forEach((b) => {
+        b.classList.remove('active', 'bg-brand-navy', 'text-white', 'shadow-sm');
+        b.classList.add('text-brand-navy/70');
+      });
+      btn.classList.add('active', 'bg-brand-navy', 'text-white', 'shadow-sm');
+      btn.classList.remove('text-brand-navy/70');
+
+      // Toggle views
+      if (targetId === 'circulars-view') {
+        circularsView?.classList.remove('hidden');
+        eventsView?.classList.add('hidden');
+      } else {
+        circularsView?.classList.add('hidden');
+        eventsView?.classList.remove('hidden');
+      }
+    });
+  });
+</script>
+
+<style>
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  .notice-row:hover .arrow,
+  a:focus-visible .arrow {
+    transform: translateX(4px);
+  }
+</style>

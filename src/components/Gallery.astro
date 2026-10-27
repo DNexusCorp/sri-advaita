@@ -1,0 +1,335 @@
+---
+/**
+ * Gallery.astro — Photo exhibition showcasing student life, facilities,
+ * sports, STEM and cultural celebrations.
+ * Features category filter tabs and an accessible interactive lightbox modal.
+ */
+import type { Gallery } from '../lib/queries';
+import { urlForImage } from '../lib/sanity';
+
+interface Props {
+  galleries: Gallery[];
+}
+
+const { galleries = [] } = Astro.props;
+
+// Curated campus life moments with tags for interactive filtering
+const curatedGalleryItems = [
+  {
+    image: '/images/campus-front-view.jpg',
+    title: 'Sri Advaita Academic Campus',
+    category: 'Infrastructure',
+    categoryKey: 'campus',
+    span: 'sm:col-span-2',
+    description: 'Purpose-built modern campus in Mookandapalli, Hosur with landscaped grounds and safe access.',
+  },
+  {
+    image: '/images/program-activity-stem.jpg',
+    title: 'Hands-on STEM & Robotics Hub',
+    category: 'STEM & Innovation',
+    categoryKey: 'stem',
+    span: '',
+    description: 'Experiential science, tinkering kits, and active peer-to-peer logic discovery.',
+  },
+  {
+    image: '/images/space-karate.jpg',
+    title: 'Karate & Self-Defence Arena',
+    category: 'Sports & Athletics',
+    categoryKey: 'sports',
+    span: '',
+    description: 'Instilling mental discipline, physical resilience, and self-defence techniques under expert black-belt sensei.',
+  },
+  {
+    image: '/images/space-yoga.jpg',
+    title: 'Yoga & Mindful Wellness Studio',
+    category: 'Arts & Culture',
+    categoryKey: 'arts',
+    span: '',
+    description: 'Daily pranayama, asanas, and mindfulness routines nurturing inner calm, balance, and posture.',
+  },
+  {
+    image: '/images/little-elly-hero2.jpg',
+    title: 'Little Elly Early Years Sensorial Hub',
+    category: 'Little Elly Early Childhood',
+    categoryKey: 'early',
+    span: '',
+    description: 'Little Elly H.A.P.P.Y. learning corners, Montessori play-way sets, and phonics discovery for Nursery, LKG & UKG.',
+  },
+  {
+    image: '/images/space-library.jpg',
+    title: 'Knowledge Resource & Reading Studio',
+    category: 'Infrastructure',
+    categoryKey: 'campus',
+    span: '',
+    description: 'Rich selection of age-graded literature, Kannada & Tamil collections, and quiet research bays.',
+  },
+  {
+    image: '/images/space-computer-lab.jpg',
+    title: 'Digital Fluency & Coding Lab',
+    category: 'STEM & Innovation',
+    categoryKey: 'stem',
+    span: 'lg:col-span-2',
+    description: 'High-speed networked terminals, child-safe digital browsing, and introductory computational thinking.',
+  },
+  {
+    image: '/images/space-sports-arena.jpg',
+    title: 'Multi-Sport Turf & Athletics Ground',
+    category: 'Sports & Athletics',
+    categoryKey: 'sports',
+    span: '',
+    description: 'Outdoor athletics, team ball sports, and physical vitality under trained coaches.',
+  },
+];
+
+const hasCMSData = galleries.length > 0;
+
+const focusRing =
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream';
+---
+
+<section
+  id="gallery"
+  data-gallery
+  class="relative isolate overflow-hidden bg-brand-cream py-16 text-brand-navy sm:py-20 lg:py-28"
+  aria-labelledby="gallery-heading"
+>
+  <!-- Ambient decor -->
+  <div class="pointer-events-none absolute -right-24 top-1/3 -z-10 h-80 w-80 rounded-full bg-brand-gold/10 blur-3xl" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -left-20 bottom-10 -z-10 h-80 w-80 rounded-full bg-brand-navy/5 blur-3xl" aria-hidden="true"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Section header -->
+    <header class="mx-auto mb-12 max-w-3xl text-center lg:mb-16" data-reveal style="--d:0">
+      <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-sm font-semibold text-brand-gold-dark">
+        <span class="relative flex h-2 w-2" aria-hidden="true">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-gold/70 motion-reduce:animate-none"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-brand-gold"></span>
+        </span>
+        Life at Sri Advaita
+      </p>
+      <h2
+        id="gallery-heading"
+        class="text-balance font-serif text-3xl font-bold leading-tight tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Moments of Joy, Discovery &amp; Triumph
+      </h2>
+      <div class="mx-auto mt-5 h-0.5 w-14 rounded-full bg-gradient-to-r from-brand-gold to-brand-gold-light" aria-hidden="true"></div>
+      <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-brand-navy/75 sm:text-lg">
+        A glimpse into daily life on our lush green campus in Hosur — from classroom collaborative breakthroughs to stage performances and field victories.
+      </p>
+    </header>
+
+    <!-- Category Filter Tabs -->
+    <div class="mb-10 flex flex-wrap items-center justify-center gap-2.5" data-gallery-filters>
+      <button
+        type="button"
+        class="gallery-filter-pill active rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-gold bg-brand-gold text-brand-navy-dark shadow-sm"
+        data-filter="all"
+      >
+        All Moments
+      </button>
+      <button
+        type="button"
+        class="gallery-filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-navy/15 bg-white text-brand-navy/80 hover:border-brand-gold hover:text-brand-navy shadow-sm"
+        data-filter="stem"
+      >
+        Classrooms &amp; STEM
+      </button>
+      <button
+        type="button"
+        class="gallery-filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-navy/15 bg-white text-brand-navy/80 hover:border-brand-gold hover:text-brand-navy shadow-sm"
+        data-filter="sports"
+      >
+        Sports &amp; Athletics
+      </button>
+      <button
+        type="button"
+        class="gallery-filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-navy/15 bg-white text-brand-navy/80 hover:border-brand-gold hover:text-brand-navy shadow-sm"
+        data-filter="arts"
+      >
+        Arts &amp; Culture
+      </button>
+      <button
+        type="button"
+        class="gallery-filter-pill rounded-full px-5 py-2 text-xs font-bold transition-all border border-brand-navy/15 bg-white text-brand-navy/80 hover:border-brand-gold hover:text-brand-navy shadow-sm"
+        data-filter="campus"
+      >
+        Campus &amp; Grounds
+      </button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <ul class="grid auto-rows-[17rem] grid-cols-1 gap-5 sm:auto-rows-[19rem] sm:grid-cols-2 sm:gap-6 lg:auto-rows-[22rem] lg:grid-cols-3 lg:gap-8" data-gallery-grid>
+      {curatedGalleryItems.map((item, index) => (
+        <li class={`gallery-card-item ${item.span}`} data-category={item.categoryKey} data-reveal style={`--d:${index % 3}`}>
+          <figure
+            class="group relative h-full overflow-hidden rounded-3xl border border-brand-gold/20 bg-brand-navy/5 shadow-lg transition-all duration-500 hover:shadow-2xl cursor-pointer"
+            data-lightbox-trigger
+            data-img-src={item.image}
+            data-img-title={item.title}
+            data-img-cat={item.category}
+            data-img-desc={item.description}
+            tabindex="0"
+            role="button"
+            aria-label={`View enlarged photo: ${item.title}`}
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              loading="lazy"
+              decoding="async"
+              class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            />
+
+            <!-- Zoom lens indicator icon -->
+            <div class="absolute top-4 right-4 h-9 w-9 rounded-full bg-brand-navy-dark/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-md border border-white/20">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+              </svg>
+            </div>
+
+            <!-- Gradient overlay with details -->
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-navy-dark/95 via-brand-navy-dark/70 to-transparent px-5 pb-5 pt-20 text-brand-cream sm:px-6 sm:pb-6">
+              <span class="mb-2.5 inline-block rounded-full border border-brand-gold/40 bg-brand-gold/25 px-3 py-1 text-xs font-semibold text-brand-gold-light backdrop-blur-md">
+                {item.category}
+              </span>
+              <h3 class="font-serif text-lg font-bold leading-snug text-white sm:text-xl">
+                {item.title}
+              </h3>
+              <span class="mt-2.5 block h-0.5 w-8 rounded-full bg-brand-gold transition-[width] duration-500 group-hover:w-16 motion-reduce:transition-none" aria-hidden="true"></span>
+              <p class="mt-2.5 line-clamp-2 text-sm leading-relaxed text-brand-cream/85">
+                {item.description}
+              </p>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Campus visit callout -->
+    <div class="mt-14 flex justify-center lg:mt-16" data-reveal style="--d:0">
+      <a
+        href="#contact"
+        class={`group inline-flex items-center gap-2.5 rounded-full bg-brand-navy px-8 py-3.5 text-sm font-bold text-brand-cream shadow-md transition-colors duration-300 hover:bg-brand-navy-light ${focusRing}`}
+      >
+        <span>Schedule an in-person campus walkthrough</span>
+        <svg class="h-4 w-4 text-brand-gold transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Interactive Lightbox Modal Dialog -->
+  <dialog
+    id="gallery-lightbox"
+    class="backdrop:bg-brand-navy-dark/85 backdrop:backdrop-blur-md rounded-3xl border border-brand-gold/30 bg-brand-navy-dark p-0 max-w-4xl w-[92vw] overflow-hidden shadow-2xl text-brand-cream"
+    aria-label="Image Preview"
+  >
+    <div class="relative flex flex-col">
+      <!-- Close button -->
+      <button
+        type="button"
+        id="lightbox-close"
+        aria-label="Close image preview"
+        class="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-black hover:scale-105 focus:outline-none"
+      >
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Image display -->
+      <div class="max-h-[65vh] overflow-hidden bg-black flex items-center justify-center">
+        <img id="lightbox-img" src="" alt="" class="max-h-[65vh] w-full object-contain" />
+      </div>
+
+      <!-- Caption bar -->
+      <div class="p-6 bg-brand-navy border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <span id="lightbox-cat" class="inline-block rounded-full bg-brand-gold/20 px-3 py-0.5 text-xs font-semibold text-brand-gold-light mb-1.5"></span>
+          <h4 id="lightbox-title" class="font-serif text-xl font-bold text-white"></h4>
+          <p id="lightbox-desc" class="text-xs text-brand-cream/70 mt-1 max-w-xl"></p>
+        </div>
+
+        <a
+          href="#contact"
+          class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gold px-5 py-2.5 text-xs font-bold text-brand-navy-dark shadow-sm transition hover:bg-brand-gold-light flex-none"
+        >
+          Inquire About This Space
+        </a>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  // Category Filter Interactivity
+  const gallerySection = document.querySelector<HTMLElement>('[data-gallery]');
+  const filterPills = gallerySection?.querySelectorAll<HTMLButtonElement>('.gallery-filter-pill');
+  const galleryItems = gallerySection?.querySelectorAll<HTMLElement>('.gallery-card-item');
+
+  filterPills?.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter') || 'all';
+
+      // Update pill classes
+      filterPills.forEach((p) => {
+        p.classList.remove('active', 'border-brand-gold', 'bg-brand-gold', 'text-brand-navy-dark');
+        p.classList.add('border-brand-navy/15', 'bg-white', 'text-brand-navy/80');
+      });
+      btn.classList.add('active', 'border-brand-gold', 'bg-brand-gold', 'text-brand-navy-dark');
+      btn.classList.remove('border-brand-navy/15', 'bg-white', 'text-brand-navy/80');
+
+      // Filter gallery cards
+      galleryItems?.forEach((item) => {
+        const cat = item.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Lightbox Dialog Interactivity
+  const dialog = document.getElementById('gallery-lightbox') as HTMLDialogElement | null;
+  const closeBtn = document.getElementById('lightbox-close');
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lbTitle = document.getElementById('lightbox-title');
+  const lbCat = document.getElementById('lightbox-cat');
+  const lbDesc = document.getElementById('lightbox-desc');
+  const triggers = gallerySection?.querySelectorAll<HTMLElement>('[data-lightbox-trigger]');
+
+  triggers?.forEach((trigger) => {
+    const openLightbox = () => {
+      if (!dialog || !lbImg) return;
+      const src = trigger.getAttribute('data-img-src') || '';
+      const title = trigger.getAttribute('data-img-title') || '';
+      const cat = trigger.getAttribute('data-img-cat') || '';
+      const desc = trigger.getAttribute('data-img-desc') || '';
+
+      lbImg.src = src;
+      lbImg.alt = title;
+      if (lbTitle) lbTitle.textContent = title;
+      if (lbCat) lbCat.textContent = cat;
+      if (lbDesc) lbDesc.textContent = desc;
+
+      dialog.showModal();
+    };
+
+    trigger.addEventListener('click', openLightbox);
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openLightbox();
+      }
+    });
+  });
+
+  closeBtn?.addEventListener('click', () => dialog?.close());
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+</script>
