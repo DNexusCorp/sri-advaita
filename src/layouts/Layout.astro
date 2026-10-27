@@ -21,9 +21,9 @@ const BRAND = "Sri Advaita Educational Trust";
 
 const {
   title = BRAND,
-  description = "Sri Advaita Educational Trust — leading State Board school in Hosur with Little Elly collaboration for Nursery to UKG. Admissions open 2027–28 for Nursery to Grade 8 in Mookandapalli, MGR Nagar. Holistic child development, State Board academic excellence, and values-driven education near the Bangalore border.",
+  description = "Sri Advaita Educational Trust — leading State Board school in Shidlagatta, Chikkaballapura with Little Elly collaboration for Nursery to UKG. Admissions open 2027–28 for Nursery to Grade 8 at H Cross, Chintamani Road, Behind Saplamma Devi Temple, Karnataka.",
   ogImage = "/images/hero-students.jpg",
-  ogImageAlt = "Students learning together at Sri Advaita Educational Trust, Hosur",
+  ogImageAlt = "Students learning together at Sri Advaita Educational Trust, Shidlagatta",
   themeColor = "#0b2240", // --color-brand-navy
   jsonLd,
 } = Astro.props;
@@ -50,22 +50,24 @@ const defaultJsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress:
-      "Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar",
-    addressLocality: "Hosur",
-    addressRegion: "Tamil Nadu",
-    postalCode: "635126",
+      "H cross, Chintamani Road, Behind Saplamma Devi Temple",
+    addressLocality: "Shidlagatta Taluk",
+    addressRegion: "Karnataka",
+    postalCode: "562122",
     addressCountry: "IN",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 12.7409,
-    longitude: 77.8253,
+    latitude: 13.3917,
+    longitude: 77.8631,
   },
   areaServed: [
-    { "@type": "City", name: "Hosur" },
+    { "@type": "City", name: "Shidlagatta" },
+    { "@type": "AdministrativeArea", name: "Chikkaballapura" },
     { "@type": "City", name: "Bangalore" },
+    { "@type": "State", name: "Karnataka" },
   ],
-  foundingDate: "2010",
+  foundingDate: "2026",
   slogan: "ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು — Old Roots. New Shoots.",
 };
 
@@ -113,10 +115,10 @@ const schemaJson = JSON.stringify(schemaData).replace(/</g, "\\u003c");
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <!-- Geo Meta -->
-    <meta name="geo.region" content="IN-TN" />
-    <meta name="geo.placename" content="Hosur" />
-    <meta name="geo.position" content="12.7409;77.8253" />
-    <meta name="ICBM" content="12.7409, 77.8253" />
+    <meta name="geo.region" content="IN-KA" />
+    <meta name="geo.placename" content="Shidlagatta, Chikkaballapura" />
+    <meta name="geo.position" content="13.3917;77.8631" />
+    <meta name="ICBM" content="13.3917, 77.8631" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/logo-crest.png" />

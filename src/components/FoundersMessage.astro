@@ -1,0 +1,192 @@
+---
+/**
+ * FoundersMessage.astro — Leadership and Founders' Message
+ * Displays personal messages and visions from the President, Vice-President, and Secretary.
+ * Rendered directly below the AboutUs component.
+ *
+ * NOTE: As requested by the user, this component is NOT added to Navbar or Footer quick links.
+ */
+
+const leaders = [
+  {
+    name: "ಶ್ರೀಮತಿ ಎಂ. ಸುಮಿತ್ರಾ",
+    englishName: "Smt. M. Sumithra",
+    role: "ಸಂಸ್ಥಾಪಕರು / ಅಧ್ಯಕ್ಷರು",
+    englishRole: "Founder & President",
+    badgeLabel: "ಅಧ್ಯಕ್ಷರ ಸಂದೇಶ",
+    image: "/images/founder-president.jpg",
+    imageAlt: "ಶ್ರೀಮತಿ ಎಂ. ಸುಮಿತ್ರಾ - ಸಂಸ್ಥಾಪಕರು ಮತ್ತು ಅಧ್ಯಕ್ಷರು, ಶ್ರೀ ಅದ್ವೈತ ಎಜುಕೇಷನಲ್ ಟ್ರಸ್ಟ್",
+    isKannada: true,
+    paragraphs: [
+      "ಉತ್ತಮ ಮೌಲ್ಯಗಳೊಂದಿಗೆ ಕೂಡಿದ ಶಿಕ್ಷಣವು ವ್ಯಕ್ತಿಯ ಜೀವನವನ್ನು ರೂಪಿಸಿ, ಸಮಾಜದಲ್ಲಿ ಸಕಾರಾತ್ಮಕ ಬದಲಾವಣೆ ತರಬಲ್ಲದು ಎಂಬುದು ನನ್ನ ನಂಬಿಕೆ. ಪ್ರತಿಯೊಬ್ಬ ಮಗುವೂ ಜ್ಞಾನ, ಆತ್ಮವಿಶ್ವಾಸ ಮತ್ತು ಸ್ವಾವಲಂಬನೆಯೊಂದಿಗೆ ತನ್ನ ಕಾಲಿನ ಮೇಲೆ ತಾನು ನಿಂತು, ಸಮಾಜಕ್ಕೆ ಉತ್ತಮ ಕೊಡುಗೆ ನೀಡುವಂತಾಗಬೇಕು ಎಂಬುದು ನನ್ನ ಆಶಯ.",
+      "ಶ್ರೀ ಅದ್ವೈತ ಎಜುಕೇಷನಲ್ ಟ್ರಸ್ಟ್ ಮೂಲಕ ಪ್ರತಿಯೊಂದು ಮಗುವಿನ ಉಜ್ವಲ ಭವಿಷ್ಯಕ್ಕೆ ಭದ್ರ ಬುನಾದಿ ಹಾಕುವುದು ನಮ್ಮ ಸಂಕಲ್ಪ.",
+    ],
+  },
+  {
+    name: "ಶ್ರೀ ಎಸ್. ನಾಗರಾಜ್",
+    englishName: "Sri S. Nagaraj",
+    role: "ಉಪಾಧ್ಯಕ್ಷರು",
+    englishRole: "Vice-President",
+    badgeLabel: "ಉಪಾಧ್ಯಕ್ಷರ ಸಂದೇಶ",
+    image: "/images/founder-vice-president.jpg",
+    imageAlt: "ಶ್ರೀ ಎಸ್. ನಾಗರಾಜ್ - ಉಪಾಧ್ಯಕ್ಷರು, ಶ್ರೀ ಅದ್ವೈತ ಎಜುಕೇಷನಲ್ ಟ್ರಸ್ಟ್",
+    isKannada: true,
+    paragraphs: [
+      "ಶಿಕ್ಷಣವೆಂಬುದು ಕೇವಲ ಜ್ಞಾನ ನೀಡುವುದಲ್ಲ, ಬದುಕನ್ನು ರೂಪಿಸುವ ಬೆಳಕು ಎಂಬುದು ನನ್ನ ನಂಬಿಕೆ. ಮೌಲ್ಯಗಳೊಂದಿಗೆ ಬೆಳೆದ ಮಗು ತನ್ನ ಭವಿಷ್ಯವನ್ನು ತಾನೇ ರೂಪಿಸಿಕೊಂಡು, ಸಮಾಜಕ್ಕೆ ಬೆಳಕಾಗಬೇಕು. ಈ ನಂಬಿಕೆಯನ್ನು ಸಾಕಾರಗೊಳಿಸುವ ಸದುದ್ದೇಶದೊಂದಿಗೆ, ಪ್ರತಿಯೊಂದು ಮಗುವಿನ ಕನಸುಗಳಿಗೆ ರೆಕ್ಕೆ ನೀಡಿ, ಅವರ ಭವಿಷ್ಯಕ್ಕೆ ಭದ್ರ ಬುನಾದಿ ಹಾಕುವುದು ನಮ್ಮ ಸಂಕಲ್ಪ.",
+    ],
+  },
+  {
+    name: "Miss. Harshitha Nagaraj",
+    englishName: "Miss. Harshitha Nagaraj",
+    role: "Secretary",
+    englishRole: "Secretary",
+    badgeLabel: "Secretary's Message",
+    image: "/images/founder-secretary.jpg",
+    imageAlt: "Miss. Harshitha Nagaraj - Secretary, Sri Advaita Educational Trust",
+    isKannada: false,
+    paragraphs: [
+      "In a rapidly evolving world shaped by technology and artificial intelligence, I believe every child deserves the opportunity to learn, explore, and grow without being left behind. Every child is unique, with their own talents, interests, and dreams. Our responsibility is to nurture their individuality, encourage curiosity, and empower them to use technology meaningfully, build their own future, and grow into confident, compassionate, and responsible individuals who contribute positively to society.",
+    ],
+  },
+];
+---
+
+<section
+  id="founders-message"
+  class="relative isolate overflow-hidden bg-white py-16 text-brand-navy sm:py-20 lg:py-28 border-t border-brand-navy/10"
+  aria-labelledby="founders-heading"
+>
+  <!-- Background decorative subtleties -->
+  <div
+    class="pointer-events-none absolute -top-24 right-1/4 -z-10 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute -bottom-24 left-1/4 -z-10 h-96 w-96 rounded-full bg-brand-navy/5 blur-3xl"
+    aria-hidden="true"
+  ></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-brand-gold/30 bg-brand-gold/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-brand-gold-dark mb-3"
+      >
+        Leadership & Vision
+      </span>
+      <h2
+        id="founders-heading"
+        class="font-serif text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl lg:text-5xl"
+      >
+        Words from Our <span class="font-normal italic text-brand-gold-dark">Founders</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-brand-navy/75 sm:text-lg">
+        The guiding voices steering Sri Advaita Educational Trust — dedicated to blending timeless moral values, individual care, and future-ready education for every child.
+      </p>
+    </header>
+
+    <!-- Leadership Cards Grid -->
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 items-stretch">
+      {
+        leaders.map((leader) => (
+          <article class="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-brand-navy/10 bg-white p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/50 hover:shadow-xl">
+            <!-- Accent Top Line -->
+            <div
+              class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-gold/40 via-brand-gold to-brand-gold/40 transition-all duration-300 group-hover:h-2"
+              aria-hidden="true"
+            ></div>
+
+            <div>
+              <!-- Portrait Image Frame -->
+              <div class="relative mb-6 overflow-hidden rounded-2xl bg-brand-navy/5 p-2 border border-brand-navy/10">
+                <div class="relative aspect-[4/4.5] w-full overflow-hidden rounded-xl bg-slate-100">
+                  <img
+                    src={leader.image}
+                    alt={leader.imageAlt}
+                    width="400"
+                    height="450"
+                    class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <!-- Subtle gradient vignette -->
+                  <div
+                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-transparent to-transparent"
+                    aria-hidden="true"
+                  ></div>
+
+                  <!-- Single Elegant Badge on bottom of photo -->
+                  <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2">
+                    <span
+                      class:list={[
+                        "inline-flex items-center rounded-lg bg-brand-navy-dark/95 px-3 py-1.5 text-xs font-semibold text-brand-gold-light backdrop-blur-md border border-brand-gold/30 shadow-md",
+                        leader.isKannada ? "font-kannada" : "font-sans",
+                      ]}
+                    >
+                      {leader.badgeLabel}
+                    </span>
+                    <span class="rounded bg-black/50 px-2 py-0.5 text-[11px] font-medium text-white/80 backdrop-blur-sm">
+                      {leader.englishRole}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quote Icon -->
+              <div class="mb-3 flex items-center justify-between text-brand-gold">
+                <svg
+                  class="h-8 w-8 text-brand-gold/70 group-hover:text-brand-gold transition-colors duration-300"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+              </div>
+
+              <!-- Message Body -->
+              <div
+                class:list={[
+                  "space-y-3 text-brand-navy/85",
+                  leader.isKannada
+                    ? "font-kannada text-sm sm:text-[15px] leading-relaxed"
+                    : "font-sans text-sm sm:text-[15px] leading-relaxed",
+                ]}
+                lang={leader.isKannada ? "kn" : "en"}
+              >
+                {leader.paragraphs.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            </div>
+
+            <!-- Leader Identity Footer -->
+            <div class="mt-6 border-t border-brand-navy/10 pt-4 flex flex-col justify-end">
+              <h3
+                class:list={[
+                  "font-bold text-brand-navy text-base sm:text-lg",
+                  leader.isKannada ? "font-kannada" : "font-serif",
+                ]}
+              >
+                {leader.name}
+              </h3>
+              <p
+                class:list={[
+                  "text-xs sm:text-sm font-semibold text-brand-gold-dark mt-0.5",
+                  leader.isKannada ? "font-kannada" : "",
+                ]}
+              >
+                {leader.role}
+              </p>
+              {leader.englishRole && leader.isKannada && (
+                <p class="text-xs text-brand-navy/60 font-sans mt-0.5">
+                  {leader.englishName} • {leader.englishRole}
+                </p>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -6,6 +6,7 @@
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
 import AboutUs from "../components/AboutUs.astro";
+import FoundersMessage from "../components/FoundersMessage.astro";
 import OurCampus from "../components/OurCampus.astro";
 import FutureReady from "../components/FutureReady.astro";
 import OurMission from "../components/OurMission.astro";
@@ -83,30 +84,30 @@ const orgSchema = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   name: "Sri Advaita Educational Trust",
-  alternateName: "Sri Advaita School Hosur",
+  alternateName: "Sri Advaita School Shidlagatta",
   url: siteUrl,
   telephone: "+91 72595 26202",
   email: "advaita@advaitaapp.com",
   description:
-    "Sri Advaita Educational Trust blends traditional values with comprehensive State Board education — nurturing curious, confident, and compassionate learners in a safe, modern campus in Mookandapalli, MGR Nagar near the Bangalore border.",
+    "Sri Advaita Educational Trust blends traditional values with comprehensive State Board education — nurturing curious, confident, and compassionate learners in a safe, modern campus at H Cross, Chintamani Road, Shidlagatta Taluk, Chikkaballapura District, Karnataka.",
   address: {
     "@type": "PostalAddress",
     streetAddress:
-      "Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar",
-    addressLocality: "Hosur",
-    addressRegion: "Tamil Nadu",
-    postalCode: "635126",
+      "H cross, Chintamani Road, Behind Saplamma Devi Temple",
+    addressLocality: "Shidlagatta Taluk",
+    addressRegion: "Karnataka",
+    postalCode: "562122",
     addressCountry: "IN",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 12.7409,
-    longitude: 77.8253,
+    latitude: 13.3917,
+    longitude: 77.8631,
   },
   areaServed: [
-    { "@type": "City", name: "Hosur" },
+    { "@type": "City", name: "Shidlagatta" },
+    { "@type": "AdministrativeArea", name: "Chikkaballapura" },
     { "@type": "City", name: "Bangalore" },
-    { "@type": "State", name: "Tamil Nadu" },
     { "@type": "State", name: "Karnataka" },
   ],
   ...(courseList.length > 0 && {
@@ -126,7 +127,7 @@ const orgSchema = {
       })),
     },
   }),
-  foundingDate: "2010",
+  foundingDate: "2026",
   slogan: "ಹಳೆ ಬೇರು, ಹೊಸ ಚಿಗುರು — Old Roots. New Shoots.",
 };
 
@@ -143,6 +144,7 @@ if (flags.probe) {
     const sections: Record<string, [any, Record<string, unknown>]> = {
       hero: [Hero, {}],
       aboutus: [AboutUs, {}],
+      foundersmessage: [FoundersMessage, {}],
       ourcampus: [OurCampus, {}],
       futureready: [FutureReady, {}],
       ourmission: [OurMission, {}],
@@ -180,14 +182,15 @@ const { show } = flags;
 ---
 
 <Layout
-  title="Sri Advaita Educational Trust | Leading State Board School in Hosur"
-  description="Sri Advaita Educational Trust — leading State Board school in Hosur with Little Elly early learning collaboration (Nursery to UKG). Admissions open 2027–28 with holistic academics and values-driven education in Mookandapalli, MGR Nagar near the Bangalore border."
+  title="Sri Advaita Educational Trust | Leading State Board School in Shidlagatta, Chikkaballapura"
+  description="Sri Advaita Educational Trust — leading State Board school in Shidlagatta, Chikkaballapura with Little Elly early learning collaboration (Nursery to UKG). Admissions open 2027–28 at H Cross, Chintamani Road, Behind Saplamma Devi Temple, Karnataka."
   jsonLd={orgSchema}
 >
   <div class="scroll-progress" aria-hidden="true"></div>
 
   {show("hero") && <Hero />}
   {(show("about-us") || show("about")) && <AboutUs />}
+  {(show("founders-message") || show("founders")) && <FoundersMessage />}
   {(show("our-campus") || show("campus")) && <OurCampus />}
   {show("future-ready") && <FutureReady />}
   {(show("our-mission") || show("mission")) && <OurMission />}

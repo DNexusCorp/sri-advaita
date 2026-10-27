@@ -15,48 +15,37 @@
 
 const quickLinks = [
   { href: "#about-us", label: "About Us" },
-  { href: "#our-campus", label: "Our Campus" },
-  { href: "#future-ready", label: "Future Ready" },
-  { href: "#our-mission", label: "Our Mission" },
   { href: "#programs", label: "Programs" },
-  { href: "#learning-spaces", label: "Learning Spaces" },
-  { href: "#safe-campus", label: "Safe Campus" },
-  { href: "#gallery", label: "Gallery" },
   { href: "#notices", label: "Notices" },
   { href: "#contact", label: "Admission Now" },
 ];
 
-const academicStreams = [
-  { href: "#programs", label: "Little Elly Nursery (Pre-KG)" },
-  { href: "#programs", label: "Little Elly Kindergarten (LKG & UKG)" },
-  { href: "#programs", label: "Primary School (Grades 1–5)" },
-  { href: "#programs", label: "Middle School (Grades 6–8)" },
-  { href: "#programs", label: "Arts & Cultural Academy" },
-  { href: "#programs", label: "Composite Science & STEAM Lab" },
-];
+// const quickLinks = [
+//   { href: "#about-us", label: "About Us" },
+//   { href: "#our-campus", label: "Our Campus" },
+//   { href: "#future-ready", label: "Future Ready" },
+//   { href: "#our-mission", label: "Our Mission" },
+//   { href: "#programs", label: "Programs" },
+//   { href: "#learning-spaces", label: "Learning Spaces" },
+//   { href: "#safe-campus", label: "Safe Campus" },
+//   { href: "#gallery", label: "Gallery" },
+//   { href: "#notices", label: "Notices" },
+//   { href: "#contact", label: "Admission Now" },
+// ];
 
-const externalResources = [
-  {
-    href: "https://littleelly.com/",
-    label: "Little Elly Early Years (Official Partner)",
-  },
-  {
-    href: "https://www.tnschools.gov.in/",
-    label: "TN State Board of School Education",
-  },
-  {
-    href: "https://dsel.education.gov.in/",
-    label: "Department of School Education & Literacy",
-  },
-  {
-    href: "https://ncert.nic.in/",
-    label: "National Council of Educational Research (NCERT)",
-  },
-  {
-    href: "https://samagra.education.gov.in/",
-    label: "Samagra Shiksha Abhiyan",
-  },
-];
+// const academicStreams = [
+//   { href: "#programs", label: "Little Elly Nursery (Pre-KG)" },
+//   { href: "#programs", label: "Little Elly Kindergarten (LKG & UKG)" },
+//   { href: "#programs", label: "Primary School (Grades 1–5)" },
+//   { href: "#programs", label: "Middle School (Grades 6–8)" },
+//   { href: "#programs", label: "Arts & Cultural Academy" },
+//   { href: "#programs", label: "Composite Science & STEAM Lab" },
+// ];
+
+const mapQuery =
+  "H cross, Chintamani Road, Behind Saplamma Devi Temple, Shidlagatta Taluk, chikkaballapura district - 562122 Karnataka";
+const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapQuery)}`;
 
 const phones = [
   { href: "tel:+917259526202", label: "+91 72595 26202" },
@@ -97,51 +86,73 @@ const iconBadge =
   >
   </div>
 
-  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
     <div
-      class="grid grid-cols-1 gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-12"
+      class="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-x-10"
     >
-      <!-- Brand & campus contact -->
+      <!-- Column 1: Brand, Socials & Contact Info -->
       <section
-        class="reveal space-y-7 md:col-span-2 lg:col-span-4"
+        class="reveal space-y-6 md:col-span-2 lg:col-span-5"
         style="--i:0"
         aria-labelledby="footer-brand"
       >
-        <div class="flex items-center gap-4">
-          <div
-            class="h-16 w-16 flex-none rounded-full bg-gradient-to-br from-brand-gold via-brand-gold-light to-brand-gold-dark p-[2px] shadow-lg shadow-black/30 overflow-hidden"
+        <div>
+          <h2
+            id="footer-brand"
+            class="font-serif text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl"
           >
-            <img
-              src="/images/logo-crest.png"
-              alt="Sri Advaita Educational Trust Crest"
-              class="h-full w-full rounded-full object-contain p-1 bg-white"
-              width="64"
-              height="64"
-              loading="lazy"
-            />
-          </div>
-          <div class="min-w-0">
-            <h2
-              id="footer-brand"
-              class="font-serif text-xl font-bold leading-tight tracking-tight text-white sm:text-2xl"
-            >
-              Sri Advaita Educational Trust
-            </h2>
-            <p class="mt-1 text-sm font-medium text-brand-gold">
-              Hosur, Tamil Nadu. Established 2010
-            </p>
-          </div>
+            Sri Advaita Educational Trust
+          </h2>
+          <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-brand-gold">
+            Shidlagatta Taluk &bull; Chikkaballapura District, Karnataka
+          </p>
         </div>
 
-        <p class="max-w-md text-sm leading-relaxed text-brand-cream/70">
-          Fostering holistic excellence through State Board academic standards,
-          values-driven character building, and world-class foundational
-          education.
-        </p>
+        <!-- Social Media Icons (WhatsApp, Instagram, YouTube) -->
+        <div class="flex items-center gap-3">
+          <!-- WhatsApp -->
+          <a
+            href="https://wa.me/917259526202"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Connect with Sri Advaita on WhatsApp"
+            class={`group flex h-10 w-10 items-center justify-center rounded-full border border-brand-gold/30 bg-white/5 text-brand-gold-light transition-all duration-300 hover:border-emerald-500 hover:bg-emerald-600 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-emerald-900/30 ${focusRing}`}
+          >
+            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+            </svg>
+          </a>
 
-        <!-- Contact details: every row shares one icon size and one gap, so text edges align -->
+          <!-- Instagram -->
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow Sri Advaita on Instagram"
+            class={`group flex h-10 w-10 items-center justify-center rounded-full border border-brand-gold/30 bg-white/5 text-brand-gold-light transition-all duration-300 hover:border-pink-500 hover:bg-gradient-to-tr hover:from-amber-500 hover:via-pink-600 hover:to-purple-600 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-pink-900/30 ${focusRing}`}
+          >
+            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+
+          <!-- YouTube -->
+          <a
+            href="https://www.youtube.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Subscribe to Sri Advaita on YouTube"
+            class={`group flex h-10 w-10 items-center justify-center rounded-full border border-brand-gold/30 bg-white/5 text-brand-gold-light transition-all duration-300 hover:border-red-500 hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-red-900/30 ${focusRing}`}
+          >
+            <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Contact details -->
         <address class="not-italic">
-          <ul class="space-y-4 text-sm text-brand-cream/80">
+          <ul class="space-y-3.5 text-sm text-brand-cream/80">
             <li class="group flex items-start gap-3.5">
               <span class={iconBadge}>
                 <svg
@@ -164,9 +175,8 @@ const iconBadge =
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                 </svg>
               </span>
-              <span class="min-w-0 pt-1.5 leading-relaxed">
-                Plot No: 13, Manickavasagar Street, Mookandapalli, MGR Nagar,
-                Hosur – 635126, Tamil Nadu (Near Bangalore border)
+              <span class="min-w-0 pt-1 leading-relaxed">
+                H cross, Chintamani Road, Behind Saplamma Devi Temple, Shidlagatta Taluk, chikkaballapura district - 562122 Karnataka
               </span>
             </li>
 
@@ -187,14 +197,14 @@ const iconBadge =
                   ></path>
                 </svg>
               </span>
-              <div class="min-w-0 pt-1.5 leading-relaxed">
-                <span class="block text-brand-cream/60">Admissions desk</span>
+              <div class="min-w-0 pt-1 leading-relaxed">
+                <span class="block text-xs text-brand-cream/60">Admissions desk</span>
                 <span class="mt-0.5 flex flex-wrap gap-x-4 gap-y-1">
                   {
                     phones.map(({ href, label }) => (
                       <a
                         href={href}
-                        class={`fl rounded-sm hover:text-brand-gold ${focusRing}`}
+                        class={`fl font-medium rounded-sm hover:text-brand-gold ${focusRing}`}
                       >
                         {label}
                       </a>
@@ -223,7 +233,7 @@ const iconBadge =
               </span>
               <a
                 href="mailto:advaita@advaitaapp.com"
-                class={`fl min-w-0 break-all rounded-sm pt-1.5 hover:text-brand-gold ${focusRing}`}
+                class={`fl min-w-0 break-all rounded-sm pt-1 hover:text-brand-gold ${focusRing}`}
               >
                 advaita@advaitaapp.com
               </a>
@@ -231,22 +241,35 @@ const iconBadge =
 
             <li class="group flex items-start gap-3.5">
               <span class={iconBadge}>
-                <svg class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  class="h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.8"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </span>
-              <div class="min-w-0 pt-1.5 leading-relaxed text-xs text-brand-cream/70">
-                <span class="block font-semibold text-brand-cream">Office Hours</span>
-                Mon – Sat: 09:00 AM – 04:30 PM
+              <div
+                class="min-w-0 pt-1 leading-relaxed text-xs text-brand-cream/70"
+              >
+                <span class="block font-semibold text-brand-cream"
+                  >Office Hours</span
+                >
+                Mon – Sat: 10:00 AM – 05:00 PM
               </div>
             </li>
           </ul>
         </address>
       </section>
 
-      <!-- Quick links -->
+      <!-- Column 2: Quick Links -->
       <nav
-        class="reveal lg:col-span-2"
+        class="reveal lg:col-span-3"
         style="--i:1"
         aria-labelledby="footer-quick"
       >
@@ -273,132 +296,67 @@ const iconBadge =
         </ul>
       </nav>
 
-      <!-- Academics -->
-      <nav
-        class="reveal lg:col-span-3"
-        style="--i:2"
-        aria-labelledby="footer-academics"
-      >
-        <h3
-          id="footer-academics"
-          class="footer-heading font-serif text-lg font-semibold text-brand-gold-light"
-        >
-          Academics
-        </h3>
-        <ul class="mt-5 space-y-3 text-sm">
-          {
-            academicStreams.map(({ href, label }) => (
-              <li>
-                <a
-                  href={href}
-                  class={`nav-link group inline-flex items-baseline gap-2.5 rounded-sm text-brand-cream/70 hover:text-brand-gold ${focusRing}`}
-                >
-                  <span class="tick" aria-hidden="true" />
-                  <span class="fl">{label}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <!-- Admissions card -->
+      <!-- Column 3: Embedded Map -->
       <section
-        class="reveal md:col-span-2 lg:col-span-3"
-        style="--i:3"
-        aria-labelledby="footer-admissions"
+        class="reveal md:col-span-2 lg:col-span-4 flex flex-col justify-between"
+        style="--i:2"
+        aria-labelledby="footer-location"
       >
-        <div
-          class="relative h-full rounded-2xl border border-brand-gold/30 bg-white/[0.04] p-6 shadow-xl shadow-black/20 backdrop-blur-sm transition-colors duration-300 hover:border-brand-gold/50 lg:h-auto"
-        >
-          <div class="flex items-center gap-2.5">
-            <span class="relative flex h-2.5 w-2.5" aria-hidden="true">
-              <span
-                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70"
-              ></span>
-              <span
-                class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"
-              ></span>
-            </span>
-            <h3
-              id="footer-admissions"
-              class="font-serif text-base font-semibold text-brand-gold-light"
-            >
-              Admissions open 2027–28
-            </h3>
-          </div>
-
-          <p class="mt-4 text-sm leading-relaxed text-brand-cream/80">
-            Enrolment is now open for Little Elly Early Years (Nursery, LKG, UKG) and State Board Grades 1 through 8.
-            Early registration is recommended.
-          </p>
-
-          <a
-            href="#contact"
-            class={`cta mt-6 flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-brand-gold to-brand-gold-light px-4 py-3 text-center text-sm font-bold text-brand-navy shadow-md shadow-black/30 ${focusRing}`}
+        <div>
+          <h3
+            id="footer-location"
+            class="footer-heading font-serif text-lg font-semibold text-brand-gold-light"
           >
-            Admission Enquiry Now
+            Campus Location
+          </h3>
+          <p class="mt-2 text-xs leading-relaxed text-brand-cream/70">
+            Behind Saplamma Devi Temple, H Cross, Chintamani Road, Shidlagatta.
+          </p>
+        </div>
+
+        <div class="mt-4 overflow-hidden rounded-2xl border border-brand-gold/25 bg-brand-navy shadow-md h-48 w-full relative">
+          <iframe
+            src={mapEmbedSrc}
+            title="Map showing Sri Advaita campus location in Shidlagatta Taluk, Chikkaballapura"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="absolute inset-0 h-full w-full border-0"
+          ></iframe>
+        </div>
+
+        <div class="mt-3">
+          <a
+            href={directionsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`inline-flex items-center gap-1.5 text-xs font-semibold text-brand-gold hover:text-white transition-colors duration-200 ${focusRing}`}
+          >
+            <span>Get directions on Google Maps</span>
+            <svg
+              class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              ></path>
+            </svg>
           </a>
         </div>
       </section>
     </div>
-
-    <!-- Official portals: own row so full names fit without truncation -->
-    <section
-      class="reveal mt-14 border-t border-white/10 pt-8 lg:mt-16"
-      style="--i:4"
-      aria-labelledby="footer-portals"
-    >
-      <h3
-        id="footer-portals"
-        class="font-serif text-base font-semibold text-brand-cream/80"
-      >
-        Educational portals
-      </h3>
-      <ul
-        class="mt-4 grid grid-cols-1 gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-4"
-      >
-        {
-          externalResources.map((res) => (
-            <li>
-              <a
-                href={res.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class={`group flex items-start justify-between gap-3 rounded-sm text-brand-cream/60 hover:text-brand-gold ${focusRing}`}
-              >
-                <span class="min-w-0 leading-snug">
-                  {res.label}
-                  <span class="sr-only"> (opens in a new tab)</span>
-                </span>
-                <svg
-                  class="ext-icon mt-0.5 h-3.5 w-3.5 flex-none text-brand-gold/60"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
 
     <!-- Copyright band -->
     <div
       class="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-8 text-center text-xs text-brand-cream/60 sm:flex-row sm:justify-between sm:text-left"
     >
       <p class="max-w-md leading-relaxed">
-        &copy; {currentYear} Sri Advaita Educational Trust. All rights reserved. Mookandapalli,
-        Hosur.
+        &copy; {currentYear} Sri Advaita Educational Trust. All rights reserved. Shidlagatta Taluk, Chikkaballapura District, Karnataka - 562122.
       </p>
 
       <p class="font-semibold text-brand-gold-light sm:text-right">
